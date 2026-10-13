@@ -196,7 +196,7 @@ contains
     MatStencil :: col(27)
     real(dp), dimension(nnb + 1) :: coeffs
 
-    logical :: initialised
+    logical(C_BOOL) :: initialised
 
     integer, dimension(3), parameter :: stencil1d = [1, -2, 1]
     real(dp), dimension(3, 3, 3) :: stencil3d
@@ -479,7 +479,7 @@ contains
 
     integer :: ierr
 
-    logical :: initialised
+    logical(C_BOOL) :: initialised
 
     call PetscInitialized(initialised, ierr)
     if (.not. initialised) then
