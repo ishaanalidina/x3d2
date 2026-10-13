@@ -396,7 +396,7 @@ contains
     call MatAssemblyBegin(self%Pmat, MAT_FINAL_ASSEMBLY, ierr)
     call MatAssemblyEnd(self%Pmat, MAT_FINAL_ASSEMBLY, ierr)
 
-    call MatNullSpaceCreate(PETSC_COMM_WORLD, PETSC_TRUE, 0, PETSC_NULL_VEC, nsp, ierr)
+    call MatNullSpaceCreate(PETSC_COMM_WORLD, PETSC_TRUE, 0, PETSC_NULL_VEC_ARRAY, nsp, ierr)
     call MatSetnullSpace(self%Pmat, nsp, ierr)
     call MatNullSpaceDestroy(nsp, ierr)
 
@@ -525,7 +525,7 @@ contains
     call MatAssemblyBegin(self%Amat, MAT_FINAL_ASSEMBLY, ierr)
     call MatAssemblyEnd(self%Amat, MAT_FINAL_ASSEMBLY, ierr)
 
-    call MatNullSpaceCreate(PETSC_COMM_WORLD, PETSC_TRUE, 0, PETSC_NULL_VEC, nsp, ierr)
+    call MatNullSpaceCreate(PETSC_COMM_WORLD, PETSC_TRUE, 0, PETSC_NULL_VEC_ARRAY, nsp, ierr)
     call MatSetnullSpace(self%Amat, nsp, ierr)
     call MatNullSpaceDestroy(nsp, ierr)
 
