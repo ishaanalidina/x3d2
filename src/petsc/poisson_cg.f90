@@ -93,67 +93,67 @@ module m_poisson_cg_backend
     procedure :: apply => petsc_apply_precon
   end type poisson_precon_impl
 
-  interface MatCreateShell
-    !! Defines the interface to the external (PETSc) function to create a
-    !! matrix-free operator.
-    subroutine MatCreateShell(comm, nrow_l, ncol_l, nrow_g, ncol_g, ctx, M, &
-                              ierr)
-      use petsc
-      use m_cg_types
-      integer :: comm
-      integer :: nrow_l ! Local number of rows
-      integer :: ncol_l ! Local number of columns
-      integer :: nrow_g ! Global number of rows
-      integer :: ncol_g ! Global number of columns
-      type(mat_ctx_t) :: ctx ! The shell matrix context
-      type(tMat) :: M   ! The matrix object
-      integer :: ierr
-    end subroutine MatCreateShell
-  end interface MatCreateShell
+  ! interface MatCreateShell
+  !   !! Defines the interface to the external (PETSc) function to create a
+  !   !! matrix-free operator.
+  !   subroutine MatCreateShell(comm, nrow_l, ncol_l, nrow_g, ncol_g, ctx, M, &
+  !                             ierr)
+  !     use petsc
+  !     use m_cg_types
+  !     integer :: comm
+  !     integer :: nrow_l ! Local number of rows
+  !     integer :: ncol_l ! Local number of columns
+  !     integer :: nrow_g ! Global number of rows
+  !     integer :: ncol_g ! Global number of columns
+  !     type(mat_ctx_t) :: ctx ! The shell matrix context
+  !     type(tMat) :: M   ! The matrix object
+  !     integer :: ierr
+  !   end subroutine MatCreateShell
+  ! end interface MatCreateShell
 
-  interface MatShellSetContext
-    !! Defines the interface to the external (PETSc) function to store
-    !! application-dependent information required by the matrix-free operator.
-    subroutine MatShellSetContext(M, ctx, ierr)
-      use petsc
-      use m_cg_types
-      type(tMat) :: M      ! The matrix object
-      type(mat_ctx_t) :: ctx ! The shell matrix context
-      integer :: ierr
-    end subroutine MatShellSetContext
-  end interface MatShellSetContext
+  ! interface MatShellSetContext
+  !   !! Defines the interface to the external (PETSc) function to store
+  !   !! application-dependent information required by the matrix-free operator.
+  !   subroutine MatShellSetContext(M, ctx, ierr)
+  !     use petsc
+  !     use m_cg_types
+  !     type(tMat) :: M      ! The matrix object
+  !     type(mat_ctx_t) :: ctx ! The shell matrix context
+  !     integer :: ierr
+  !   end subroutine MatShellSetContext
+  ! end interface MatShellSetContext
 
-  interface MatShellGetContext
-    !! Defines the interface to the external (PETSc) function to retrieve
-    !! application-dependent information from the matrix-free operator.
-    subroutine MatShellGetContext(M, ctx, ierr)
-      use petsc
-      use m_cg_types
-      type(tMat) :: M      ! The matrix object
-      type(mat_ctx_t) :: ctx ! The shell matrix context
-      integer :: ierr
-    end subroutine MatShellGetContext
-  end interface MatShellGetContext
+  ! interface MatShellGetContext
+  !   !! Defines the interface to the external (PETSc) function to retrieve
+  !   !! application-dependent information from the matrix-free operator.
+  !   subroutine MatShellGetContext(M, ctx, ierr)
+  !     use petsc
+  !     use m_cg_types
+  !     type(tMat) :: M      ! The matrix object
+  !     type(mat_ctx_t) :: ctx ! The shell matrix context
+  !     integer :: ierr
+  !   end subroutine MatShellGetContext
+  ! end interface MatShellGetContext
 
-  interface MatShellSetOperation
-    !! Defines the interface to the external (PETSc) function to set the
-    !! matrix-free operator procedure that evaluates `f = Mx`.
-    subroutine MatShellSetOperation(M, OP, fn, ierr)
-      use petsc
-      type(tMat) :: M
-      integer :: OP
-      interface
-        subroutine fn(M, x, f, ierr)
-          use petsc
-          type(tMat) :: M ! The operator
-          type(tVec) :: x ! The input vector
-          type(tVec) :: f ! The output vector
-          integer :: ierr ! The error code
-        end subroutine fn
-      end interface
-      integer :: ierr
-    end subroutine MatShellSetOperation
-  end interface MatShellSetOperation
+  ! interface MatShellSetOperation
+  !   !! Defines the interface to the external (PETSc) function to set the
+  !   !! matrix-free operator procedure that evaluates `f = Mx`.
+  !   subroutine MatShellSetOperation(M, OP, fn, ierr)
+  !     use petsc
+  !     type(tMat) :: M
+  !     integer :: OP
+  !     interface
+  !       subroutine fn(M, x, f, ierr)
+  !         use petsc
+  !         type(tMat) :: M ! The operator
+  !         type(tVec) :: x ! The input vector
+  !         type(tVec) :: f ! The output vector
+  !         integer :: ierr ! The error code
+  !       end subroutine fn
+  !     end interface
+  !     integer :: ierr
+  !   end subroutine MatShellSetOperation
+  ! end interface MatShellSetOperation
 
   type(mat_ctx_t), save :: ctx_global ! XXX: This sucks!
   type(tDM), pointer, save :: da_ptr_global        ! XXX: This sucks!
@@ -635,18 +635,18 @@ contains
     nz = dims(3)
 
     ! Local copy
-    ! call VecGetArrayReadF90(v, vdata, ierr)
+    ! call VecGetArrayRead(v, vdata, ierr)
     ! if (nx*ny*nz /= size(vdata)) then
     !   print *, "Vector and field sizes are incompatible (padding?)"
     !   stop 1
     ! end if
     ! vdata3d(1:nx, 1:ny, 1:nz) => vdata(:) ! Get a 3D representation of the vector
     ! call backend%set_field_data(f, vdata3d, DIR_C)
-    ! call VecRestoreArrayReadF90(v, vdata, ierr)
+    ! call VecRestoreArrayRead(v, vdata, ierr)
     ! nullify (vdata3d)
-    call DMDAVecGetArrayReadF90(da, v, vdata3d, ierr)
+    call DMDAVecGetArrayRead(da, v, vdata3d, ierr)
     call backend%set_field_data(f, vdata3d, DIR_C)
-    call DMDAVecRestoreArrayReadF90(da, v, vdata3d, ierr)
+    call DMDAVecRestoreArrayRead(da, v, vdata3d, ierr)
 
     ! Halo exchange
 
@@ -673,18 +673,18 @@ contains
     nz = dims(3)
 
     ! Local copy
-    ! call VecGetArrayF90(v, vdata, ierr)
+    ! call VecGetArray(v, vdata, ierr)
     ! if (nx*ny*nz /= size(vdata)) then
     !   print *, "Vector and field sizes are incompatible (padding?)"
     !   stop 1
     ! end if
     ! vdata3d(1:nx, 1:ny, 1:nz) => vdata(:) ! Get a 3D representation of the vector
     ! call backend%get_field_data(vdata3d, f, DIR_C)
-    ! call VecRestoreArrayF90(v, vdata, ierr)
+    ! call VecRestoreArray(v, vdata, ierr)
     ! nullify (vdata3d)
-    call DMDAVecGetArrayF90(da, v, vdata3d, ierr)
+    call DMDAVecGetArray(da, v, vdata3d, ierr)
     call backend%get_field_data(vdata3d, f, DIR_C)
-    call DMDAVecRestoreArrayF90(da, v, vdata3d, ierr)
+    call DMDAVecRestoreArray(da, v, vdata3d, ierr)
 
     ! Halo exchange
     call VecAssemblyBegin(v, ierr)
