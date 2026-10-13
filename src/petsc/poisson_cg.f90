@@ -192,8 +192,8 @@ contains
     integer :: i, j, k
     real(dp) :: dx, dy, dz
 
-    MatStencil :: row(4, 1)
-    MatStencil :: col(4, 27)
+    MatStencil :: row(4)
+    MatStencil :: col(27)
     real(dp), dimension(nnb + 1) :: coeffs
 
     logical :: initialised
@@ -367,16 +367,16 @@ contains
         do j = jfirst, jlast
           do i = ifirst, ilast
 
-            row(MatStencil_i, 1) = i
-            row(MatStencil_j, 1) = j
-            row(MatStencil_k, 1) = k
+            row(1)%i = i
+            row(1)%j = j
+            row(1)%k = k
             ctr = 1
             do kk = -1, 1
               do jj = -1, 1
                 do ii = -1, 1
-                  col(MatStencil_i, ctr) = i + ii
-                  col(MatStencil_j, ctr) = j + jj
-                  col(MatStencil_k, ctr) = k + kk
+                  col(ctr)%i = i + ii
+                  col(ctr)%j = j + jj
+                  col(ctr)%k = k + kk
                   ctr = ctr + 1
                 end do
               end do
