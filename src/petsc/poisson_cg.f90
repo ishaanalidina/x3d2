@@ -192,7 +192,7 @@ contains
     integer :: i, j, k
     real(dp) :: dx, dy, dz
 
-    MatStencil :: row(4)
+    MatStencil :: row(1)
     MatStencil :: col(27)
     real(dp), dimension(nnb + 1) :: coeffs
 
