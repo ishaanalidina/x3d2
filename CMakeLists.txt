@@ -4,8 +4,6 @@ cmake_minimum_required(VERSION 4.2)
 project(x3d2 LANGUAGES Fortran)
 enable_testing()
 
-set(CMAKE_DEPENDS_USE_COMPILER TRUE)
-
 #
 # Set the Poisson solver choice
 #
