@@ -93,6 +93,8 @@ module m_poisson_cg_backend
     procedure :: apply => petsc_apply_precon
   end type poisson_precon_impl
 
+  ! TODO: Remove these during the final merge of this implementation into the code.
+
   ! interface MatCreateShell
   !   !! Defines the interface to the external (PETSc) function to create a
   !   !! matrix-free operator.
