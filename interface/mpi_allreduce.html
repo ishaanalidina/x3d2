@@ -1,0 +1,1167 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>MPI_Allreduce &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/xcompact.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>MPI_Allreduce
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 37 statements,  0.3% of total for procedures.">6 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mpi.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mpi.f90.html'>mpi.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_mpi.html'>m_mpi</a></li>
+            <li class="breadcrumb-item active" aria-current="page">MPI_Allreduce</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/mpi_allreduce.html#moduleprocedure-allreduce_in_place">allreduce_in_place</a>
+            <a class="list-group-item" href="../interface/mpi_allreduce.html#moduleprocedure-allreduce_r32">allreduce_r32</a>
+            <a class="list-group-item" href="../interface/mpi_allreduce.html#moduleprocedure-allreduce_r64">allreduce_r64</a>
+            <a class="list-group-item" href="../interface/mpi_allreduce.html#moduleprocedure-allreduce_r64_1d">allreduce_r64_1d</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface MPI_Allreduce</h2>
+      
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Called by</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~mpi_allreduce~~CalledByGraph Pages: 1 -->
+<svg id="interfacempi_allreduceCalledByGraph" width="641pt" height="347pt"
+ viewBox="0.00 0.00 641.00 347.29" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~mpi_allreduce~~CalledByGraph" class="graph" transform="scale(0.5 0.5) rotate(0) translate(4 696)">
+<title>interface~~mpi_allreduce~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-696 1288,-696 1288,4 -4,4"/>
+<!-- interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node1" class="node">
+<title>interface~mpi_allreduce</title>
+<polygon fill="none" stroke="black" points="1284,-360 1154,-360 1154,-336 1284,-336 1284,-360"/>
+<text text-anchor="middle" x="1219" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_mpi::MPI_Allreduce</text>
+</g>
+<!-- none~handle_snapshot_step -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node2" class="node">
+<title>none~handle_snapshot_step</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node2"><a xlink:href="../type/snapshot_manager_t.html#boundprocedure-handle_snapshot_step" xlink:title="m_snapshot_manager::snapshot_manager_t%handle_snapshot_step">
+<polygon fill="#a7506f" stroke="#a7506f" points="1112,-692 736,-692 736,-668 1112,-668 1112,-692"/>
+<text text-anchor="middle" x="924" y="-677.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_snapshot_manager::snapshot_manager_t%handle_snapshot_step</text>
+</a>
+</g>
+</g>
+<!-- none~handle_snapshot_step&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge1" class="edge">
+<title>none~handle_snapshot_step&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1105.24,-667.96C1109.68,-665.28 1113.95,-662.3 1118,-659 1208.66,-585.08 1218.15,-428.4 1218.41,-370.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1221.91,-370.03 1218.36,-360.04 1214.91,-370.06 1221.91,-370.03"/>
+</g>
+<!-- none~sample -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node3" class="node">
+<title>none~sample</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node3"><a xlink:href="../type/abl_diagnostics_t.html#boundprocedure-sample" xlink:title="m_abl_diagnostics::abl_diagnostics_t%sample">
+<polygon fill="#a7506f" stroke="#a7506f" points="1052.5,-650 795.5,-650 795.5,-626 1052.5,-626 1052.5,-650"/>
+<text text-anchor="middle" x="924" y="-635.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_abl_diagnostics::abl_diagnostics_t%sample</text>
+</a>
+</g>
+</g>
+<!-- none~sample&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge2" class="edge">
+<title>none~sample&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1052.5,-640.23C1076.15,-635.52 1099.27,-626.88 1118,-612 1195.4,-550.51 1212.91,-422.03 1216.86,-370.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1220.36,-370.41 1217.53,-360.2 1213.37,-369.95 1220.36,-370.41"/>
+</g>
+<!-- proc~apply_bc_wind_turbine -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node4" class="node">
+<title>proc~apply_bc_wind_turbine</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node4"><a xlink:href="../proc/apply_bc_wind_turbine.html" xlink:title="m_case_wind_turbine::case_wind_turbine_t%apply_BC_wind_turbine">
+<polygon fill="#d9534f" stroke="#d9534f" points="694,-589 321,-589 321,-565 694,-565 694,-589"/>
+<text text-anchor="middle" x="507.5" y="-574.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_wind_turbine::case_wind_turbine_t%apply_BC_wind_turbine</text>
+</a>
+</g>
+</g>
+<!-- proc~apply_bc_wind_turbine&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge3" class="edge">
+<title>proc~apply_bc_wind_turbine&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M597.96,-589.01C746.28,-607.04 1035.03,-633.5 1118,-579 1190.69,-531.26 1210.8,-418.16 1216.15,-370.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1219.63,-370.49 1217.15,-360.19 1212.67,-369.79 1219.63,-370.49"/>
+</g>
+<!-- proc~compute_outflow_params~2 -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node6" class="node">
+<title>proc~compute_outflow_params~2</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node6"><a xlink:href="../proc/compute_outflow_params~2.html" xlink:title="m_case_wind_turbine::case_wind_turbine_t%compute_outflow_params">
+<polygon fill="#d9534f" stroke="#d9534f" points="1118,-570 730,-570 730,-546 1118,-546 1118,-570"/>
+<text text-anchor="middle" x="924" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_wind_turbine::case_wind_turbine_t%compute_outflow_params</text>
+</a>
+</g>
+</g>
+<!-- proc~apply_bc_wind_turbine&#45;&gt;proc~compute_outflow_params~2 -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge21" class="edge">
+<title>proc~apply_bc_wind_turbine&#45;&gt;proc~compute_outflow_params~2</title>
+<path fill="none" stroke="#96ff00" d="M694.23,-568.49C702.74,-568.1 711.31,-567.7 719.86,-567.31"/>
+<polygon fill="#96ff00" stroke="#96ff00" points="720.07,-570.81 729.9,-566.85 719.75,-563.81 720.07,-570.81"/>
+</g>
+<!-- proc~compute_outflow_params -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node5" class="node">
+<title>proc~compute_outflow_params</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node5"><a xlink:href="../proc/compute_outflow_params.html" xlink:title="m_case_cylinder::case_cylinder_t%compute_outflow_params">
+<polygon fill="#d9534f" stroke="#d9534f" points="1092.5,-528 755.5,-528 755.5,-504 1092.5,-504 1092.5,-528"/>
+<text text-anchor="middle" x="924" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_cylinder::case_cylinder_t%compute_outflow_params</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_outflow_params&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge4" class="edge">
+<title>proc~compute_outflow_params&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1092.81,-507.08C1101.59,-503.76 1110.05,-499.77 1118,-495 1166.47,-465.89 1196.77,-403.17 1210.09,-369.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1213.5,-370.73 1213.82,-360.14 1206.97,-368.22 1213.5,-370.73"/>
+</g>
+<!-- proc~compute_outflow_params~2&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge5" class="edge">
+<title>proc~compute_outflow_params~2&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1102.71,-545.91C1108,-543.27 1113.12,-540.31 1118,-537 1176.81,-497.09 1203.58,-411.17 1213.35,-370.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1216.82,-370.89 1215.62,-360.37 1209.99,-369.35 1216.82,-370.89"/>
+</g>
+<!-- proc~decomposition_2decomp~2 -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node7" class="node">
+<title>proc~decomposition_2decomp~2</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node7"><a xlink:href="../proc/decomposition_2decomp~2.html" xlink:title="m_decomp::decomposition_2decomp">
+<polygon fill="#d9534f" stroke="#d9534f" points="1031,-486 817,-486 817,-462 1031,-462 1031,-486"/>
+<text text-anchor="middle" x="924" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_decomp::decomposition_2decomp</text>
+</a>
+</g>
+</g>
+<!-- proc~decomposition_2decomp~2&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge6" class="edge">
+<title>proc~decomposition_2decomp~2&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1031.16,-475.69C1060.47,-472.69 1091.49,-466.11 1118,-453 1156.62,-433.91 1188.29,-393.42 1205.05,-368.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1208.16,-370.31 1210.73,-360.04 1202.31,-366.47 1208.16,-370.31"/>
+</g>
+<!-- proc~define_bc_abl -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node8" class="node">
+<title>proc~define_bc_abl</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node8"><a xlink:href="../proc/define_bc_abl.html" xlink:title="m_case_abl::case_abl_t%define_BC_abl">
+<polygon fill="#d9534f" stroke="#d9534f" points="1035.5,-444 812.5,-444 812.5,-420 1035.5,-420 1035.5,-444"/>
+<text text-anchor="middle" x="924" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_abl::case_abl_t%define_BC_abl</text>
+</a>
+</g>
+</g>
+<!-- proc~define_bc_abl&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge7" class="edge">
+<title>proc~define_bc_abl&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1035.61,-428.63C1063.08,-425.45 1092.06,-420.04 1118,-411 1147.03,-400.88 1176.33,-381.03 1195.65,-366.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1197.8,-369.06 1203.53,-360.15 1193.49,-363.54 1197.8,-369.06"/>
+</g>
+<!-- proc~field_max_mean_cuda -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node9" class="node">
+<title>proc~field_max_mean_cuda</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node9"><a xlink:href="../proc/field_max_mean_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_max_mean_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="1088,-402 760,-402 760,-378 1088,-378 1088,-402"/>
+<text text-anchor="middle" x="924" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_max_mean_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_max_mean_cuda&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge8" class="edge">
+<title>proc~field_max_mean_cuda&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1051.89,-378C1073.98,-375.39 1096.7,-372.39 1118,-369 1130.23,-367.05 1143.24,-364.61 1155.67,-362.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1156.42,-365.5 1165.5,-360.04 1155,-358.64 1156.42,-365.5"/>
+</g>
+<!-- proc~field_max_mean_omp -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node10" class="node">
+<title>proc~field_max_mean_omp</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node10"><a xlink:href="../proc/field_max_mean_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_max_mean_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="1085,-360 763,-360 763,-336 1085,-336 1085,-360"/>
+<text text-anchor="middle" x="924" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_max_mean_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_max_mean_omp&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge9" class="edge">
+<title>proc~field_max_mean_omp&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1085.22,-348C1105.64,-348 1125.7,-348 1143.8,-348"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1143.93,-351.5 1153.93,-348 1143.93,-344.5 1143.93,-351.5"/>
+</g>
+<!-- proc~field_volume_integral_cuda -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node11" class="node">
+<title>proc~field_volume_integral_cuda</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node11"><a xlink:href="../proc/field_volume_integral_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_volume_integral_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1101.5,-318 746.5,-318 746.5,-294 1101.5,-294 1101.5,-318"/>
+<text text-anchor="middle" x="924" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_volume_integral_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_volume_integral_cuda&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge10" class="edge">
+<title>proc~field_volume_integral_cuda&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1051.89,-318C1073.98,-320.61 1096.7,-323.61 1118,-327 1130.23,-328.95 1143.24,-331.39 1155.67,-333.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1155,-337.36 1165.5,-335.96 1156.42,-330.5 1155,-337.36"/>
+</g>
+<!-- proc~field_volume_integral_omp -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node12" class="node">
+<title>proc~field_volume_integral_omp</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node12"><a xlink:href="../proc/field_volume_integral_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_volume_integral_omp">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1098.5,-276 749.5,-276 749.5,-252 1098.5,-252 1098.5,-276"/>
+<text text-anchor="middle" x="924" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_volume_integral_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_volume_integral_omp&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge11" class="edge">
+<title>proc~field_volume_integral_omp&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1086.57,-276.01C1097.33,-278.51 1107.89,-281.48 1118,-285 1147.03,-295.12 1176.33,-314.97 1195.65,-329.7"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1193.49,-332.46 1203.53,-335.85 1197.8,-326.94 1193.49,-332.46"/>
+</g>
+<!-- proc~init_adm -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node13" class="node">
+<title>proc~init_adm</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node13"><a xlink:href="../proc/init_adm.html" xlink:title="m_adm::adm_t%init_adm">
+<polygon fill="#d9534f" stroke="#d9534f" points="998,-234 850,-234 850,-210 998,-210 998,-234"/>
+<text text-anchor="middle" x="924" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_adm::adm_t%init_adm</text>
+</a>
+</g>
+</g>
+<!-- proc~init_adm&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge12" class="edge">
+<title>proc~init_adm&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M998.44,-218.27C1035.95,-219.2 1081.29,-224.85 1118,-243 1156.62,-262.09 1188.29,-302.58 1205.05,-327.33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1202.31,-329.53 1210.73,-335.96 1208.16,-325.69 1202.31,-329.53"/>
+</g>
+<!-- proc~project_forces_adm -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node14" class="node">
+<title>proc~project_forces_adm</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node14"><a xlink:href="../proc/project_forces_adm.html" xlink:title="m_adm::adm_t%project_forces_adm">
+<polygon fill="#d9534f" stroke="#d9534f" points="1027,-192 821,-192 821,-168 1027,-168 1027,-192"/>
+<text text-anchor="middle" x="924" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_adm::adm_t%project_forces_adm</text>
+</a>
+</g>
+</g>
+<!-- proc~project_forces_adm&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge13" class="edge">
+<title>proc~project_forces_adm&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1027.41,-175.07C1058.31,-177.68 1091.13,-184.86 1118,-201 1166.47,-230.11 1196.77,-292.83 1210.09,-326.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1206.97,-327.78 1213.82,-335.86 1213.5,-325.27 1206.97,-327.78"/>
+</g>
+<!-- proc~scalar_product_cuda -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node15" class="node">
+<title>proc~scalar_product_cuda</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node15"><a xlink:href="../proc/scalar_product_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%scalar_product_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1083.5,-150 764.5,-150 764.5,-126 1083.5,-126 1083.5,-150"/>
+<text text-anchor="middle" x="924" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%scalar_product_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~scalar_product_cuda&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge14" class="edge">
+<title>proc~scalar_product_cuda&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1083.93,-142.27C1096.01,-146.43 1107.54,-151.9 1118,-159 1176.81,-198.91 1203.58,-284.83 1213.35,-325.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1209.99,-326.65 1215.62,-335.63 1216.82,-325.11 1209.99,-326.65"/>
+</g>
+<!-- proc~scalar_product_omp -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node16" class="node">
+<title>proc~scalar_product_omp</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node16"><a xlink:href="../proc/scalar_product_omp.html" xlink:title="m_omp_backend::omp_backend_t%scalar_product_omp">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1080,-108 768,-108 768,-84 1080,-84 1080,-108"/>
+<text text-anchor="middle" x="924" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%scalar_product_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~scalar_product_omp&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge15" class="edge">
+<title>proc~scalar_product_omp&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1080.23,-97.88C1093.76,-102.39 1106.61,-108.6 1118,-117 1187.69,-168.38 1209.4,-278.58 1215.66,-325.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1212.21,-326.36 1216.89,-335.87 1219.16,-325.52 1212.21,-326.36"/>
+</g>
+<!-- proc~vector_norm_squared_cuda -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node17" class="node">
+<title>proc~vector_norm_squared_cuda</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node17"><a xlink:href="../proc/vector_norm_squared_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%vector_norm_squared_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1102,-66 746,-66 746,-42 1102,-42 1102,-66"/>
+<text text-anchor="middle" x="924" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%vector_norm_squared_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_norm_squared_cuda&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge16" class="edge">
+<title>proc~vector_norm_squared_cuda&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1102,-64.52C1107.6,-67.58 1112.96,-71.05 1118,-75 1198.72,-138.17 1214.3,-272.88 1217.29,-325.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1213.8,-326.1 1217.76,-335.92 1220.79,-325.77 1213.8,-326.1"/>
+</g>
+<!-- proc~vector_norm_squared_omp -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node18" class="node">
+<title>proc~vector_norm_squared_omp</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node18"><a xlink:href="../proc/vector_norm_squared_omp.html" xlink:title="m_omp_backend::omp_backend_t%vector_norm_squared_omp">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1098.5,-24 749.5,-24 749.5,0 1098.5,0 1098.5,-24"/>
+<text text-anchor="middle" x="924" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%vector_norm_squared_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_norm_squared_omp&#45;&gt;interface~mpi_allreduce -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge17" class="edge">
+<title>proc~vector_norm_squared_omp&#45;&gt;interface~mpi_allreduce</title>
+<path fill="none" stroke="#ff0000" d="M1098.7,-20.32C1105.52,-23.89 1112,-28.09 1118,-33 1209.77,-108.11 1218.54,-267.26 1218.51,-325.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1215.01,-325.77 1218.42,-335.81 1222.01,-325.84 1215.01,-325.77"/>
+</g>
+<!-- none~handle_io_step -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node19" class="node">
+<title>none~handle_io_step</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node19"><a xlink:href="../type/io_manager_t.html#boundprocedure-handle_io_step" xlink:title="m_io_manager::io_manager_t%handle_io_step">
+<polygon fill="#a7506f" stroke="#a7506f" points="638.5,-692 376.5,-692 376.5,-668 638.5,-668 638.5,-692"/>
+<text text-anchor="middle" x="507.5" y="-677.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_manager::io_manager_t%handle_io_step</text>
+</a>
+</g>
+</g>
+<!-- none~handle_io_step&#45;&gt;none~handle_snapshot_step -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge18" class="edge">
+<title>none~handle_io_step&#45;&gt;none~handle_snapshot_step</title>
+<path fill="none" stroke="#ff0000" d="M638.51,-680C666.24,-680 696.13,-680 725.74,-680"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="725.76,-683.5 735.76,-680 725.76,-676.5 725.76,-683.5"/>
+</g>
+<!-- proc~define_bc_cylinder -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node20" class="node">
+<title>proc~define_bc_cylinder</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node20"><a xlink:href="../proc/define_bc_cylinder.html" xlink:title="m_case_cylinder::case_cylinder_t%define_BC_cylinder">
+<polygon fill="#d9534f" stroke="#d9534f" points="658,-528 357,-528 357,-504 658,-504 658,-528"/>
+<text text-anchor="middle" x="507.5" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_cylinder::case_cylinder_t%define_BC_cylinder</text>
+</a>
+</g>
+</g>
+<!-- proc~define_bc_cylinder&#45;&gt;proc~compute_outflow_params -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge20" class="edge">
+<title>proc~define_bc_cylinder&#45;&gt;proc~compute_outflow_params</title>
+<path fill="none" stroke="#f0ff00" d="M658.14,-516C686.36,-516 716.11,-516 745.09,-516"/>
+<polygon fill="#f0ff00" stroke="#f0ff00" points="745.3,-519.5 755.3,-516 745.3,-512.5 745.3,-519.5"/>
+</g>
+<!-- proc~postprocess_abl -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node21" class="node">
+<title>proc~postprocess_abl</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node21"><a xlink:href="../proc/postprocess_abl.html" xlink:title="m_case_abl::case_abl_t%postprocess_abl">
+<polygon fill="#d9534f" stroke="#d9534f" points="623.5,-650 391.5,-650 391.5,-626 623.5,-626 623.5,-650"/>
+<text text-anchor="middle" x="507.5" y="-635.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_abl::case_abl_t%postprocess_abl</text>
+</a>
+</g>
+</g>
+<!-- proc~postprocess_abl&#45;&gt;none~sample -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge19" class="edge">
+<title>proc~postprocess_abl&#45;&gt;none~sample</title>
+<path fill="none" stroke="#ff5900" d="M623.69,-638C673.76,-638 732.84,-638 785.22,-638"/>
+<polygon fill="#ff5900" stroke="#ff5900" points="785.26,-641.5 795.26,-638 785.26,-634.5 785.26,-641.5"/>
+</g>
+<!-- proc~run -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node22" class="node">
+<title>proc~run</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node22"><a xlink:href="../proc/run.html" xlink:title="m_base_case::base_case_t%run">
+<polygon fill="#d9534f" stroke="#d9534f" points="285,-692 101,-692 101,-668 285,-668 285,-692"/>
+<text text-anchor="middle" x="193" y="-677.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_base_case::base_case_t%run</text>
+</a>
+</g>
+</g>
+<!-- proc~run&#45;&gt;none~handle_io_step -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge22" class="edge">
+<title>proc~run&#45;&gt;none~handle_io_step</title>
+<path fill="none" stroke="#ff0000" d="M285.23,-680C310.58,-680 338.71,-680 366.18,-680"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="366.26,-683.5 376.26,-680 366.26,-676.5 366.26,-683.5"/>
+</g>
+<!-- program~xcompact -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_node23" class="node">
+<title>program~xcompact</title>
+<g id="a_interface~~mpi_allreduce~~CalledByGraph_node23"><a xlink:href="../program/xcompact.html" xlink:title="xcompact">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65,-692 0,-692 0,-668 65,-668 65,-692"/>
+<text text-anchor="middle" x="32.5" y="-677.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xcompact</text>
+</a>
+</g>
+</g>
+<!-- program~xcompact&#45;&gt;proc~run -->
+<g id="interface~~mpi_allreduce~~CalledByGraph_edge23" class="edge">
+<title>program~xcompact&#45;&gt;proc~run</title>
+<path fill="none" stroke="#ff0000" d="M65.19,-680C72.96,-680 81.68,-680 90.84,-680"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="90.91,-683.5 100.91,-680 90.91,-676.5 90.91,-683.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var paninterfacempi_allreduceCalledByGraph = svgPanZoom('#interfacempi_allreduceCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-allreduce_in_place"></span> <h3>private  subroutine allreduce_in_place(sendbuf, recvbuf, count, datatype, op, comm, ierror)  
+</h3></div>
+    <div class="card-body">
+        <p>Reducing one rank's contribution in place leaves the buffer as it is,
+whatever its type, shape or the operation asked for.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sendbuf"></span>
+              type(<a href='../type/mpi_in_place_t.html'>mpi_in_place_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sendbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recvbuf"></span>
+              type(*),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(..)
+            </td>
+            <td>::</td>
+            <td><strong>recvbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datatype~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datatype</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierror~9"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierror</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-allreduce_r32"></span> <h3>private  subroutine allreduce_r32(sendbuf, recvbuf, count, datatype, op, comm, ierror)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sendbuf~2"></span>
+              real(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sendbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recvbuf~2"></span>
+              real(kind=real32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>recvbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datatype~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datatype</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierror~10"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierror</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-allreduce_r64"></span> <h3>private  subroutine allreduce_r64(sendbuf, recvbuf, count, datatype, op, comm, ierror)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sendbuf~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sendbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recvbuf~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>recvbuf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datatype~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datatype</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierror~11"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierror</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-allreduce_r64_1d"></span> <h3>private  subroutine allreduce_r64_1d(sendbuf, recvbuf, count, datatype, op, comm, ierror)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sendbuf~4"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sendbuf</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recvbuf~4"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>recvbuf</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datatype~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datatype</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierror~12"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierror</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
