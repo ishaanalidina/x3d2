@@ -1,0 +1,662 @@
+program test_poisson
+  !! Poisson Solver Validation Test (self-contained, no input files)
+  !!
+  !! Validates the Poisson solver across the boundary condition
+  !! configurations listed in the table cases (4 at the moment):
+  !!   ppp : all periodic          (128 x 64 x 32)
+  !!   pdp : y-dirichlet           (128 x 65 x 32)
+  !!   dpp : x-dirichlet           (129 x 64 x 128)
+  !!   ddp : x,y-dirichlet         (129 x 257 x 64)
+  !! The code is one letter per direction in x,y,z order: d = dirichlet,
+  !! n = neumann, p = periodic.
+  !!
+  !! For each configuration, runs the cosine tests listed in the table tests
+  !! (8 at the moment, n=2,3):
+  !!   COS_X, COS_Y, COS_XY, COS_XYZ
+  !!
+  !! Each test performs two checks:
+  !!   Check 1: Poisson solution vs analytical (L2 norm)
+  !!   Check 2: div(grad(p)) recovers original RHS f (round-trip L2 norm)
+  !!
+  !! Layout: setup_case builds one poisson_ctx_t for each configuration
+  !! (mesh, backend, allocators, tdsops, vector_calculus, poisson_fft) and
+  !! every test of that configuration reuses it. run_single_test(ctx, test)
+  !! runs one row of the table tests and returns a test_result_t. It uploads
+  !! the right hand side with upload_cosine, then Check 1 is solution_error
+  !! and Check 2 is divgrad_error. A new check is one function plus one line
+  !! in run_single_test.
+  !!
+  !! Self-contained: bypasses solver_t entirely; sets up mesh, backend,
+  !! allocator, tdsops, vector_calculus and poisson_fft directly.
+  !! No input files required.
+  !!
+  !! Command-line arguments, both optional:
+  !!   --bc <code>                  run only the case with that BC code
+  !!                                (default: every case)
+  !!   --nproc_dir <px>,<py>,<pz>   decomposition, as nproc_dir in the
+  !!                                domain_settings namelist
+  !!                                (default: 1,1,nproc)
+  !! A run with one case per process is what a multi rank ctest entry needs,
+  !! because with the OpenMP backend 2decomp can be initialised only once per
+  !! process and some cases still stop on more than one rank. What the solver
+  !! accepts is left to its own checks. Grids stay per case, so keep at least
+  !! 32 cells per rank in a split direction (see the warning in
+  !! src/tdsops.f90); the dpp case (129 x 64 x 128) carries a y split on 2
+  !! ranks, not on 4.
+  !!
+  !! Adding a BC scenario is one row in cases, and a new run is one
+  !! define_verification_test line in tests/CMakeLists.txt.
+  !!
+  !! NOTE: Dirichlet directions require odd dims_global (e.g. 65)
+
+  use iso_fortran_env, only: stderr => error_unit
+
+  use m_allocator, only: allocator_t, field_t
+  use m_base_backend, only: base_backend_t
+  use m_backend_runtime, only: backend_runtime_t, backend_is_cuda
+  use m_common, only: dp, pi, MPI_X3D2_DP, DIR_C, DIR_X, DIR_Y, DIR_Z, &
+                      CELL, RDR_C2Z, RDR_C2X, RDR_Z2X
+  use m_mesh, only: mesh_t
+  use m_mpi, only: MPI_COMM_WORLD, MPI_IN_PLACE, MPI_SUM, MPI_Allreduce, &
+                   MPI_Bcast
+  use m_solver, only: allocate_tdsops
+  use m_tdsops, only: dirps_t
+  use m_vector_calculus, only: vector_calculus_t
+  use m_test_utils, only: initialise_mpi, finalise_test
+
+  implicit none
+
+  ! One BC configuration: the grid and the BC of each direction (the same at
+  ! both ends of a direction)
+  type :: bc_case_t
+    character(len=20) :: title
+    integer :: dims(3)
+    character(len=9) :: bc(3)
+  end type bc_case_t
+
+  type(bc_case_t), parameter :: cases(*) = [ &
+    bc_case_t('all periodic', [128, 64, 32], &
+              [character(len=9) :: 'periodic', 'periodic', 'periodic']), &
+    bc_case_t('y-dirichlet', [128, 65, 32], &
+              [character(len=9) :: 'periodic', 'dirichlet', 'periodic']), &
+    ! z carries the decomposition, so it needs enough cells per subdomain
+    ! for the distributed compact operators. At 32 cells over 2 ranks the
+    ! discarded coupling in "interpolate" is 6.2e-08, which puts a 8.7e-11
+    ! floor under the div(grad(p)) check against a 1e-11 tolerance. 128
+    ! keeps 64 cells per rank at 2 ranks, matching the >=64 rule of thumb
+    ! used elsewhere.
+    bc_case_t('x-dirichlet', [129, 64, 128], &
+              [character(len=9) :: 'dirichlet', 'periodic', 'periodic']), &
+    bc_case_t('x,y-dirichlet', [129, 257, 64], &
+              [character(len=9) :: 'dirichlet', 'dirichlet', 'periodic'])]
+
+  ! One cosine test: the directions that carry cos(n*pi*x_d) and the wavenumber
+  type :: cosine_test_t
+    character(len=10) :: name
+    logical :: uses(3)
+    integer :: n
+  end type cosine_test_t
+
+  ! The n=2 block first, then the n=3 block, as the summary lists them
+  type(cosine_test_t), parameter :: tests(*) = [ &
+    cosine_test_t('COS_X', [.true., .false., .false.], 2), &
+    cosine_test_t('COS_Y', [.false., .true., .false.], 2), &
+    cosine_test_t('COS_XY', [.true., .true., .false.], 2), &
+    cosine_test_t('COS_XYZ', [.true., .true., .true.], 2), &
+    cosine_test_t('COS_X', [.true., .false., .false.], 3), &
+    cosine_test_t('COS_Y', [.false., .true., .false.], 3), &
+    cosine_test_t('COS_XY', [.true., .true., .false.], 3), &
+    cosine_test_t('COS_XYZ', [.true., .true., .true.], 3)]
+
+  ! The outcome of one cosine test on one BC configuration. The defaults are
+  ! what a skipped configuration keeps: it must not register as a failure in
+  ! the verdict
+  type :: test_result_t
+    logical :: passed = .true.
+    logical :: xfail = .false.
+    real(dp) :: poisson_err = 0.0_dp, divgrad_err = 0.0_dp
+  end type test_result_t
+
+  ! What one BC case sets up once and every test of that case reuses. The
+  ! runtime holds pointers to its own members and the backend points at the
+  ! mesh, so a context is declared target and is never copied
+  type :: poisson_ctx_t
+    type(backend_runtime_t) :: runtime
+    class(base_backend_t), pointer :: backend => null()
+    type(allocator_t), pointer :: host_allocator => null()
+    type(mesh_t) :: mesh
+    type(dirps_t), pointer :: xdirps => null(), ydirps => null(), &
+                              zdirps => null()
+    type(vector_calculus_t) :: vector_calculus
+    logical :: periodic(3)
+  end type poisson_ctx_t
+
+  ! The single precision tolerance must sit between the roundoff floor of
+  ! the passing cases (~3e-7 in this normalised norm, norm2/N) and the
+  ! n=3 periodic aliasing error (~2.4e-6) that the XFAIL logic relies on
+  ! detecting; a looser tolerance turns XFAILs into unexpected passes.
+#ifdef SINGLE_PREC
+  real(dp), parameter :: ERROR_TOLERANCE = 1.0e-6_dp
+#else
+  real(dp), parameter :: ERROR_TOLERANCE = 1.0e-11_dp
+#endif
+
+  ! The div(grad(p)) round trip (Check 2) goes through the staggered
+  ! gradient and divergence operators, which carry their own single
+  ! precision roundoff on top of the Poisson solve; on the OpenMP backend
+  ! that reaches 5.0e-6 on config 110 (COS_Y n=2) and 1.2e-6 on config 100
+  ! (COS_X n=2), while the CUDA backend stays below 3.5e-7 on the same
+  ! grids. A looser tolerance here, about 2x the observed OpenMP maximum,
+  ! keeps Check 2 meaningful without disturbing the Poisson tolerance
+  ! above, which the n=3 aliasing (XFAIL) detection depends on.
+  !
+  ! The higher OpenMP roundoff traces to the FFT engine: this build uses
+  ! 2decomp's generic FFT engine (the build does not forward FFT_Choice to
+  ! the 2decomp sub-build), whose single precision roundoff on config 110
+  ! is about 10x FFTW's (Check 2 measured at 2.4e-6 with the generic
+  ! engine vs 2.2e-7 with FFTW, both below the tolerance above).
+#ifdef SINGLE_PREC
+  real(dp), parameter :: DIVGRAD_TOLERANCE = 1.0e-5_dp
+#else
+  real(dp), parameter :: DIVGRAD_TOLERANCE = 1.0e-11_dp
+#endif
+
+  integer :: nrank, nproc
+  integer :: ic, idx, iarg, ios
+  integer :: nproc_dir(3)
+  character(len=32) :: arg
+  character(len=len(arg)) :: only_bc
+  character(len=4*size(cases)) :: codes
+  logical :: config_run(size(cases))
+  logical :: allpass
+
+  ! Per-config results for final summary
+  type(test_result_t) :: results(size(tests), size(cases))
+
+  ! Initialise MPI
+  call initialise_mpi(nrank, nproc)
+
+  if (nrank == 0) print *, 'Parallel run with', nproc, 'ranks'
+
+  ! Optional --bc <code> restricts the run to the one configuration with that
+  ! code: one letter per direction in x,y,z order, d = dirichlet, n = neumann,
+  ! p = periodic (ppp, pdp, dpp, ddp). This is what lets a multi rank run
+  ! exercise dpp or ddp without tripping the multi rank stop still in place for
+  ! pdp in src/poisson_fft.f90. With no argument every configuration runs,
+  ! as before.
+  only_bc = 'all'
+  nproc_dir = [1, 1, nproc]
+  do iarg = 1, command_argument_count() - 1
+    call get_command_argument(iarg, arg)
+    if (trim(arg) == '--bc') then
+      call get_command_argument(iarg + 1, arg)
+      only_bc = trim(arg)
+    else if (trim(arg) == '--nproc_dir') then
+      ! --nproc_dir <px>,<py>,<pz> sets the decomposition, as nproc_dir does
+      ! in the domain_settings namelist; the default is all ranks along z
+      call get_command_argument(iarg + 1, arg)
+      read (arg, *, iostat=ios) nproc_dir
+      if (ios /= 0) then
+        if (nrank == 0) write (stderr, '(A)') &
+          'test_poisson_bc: --nproc_dir needs three integers, <px>,<py>,<pz>'
+        error stop 1
+      end if
+    end if
+  end do
+
+  if (product(nproc_dir) /= nproc) then
+    if (nrank == 0) write (stderr, '(A,I0,A,I0,A)') &
+      'test_poisson_bc: --nproc_dir asks for ', product(nproc_dir), &
+      ' ranks but the run has ', nproc, ' ranks'
+    error stop 1
+  end if
+
+  do ic = 1, size(cases)
+    config_run(ic) = (only_bc == 'all' &
+                      .or. only_bc == bc_code(cases(ic)))
+  end do
+
+  ! An unknown code would otherwise run nothing and pass
+  if (.not. any(config_run)) then
+    codes = ''
+    do ic = 1, size(cases)
+      codes = trim(codes)//' '//bc_code(cases(ic))
+    end do
+    if (nrank == 0) write (stderr, '(A)') &
+      'test_poisson_bc: unknown --bc code '''//trim(only_bc)// &
+      ''', the codes are:'//trim(codes)
+    error stop 1
+  end if
+
+  do ic = 1, size(cases)
+    if (config_run(ic)) call run_config(ic, cases(ic), nproc_dir)
+  end do
+
+  ! ---- Grand summary ----
+  if (nrank == 0) then
+    write (stderr, '(A)') ''
+    write (stderr, '(A)') &
+      '  ======================================================='
+    write (stderr, '(A)') &
+      '                     GRAND SUMMARY'
+    write (stderr, '(A)') &
+      '  ======================================================='
+    write (stderr, '(A)') ''
+    write (stderr, '(2X,A5,2X,A10,A4,A14,A14,2X,A6,2X,A8,2X,A)') &
+      'BC', 'Type      ', '  n ', '  Poisson L2  ', &
+      '  DivGrad L2  ', 'Result', 'Expected', ''
+    write (stderr, '(A)') ''
+    do ic = 1, size(cases)
+      if (.not. config_run(ic)) cycle
+      call print_config_results(ic)
+      if (ic < size(cases)) write (stderr, '(A)') ''
+    end do
+    write (stderr, '(A)') ''
+  end if
+
+  ! Final verdict: allpass ignores expected failures (XFAIL)
+  ! A test is a real failure if:
+  !   - it failed AND was not expected to fail (unexpected failure)
+  !   - it passed AND was expected to fail (unexpected pass / XPASS)
+  allpass = .true.
+  do ic = 1, size(cases)
+    do idx = 1, size(tests)
+      if (results(idx, ic)%passed .neqv. (.not. results(idx, ic)%xfail)) then
+        allpass = .false.
+      end if
+    end do
+  end do
+
+  call finalise_test(allpass, nrank)
+
+contains
+
+  ! ================================================================
+  ! Run all 8 cosine tests for one BC configuration
+  ! ================================================================
+  subroutine run_config(config_id, cfg, nproc_dir)
+    integer, intent(in) :: config_id
+    type(bc_case_t), intent(in) :: cfg
+    integer, intent(in) :: nproc_dir(3)
+
+    type(poisson_ctx_t), target :: ctx
+
+    integer :: idx
+
+    call setup_case(ctx, cfg, nproc_dir)
+
+    ! Run all 8 cosine tests
+    do idx = 1, size(tests)
+      results(idx, config_id) = run_single_test(ctx, tests(idx))
+    end do
+
+  end subroutine run_config
+
+  ! ================================================================
+  ! Set up the context of one BC configuration, once for all its tests
+  ! ================================================================
+  subroutine setup_case(ctx, cfg, nproc_dir)
+    type(poisson_ctx_t), target, intent(inout) :: ctx
+    type(bc_case_t), intent(in) :: cfg
+    integer, intent(in) :: nproc_dir(3)
+
+    integer :: dims_global(3)
+    character(len=20) :: BC_x(2), BC_y(2), BC_z(2)
+    real(dp) :: L_global(3)
+    logical :: use_2decomp
+
+    dims_global = cfg%dims
+    BC_x = [cfg%bc(1), cfg%bc(1)]
+    BC_y = [cfg%bc(2), cfg%bc(2)]
+    BC_z = [cfg%bc(3), cfg%bc(3)]
+
+    if (nrank == 0) then
+      write (stderr, '(A)') ''
+      write (stderr, '(A,A)') '  === BC ', &
+        bc_code(cfg)//' ('//trim(cfg%title)//')'
+      write (stderr, '(4X,A,I0,A,I0,A,I0)') &
+        'Grid: ', dims_global(1), ' x ', dims_global(2), &
+        ' x ', dims_global(3)
+      write (stderr, '(4X,A,I0,A,I0,A,I0)') &
+        'nproc_dir: ', nproc_dir(1), ', ', nproc_dir(2), ', ', nproc_dir(3)
+      write (stderr, '(4X,A,A,A,A,A,A,A,A,A,A)') &
+        'BC: x=[', trim(BC_x(1)), ',', trim(BC_x(2)), &
+        '] y=[', trim(BC_y(1)), ',', trim(BC_y(2)), &
+        '] z=[', trim(BC_z(1)), ','//trim(BC_z(2))//']'
+    end if
+
+    ! Setup domain decomposition
+    L_global = [1.0_dp, 1.0_dp, 1.0_dp]
+
+    ! Decide whether 2decomp is used
+    use_2decomp = .not. backend_is_cuda
+
+    ctx%mesh = mesh_t(dims_global, nproc_dir, L_global, &
+                      BC_x, BC_y, BC_z, &
+                      use_2decomp=use_2decomp)
+
+    call ctx%runtime%init(ctx%mesh)
+    ctx%backend => ctx%runtime%backend
+    ctx%host_allocator => ctx%runtime%host_allocator
+
+    ! Setup tdsops directly (like test_fft.f90)
+    allocate (ctx%xdirps, ctx%ydirps, ctx%zdirps)
+    ctx%xdirps%dir = DIR_X
+    ctx%ydirps%dir = DIR_Y
+    ctx%zdirps%dir = DIR_Z
+    call allocate_tdsops(ctx%xdirps, ctx%backend, ctx%mesh, 'compact6', &
+                         'compact6', 'classic', 'compact6')
+    call allocate_tdsops(ctx%ydirps, ctx%backend, ctx%mesh, 'compact6', &
+                         'compact6', 'classic', 'compact6')
+    call allocate_tdsops(ctx%zdirps, ctx%backend, ctx%mesh, 'compact6', &
+                         'compact6', 'classic', 'compact6')
+
+    ! Setup vector calculus and Poisson FFT directly
+    ctx%vector_calculus = vector_calculus_t(ctx%backend)
+    call ctx%backend%init_poisson_fft(ctx%mesh, ctx%xdirps, ctx%ydirps, &
+                                      ctx%zdirps)
+
+    ! Determine which directions are periodic
+    ctx%periodic = (cfg%bc == 'periodic')
+  end subroutine setup_case
+
+  ! ================================================================
+  ! The --bc code of a case: the first letter of the BC of x, y and z
+  ! ================================================================
+  pure function bc_code(c) result(code)
+    type(bc_case_t), intent(in) :: c
+    character(len=3) :: code
+
+    code = c%bc(1)(1:1)//c%bc(2)(1:1)//c%bc(3)(1:1)
+  end function bc_code
+
+  ! ================================================================
+  ! Print results for one config in the grand summary
+  ! ================================================================
+  subroutine print_config_results(config_id)
+    integer, intent(in) :: config_id
+    integer :: idx
+    character(len=4) :: result_str, expected_str
+    character(len=2) :: verdict_str
+    logical :: passed, xfail
+
+    do idx = 1, size(tests)
+      passed = results(idx, config_id)%passed
+      xfail = results(idx, config_id)%xfail
+
+      result_str = merge('PASS', 'FAIL', passed)
+      expected_str = merge('FAIL', 'PASS', xfail)
+
+      if (passed .neqv. xfail) then
+        verdict_str = 'OK'
+      else
+        verdict_str = '!!'
+      end if
+
+      write (stderr, '(2X,A5,2X,A10,I4,ES14.4,ES14.4,2X,A4,4X,A4,4X,A)') &
+        bc_code(cases(config_id)), &
+        tests(idx)%name, tests(idx)%n, &
+        results(idx, config_id)%poisson_err, &
+        results(idx, config_id)%divgrad_err, &
+        result_str, expected_str, trim(verdict_str)
+    end do
+  end subroutine print_config_results
+
+  pure function is_expected_fail(test, periodic) result(xfail)
+    !! Determine if a test is expected to fail.
+    !!
+    !! n=3 on even-sized periodic grids (64 cells) does not resolve
+    !! cos(3*pi*x) cleanly due to aliasing. A test is XFAIL when n=3
+    !! AND any direction involved in the test function uses periodic BCs.
+    type(cosine_test_t), intent(in) :: test
+    logical, intent(in) :: periodic(3)
+    logical :: xfail
+
+    xfail = test%n == 3 .and. any(test%uses .and. periodic)
+  end function is_expected_fail
+
+  ! ================================================================
+  ! Fill a field with the cosine test function divided by a constant
+  ! ================================================================
+  subroutine fill_cosine_field(mesh, host_field, test, divisor)
+    type(mesh_t), intent(in) :: mesh
+    class(field_t), intent(inout) :: host_field
+    type(cosine_test_t), intent(in) :: test
+    real(dp), intent(in) :: divisor
+
+    integer :: i, j, k, d, dims(3)
+    real(dp) :: coords(3), n_pi, val
+
+    dims = mesh%get_dims(CELL)
+    n_pi = real(test%n, dp)*pi
+
+    do k = 1, dims(3)
+      do j = 1, dims(2)
+        do i = 1, dims(1)
+          coords = mesh%get_coordinates(i, j, k, CELL)
+          val = 1.0_dp
+          do d = 1, 3
+            if (test%uses(d)) val = val*cos(n_pi*coords(d))
+          end do
+          host_field%data(i, j, k) = val/divisor
+        end do
+      end do
+    end do
+  end subroutine fill_cosine_field
+
+  ! ================================================================
+  ! Compute normalized L2 error norm
+  ! ================================================================
+  function compute_error_norm(mesh, host_field) result(error_norm)
+    type(mesh_t), intent(in) :: mesh
+    class(field_t), intent(in) :: host_field
+    real(dp) :: error_norm
+    integer :: dims(3), ierr
+
+    dims = mesh%get_dims(CELL)
+    ! Sum the squares over all ranks so that every rank judges the same
+    ! global norm, norm2(global)/product(global dims).
+    error_norm = norm2(host_field%data(1:dims(1), 1:dims(2), 1:dims(3)))**2
+    call MPI_Allreduce(MPI_IN_PLACE, error_norm, 1, MPI_X3D2_DP, MPI_SUM, &
+                       MPI_COMM_WORLD, ierr)
+    error_norm = sqrt(error_norm)/product(mesh%get_global_dims(CELL))
+  end function compute_error_norm
+
+  ! ================================================================
+  ! Value of the global (1,1,1) point, known on every rank
+  ! ================================================================
+  function global_first_value(mesh, host_field) result(first_value)
+    type(mesh_t), intent(in) :: mesh
+    class(field_t), intent(in) :: host_field
+    real(dp) :: first_value
+    integer :: ierr
+
+    ! Rank 0 owns the global (1,1,1) point and broadcasts its value
+    first_value = 0.0_dp
+    if (mesh%par%is_root()) first_value = host_field%data(1, 1, 1)
+    call MPI_Bcast(first_value, 1, MPI_X3D2_DP, 0, MPI_COMM_WORLD, ierr)
+  end function global_first_value
+
+  ! ================================================================
+  ! Create the cosine test function on host and transfer it to a device field
+  ! ================================================================
+  subroutine upload_cosine(ctx, test, f)
+    type(poisson_ctx_t), target, intent(in) :: ctx
+    type(cosine_test_t), intent(in) :: test
+    class(field_t), intent(inout) :: f
+
+    class(field_t), pointer :: host_field
+
+    host_field => ctx%host_allocator%get_block(DIR_C)
+    call fill_cosine_field(ctx%mesh, host_field, test, 1.0_dp)
+    call ctx%backend%set_field_data(f, host_field%data, DIR_C)
+    call f%set_data_loc(CELL)
+    call ctx%host_allocator%release_block(host_field)
+  end subroutine upload_cosine
+
+  ! ================================================================
+  ! Compare the Poisson solution on a device field with the analytical one
+  ! ================================================================
+  function solution_error(ctx, test, f_device) result(err)
+    type(poisson_ctx_t), target, intent(in) :: ctx
+    type(cosine_test_t), intent(in) :: test
+    class(field_t), intent(in) :: f_device
+    real(dp) :: err
+
+    class(field_t), pointer :: host_field, host_analytical
+    integer :: dims(3)
+    real(dp) :: n_pi_sq, first_value
+
+    dims = ctx%mesh%get_dims(CELL)
+    n_pi_sq = (real(test%n, dp)*pi)**2
+
+    host_field => ctx%host_allocator%get_block(DIR_C)
+    call ctx%backend%get_field_data(host_field%data, f_device)
+
+    ! Remove arbitrary constant (Poisson solution unique up to a constant)
+    first_value = global_first_value(ctx%mesh, host_field)
+    host_field%data(1:dims(1), 1:dims(2), 1:dims(3)) = &
+      host_field%data(1:dims(1), 1:dims(2), 1:dims(3)) - first_value
+
+    host_analytical => ctx%host_allocator%get_block(DIR_C)
+    call fill_cosine_field(ctx%mesh, host_analytical, test, &
+                           -(real(count(test%uses), dp)*n_pi_sq))
+
+    ! Remove same constant from analytical
+    first_value = global_first_value(ctx%mesh, host_analytical)
+    host_analytical%data(1:dims(1), 1:dims(2), 1:dims(3)) = &
+      host_analytical%data(1:dims(1), 1:dims(2), 1:dims(3)) - first_value
+
+    ! Compute pointwise difference
+    host_field%data(1:dims(1), 1:dims(2), 1:dims(3)) = &
+      host_field%data(1:dims(1), 1:dims(2), 1:dims(3)) &
+      - host_analytical%data(1:dims(1), 1:dims(2), 1:dims(3))
+
+    err = compute_error_norm(ctx%mesh, host_field)
+
+    call ctx%host_allocator%release_block(host_analytical)
+    call ctx%host_allocator%release_block(host_field)
+  end function solution_error
+
+  ! ================================================================
+  ! Recover the RHS from div(grad(p)) and return its L2 error. Only reads the
+  ! fields it is given; the caller keeps them and releases them
+  ! ================================================================
+  function divgrad_error(ctx, f_device, f_reference) result(err)
+    type(poisson_ctx_t), target, intent(in) :: ctx
+    class(field_t), intent(in) :: f_device, f_reference
+    real(dp) :: err
+
+    class(field_t), pointer :: f_result, f_diff, host_field
+    class(field_t), pointer :: dpdx, dpdy, dpdz, gradient_input
+
+    gradient_input => ctx%backend%allocator%get_block(DIR_Z)
+    call ctx%backend%reorder(gradient_input, f_device, RDR_C2Z)
+
+    dpdx => ctx%backend%allocator%get_block(DIR_X)
+    dpdy => ctx%backend%allocator%get_block(DIR_X)
+    dpdz => ctx%backend%allocator%get_block(DIR_X)
+
+    ! gradient_p2v: pressure (cell) -> velocity (vert) gradient
+    call ctx%vector_calculus%gradient_c2v( &
+      dpdx, dpdy, dpdz, gradient_input, &
+      ctx%xdirps%stagder_p2v, ctx%xdirps%interpl_p2v, &
+      ctx%ydirps%stagder_p2v, ctx%ydirps%interpl_p2v, &
+      ctx%zdirps%stagder_p2v, ctx%zdirps%interpl_p2v &
+      )
+    call ctx%backend%allocator%release_block(gradient_input)
+
+    f_result => ctx%backend%allocator%get_block(DIR_Z)
+
+    ! divergence_v2p: velocity (vert) -> cell divergence
+    call ctx%vector_calculus%divergence_v2c( &
+      f_result, dpdx, dpdy, dpdz, &
+      ctx%xdirps%stagder_v2p, ctx%xdirps%interpl_v2p, &
+      ctx%ydirps%stagder_v2p, ctx%ydirps%interpl_v2p, &
+      ctx%zdirps%stagder_v2p, ctx%zdirps%interpl_v2p &
+      )
+
+    call ctx%backend%allocator%release_block(dpdx)
+    call ctx%backend%allocator%release_block(dpdy)
+    call ctx%backend%allocator%release_block(dpdz)
+
+    f_diff => ctx%backend%allocator%get_block(DIR_X)
+    call ctx%backend%reorder(f_diff, f_result, RDR_Z2X)
+    call ctx%backend%allocator%release_block(f_result)
+
+    ! Compute error: div(grad(p)) - f_original
+    call ctx%backend%vecadd(-1.0_dp, f_reference, 1.0_dp, f_diff)
+
+    host_field => ctx%host_allocator%get_block(DIR_C)
+    call ctx%backend%get_field_data(host_field%data, f_diff)
+    err = compute_error_norm(ctx%mesh, host_field)
+
+    ! Cleanup
+    call ctx%backend%allocator%release_block(f_diff)
+    call ctx%host_allocator%release_block(host_field)
+  end function divgrad_error
+
+  ! ================================================================
+  ! Run a single Poisson test (2 checks)
+  ! ================================================================
+  function run_single_test(ctx, test) result(res)
+    type(poisson_ctx_t), target, intent(in) :: ctx
+    type(cosine_test_t), intent(in) :: test
+    type(test_result_t) :: res
+
+    class(field_t), pointer :: f_device, f_reference
+    class(field_t), pointer :: temp
+    real(dp) :: poisson_error_norm, div_grad_error_norm
+    logical :: poisson_passed, div_grad_passed
+
+    if (ctx%mesh%par%is_root()) then
+      write (stderr, '(4X,A,A,A,I1)') &
+        'Running: ', trim(test%name), '  n = ', test%n
+    end if
+
+    ! Allocate fields
+    f_device => ctx%backend%allocator%get_block(DIR_C, CELL)
+    f_reference => ctx%backend%allocator%get_block(DIR_X)
+
+    ! Create test function on host and transfer to device
+    call upload_cosine(ctx, test, f_device)
+
+    ! Store reference copy (in DIR_X layout) for div-grad check later
+    call ctx%backend%reorder(f_reference, f_device, RDR_C2X)
+
+    ! ---- Solve Poisson equation ----
+    temp => ctx%backend%allocator%get_block(DIR_C)
+    call ctx%backend%poisson_fft%solve_poisson(f_device, temp)
+    call ctx%backend%allocator%release_block(temp)
+
+    ! ---- Check 1: Poisson solution vs analytical ----
+    poisson_error_norm = solution_error(ctx, test, f_device)
+
+    poisson_passed = (poisson_error_norm <= ERROR_TOLERANCE)
+
+    ! ---- Check 2: div(grad(p)) vs original RHS ----
+    div_grad_error_norm = divgrad_error(ctx, f_device, f_reference)
+
+    div_grad_passed = (div_grad_error_norm <= DIVGRAD_TOLERANCE)
+
+    call ctx%backend%allocator%release_block(f_device)
+    call ctx%backend%allocator%release_block(f_reference)
+
+    ! Report per-test result
+    if (ctx%mesh%par%is_root()) then
+      write (stderr, '(6X,A,ES12.4,A,A)') &
+        'Poisson L2: ', poisson_error_norm, '  ', &
+        merge('PASS', 'FAIL', poisson_passed)
+      write (stderr, '(6X,A,ES12.4,A,A)') &
+        'DivGrad L2: ', div_grad_error_norm, '  ', &
+        merge('PASS', 'FAIL', div_grad_passed)
+    end if
+
+    res%passed = poisson_passed .and. div_grad_passed
+    res%poisson_err = poisson_error_norm
+    res%divgrad_err = div_grad_error_norm
+    res%xfail = is_expected_fail(test, ctx%periodic)
+
+  end function run_single_test
+
+end program test_poisson

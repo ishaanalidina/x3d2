@@ -1,7 +1,23 @@
 module m_common
+  use m_mpi, only: MPI_DOUBLE_PRECISION, MPI_REAL
+
   implicit none
 
+#ifdef SINGLE_PREC
+  integer, parameter :: dp = kind(0.0e0)
+  integer, parameter :: nbytes = 4
+  integer, parameter :: MPI_X3D2_DP = MPI_REAL
+  logical, parameter :: is_sp = .true.
+#else
   integer, parameter :: dp = kind(0.0d0)
+  integer, parameter :: nbytes = 8
+  integer, parameter :: MPI_X3D2_DP = MPI_DOUBLE_PRECISION
+  logical, parameter :: is_sp = .false.
+#endif
+
+  integer, parameter :: sp = kind(0.0e0)
+  integer, parameter :: i8 = selected_int_kind(18)
+
   real(dp), parameter :: pi = 4*atan(1.0_dp)
 
   integer, parameter :: RDR_X2Y = 12, RDR_X2Z = 13, RDR_Y2X = 21, &

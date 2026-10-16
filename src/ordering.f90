@@ -1,14 +1,8 @@
 module m_ordering
 
-  use m_common, only: dp, get_dirs_from_rdr, DIR_X, DIR_Y, DIR_Z, DIR_C, &
-                      RDR_X2Y, RDR_X2Z, RDR_Y2X, RDR_Y2Z, RDR_Z2X, RDR_Z2Y
-
-  use m_mesh, only: mesh_t
+  use m_common, only: dp, get_dirs_from_rdr, DIR_X, DIR_Y, DIR_Z, DIR_C
 
   implicit none
-  interface get_index_reordering
-    procedure get_index_reordering_rdr, get_index_reordering_dirs
-  end interface
 
 contains
    !!
@@ -18,6 +12,9 @@ contains
 
   pure subroutine get_index_ijk(i, j, k, dir_i, dir_j, dir_k, dir, &
                                 SZ, nx_padded, ny_padded, nz_padded)
+#ifdef OMP_TGT
+    !$omp declare target
+#endif
       !! Get cartesian index from application storage directional one
     integer, intent(out) :: i, j, k                   ! cartesian indices
     integer, intent(in) :: dir_i, dir_j, dir_k        ! application storage indices
@@ -47,6 +44,9 @@ contains
 
   pure subroutine get_index_dir(dir_i, dir_j, dir_k, i, j, k, dir, &
                                 SZ, nx_padded, ny_padded, nz_padded)
+#ifdef OMP_TGT
+    !$omp declare target
+#endif
       !! Get application storage directional index from cartesian index
     integer, intent(out) :: dir_i, dir_j, dir_k        ! application storage indices
     integer, intent(in) :: i, j, k                     ! cartesian indices
@@ -74,38 +74,25 @@ contains
 
   end subroutine get_index_dir
 
-  pure subroutine get_index_reordering_dirs( &
-    out_i, out_j, out_k, in_i, in_j, in_k, dir_from, dir_to, mesh &
+  pure subroutine get_index_reordering( &
+    out_i, out_j, out_k, in_i, in_j, in_k, dir_from, dir_to, sz, cart_padded &
     )
-      !! Converts a set of application storage directional index to an other direction.
-      !! The two directions are defined by the reorder_dir variable, RDR_X2Y will go from storage in X to Y etc.
-    integer, intent(out) :: out_i, out_j, out_k         ! new indices in the application storage
-    integer, intent(in) :: in_i, in_j, in_k             ! original indices
+#ifdef OMP_TGT
+    !$omp declare target
+#endif
+    !! Converts indices in between any two DIR_?
+    integer, intent(out) :: out_i, out_j, out_k ! output indices
+    integer, intent(in) :: in_i, in_j, in_k ! input indices
     integer, intent(in) :: dir_from, dir_to
-    type(mesh_t), intent(in) :: mesh
+    integer, intent(in) :: sz
+    integer, intent(in) :: cart_padded(3) ! padded cartesian dimensions
     integer :: i, j, k        ! Intermediary cartesian indices
-    integer, dimension(3) :: dims_padded
 
-    dims_padded = mesh%get_padded_dims(DIR_C)
-    call get_index_ijk(i, j, k, in_i, in_j, in_k, dir_from, mesh%get_sz(), &
-                       dims_padded(1), dims_padded(2), dims_padded(3))
-    call get_index_dir(out_i, out_j, out_k, i, j, k, dir_to, mesh%get_sz(), &
-                       dims_padded(1), dims_padded(2), dims_padded(3))
+    call get_index_ijk(i, j, k, in_i, in_j, in_k, dir_from, sz, &
+                       cart_padded(1), cart_padded(2), cart_padded(3))
+    call get_index_dir(out_i, out_j, out_k, i, j, k, dir_to, sz, &
+                       cart_padded(1), cart_padded(2), cart_padded(3))
 
-  end subroutine get_index_reordering_dirs
-
-  pure subroutine get_index_reordering_rdr(out_i, out_j, out_k, &
-                                           in_i, in_j, in_k, reorder_dir, mesh)
-    integer, intent(out) :: out_i, out_j, out_k         ! new indices in the application storage
-    integer, intent(in) :: in_i, in_j, in_k             ! original indices
-    integer, intent(in) :: reorder_dir
-    type(mesh_t), intent(in) :: mesh
-    integer :: dir_from, dir_to
-
-    call get_dirs_from_rdr(dir_from, dir_to, reorder_dir)
-    call get_index_reordering(out_i, out_j, out_k, in_i, in_j, in_k, &
-                              dir_from, dir_to, mesh)
-
-  end subroutine get_index_reordering_rdr
+  end subroutine get_index_reordering
 
 end module m_ordering

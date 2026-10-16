@@ -1,15 +1,19 @@
 program xcompact
-  use mpi
+  use m_mpi, only: MPI_COMM_WORLD, MPI_Comm_rank, MPI_Comm_size, &
+                   MPI_Finalize, MPI_Init
 
   use m_allocator
   use m_base_backend
   use m_base_case, only: base_case_t
-  use m_common, only: pi, get_argument
+  use m_common, only: pi, get_argument, VERT
   use m_config, only: domain_config_t, solver_config_t
   use m_mesh
+  use m_case_abl, only: case_abl_t
   use m_case_channel, only: case_channel_t
+  use m_case_cylinder, only: case_cylinder_t
   use m_case_generic, only: case_generic_t
   use m_case_tgv, only: case_tgv_t
+  use m_case_wind_turbine, only: case_wind_turbine_t
 
 #ifdef CUDA
   use m_cuda_allocator
@@ -38,19 +42,20 @@ program xcompact
 
   type(allocator_t), target :: omp_allocator
 
-  real(dp) :: t_start, t_end
-
   type(domain_config_t) :: domain_cfg
   type(solver_config_t) :: solver_cfg
   character(32) :: backend_name
-  integer :: nrank, nproc, ierr
+  integer :: dims(3), nrank, nproc, ierr
   logical :: use_2decomp
 
   call MPI_Init(ierr)
   call MPI_Comm_rank(MPI_COMM_WORLD, nrank, ierr)
   call MPI_Comm_size(MPI_COMM_WORLD, nproc, ierr)
 
-  if (nrank == 0) print *, 'Parallel run with', nproc, 'ranks'
+  if (nrank == 0) then
+    print *, 'Parallel run with', nproc, 'ranks'
+    print *, 'Data precision is', dp
+  end if
 
 #ifdef CUDA
   ierr = cudaGetDeviceCount(ndevs)
@@ -80,19 +85,21 @@ program xcompact
                 domain_cfg%BC_z, domain_cfg%stretching, domain_cfg%beta, &
                 use_2decomp=use_2decomp)
 
+  ! get local vertex dimensions
+  dims = mesh%get_dims(VERT)
 #ifdef CUDA
-  cuda_allocator = cuda_allocator_t(mesh, SZ)
+  cuda_allocator = cuda_allocator_t(dims, SZ)
   allocator => cuda_allocator
   if (nrank == 0) print *, 'CUDA allocator instantiated'
 
-  omp_allocator = allocator_t(mesh, SZ)
+  omp_allocator = allocator_t(dims, SZ)
   host_allocator => omp_allocator
 
   cuda_backend = cuda_backend_t(mesh, allocator)
   backend => cuda_backend
   if (nrank == 0) print *, 'CUDA backend instantiated'
 #else
-  omp_allocator = allocator_t(mesh, SZ)
+  omp_allocator = allocator_t(dims, SZ)
   allocator => omp_allocator
   host_allocator => omp_allocator
   if (nrank == 0) print *, 'OpenMP allocator instantiated'
@@ -105,27 +112,30 @@ program xcompact
   if (nrank == 0) print *, 'Flow case: ', domain_cfg%flow_case_name
 
   select case (trim(domain_cfg%flow_case_name))
+  case ('abl')
+    allocate (case_abl_t :: flow_case)
+    flow_case = case_abl_t(backend, mesh, host_allocator)
   case ('channel')
     allocate (case_channel_t :: flow_case)
     flow_case = case_channel_t(backend, mesh, host_allocator)
+  case ('cylinder')
+    allocate (case_cylinder_t :: flow_case)
+    flow_case = case_cylinder_t(backend, mesh, host_allocator)
   case ('generic')
     allocate (case_generic_t :: flow_case)
     flow_case = case_generic_t(backend, mesh, host_allocator)
   case ('tgv')
     allocate (case_tgv_t :: flow_case)
     flow_case = case_tgv_t(backend, mesh, host_allocator)
+  case ('wind_turbine')
+    allocate (case_wind_turbine_t :: flow_case)
+    flow_case = case_wind_turbine_t(backend, mesh, host_allocator)
   case default
     error stop 'Undefined flow_case.'
   end select
   if (nrank == 0) print *, 'solver instantiated'
 
-  call cpu_time(t_start)
-
   call flow_case%run()
-
-  call cpu_time(t_end)
-
-  if (nrank == 0) print *, 'Time: ', t_end - t_start
 
   call MPI_Finalize(ierr)
 

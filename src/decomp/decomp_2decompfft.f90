@@ -1,7 +1,8 @@
 module m_decomp
 !! Parallel decomposition provided by 2decomp&FFT
 
-  use mpi
+  use m_mpi, only: MPI_COMM_WORLD, MPI_IN_PLACE, MPI_INTEGER, MPI_SUM, &
+                   MPI_Allreduce, MPI_Cart_coords, MPI_Comm_rank
   implicit none
 
 contains
@@ -35,9 +36,9 @@ contains
     nrank = par%nrank
     nproc = par%nproc
 
-    nx = grid%global_cell_dims(1)
-    ny = grid%global_cell_dims(2)
-    nz = grid%global_cell_dims(3)
+    nx = grid%global_vert_dims(1)
+    ny = grid%global_vert_dims(2)
+    nz = grid%global_vert_dims(3)
 
     p_row = par%nproc_dir(2)
     p_col = par%nproc_dir(3)
@@ -63,11 +64,11 @@ contains
     global_ranks = reshape(global_ranks_lin, shape=[1, p_row, p_col])
 
     ! Get local domain size and offset from 2decomp
-    grid%cell_dims(:) = xsize(:)
+    grid%vert_dims(:) = xsize(:)
     par%n_offset(:) = xstart(:) - 1
 
     call par%compute_rank_pos_from_global(global_ranks)
-    call grid%copy_cell2vert_dims(par)
+    call grid%copy_vert2cell_dims(par)
 
   end subroutine decomposition_2decomp
 

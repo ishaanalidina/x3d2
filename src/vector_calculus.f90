@@ -18,6 +18,7 @@ module m_vector_calculus
     procedure :: curl
     procedure :: divergence_v2c
     procedure :: gradient_c2v
+    procedure :: interpl_c2v
     procedure :: laplacian
     procedure :: divgrad
     procedure :: divgrad_stag
@@ -147,7 +148,7 @@ contains
                             z_stagder_v2c, z_interpl_v2c)
     !! Divergence of a vector field (u, v, w).
     !!
-    !! Evaluated at the cell centers (data_loc=CELL)
+    !! Evaluated at the cell centres (data_loc=CELL)
     !! Input fields are at vertices (data_loc=VERT)
     !!
     !! Input fields are in DIR_X data layout.
@@ -175,7 +176,7 @@ contains
     dv_x => self%backend%allocator%get_block(DIR_X)
     dw_x => self%backend%allocator%get_block(DIR_X)
 
-    ! Staggared der for u field in x
+    ! Staggered der for u field in x
     ! Interpolation for v field in x
     ! Interpolation for w field in x
     call self%backend%tds_solve(du_x, u, x_stagder_v2c)
@@ -254,7 +255,7 @@ contains
     !! Gradient of a scalar field 'p'.
     !!
     !! Evaluated at the vertices (data_loc=VERT)
-    !! Input field is at cell centers (data_loc=CELL)
+    !! Input field is at cell centres (data_loc=CELL)
     !!
     !! Input field is in DIR_Z data layout.
     !! Output fields (dpdx, dpdy, dpdz) are in DIR_X data layout.
@@ -281,7 +282,7 @@ contains
     p_sxy_z => self%backend%allocator%get_block(DIR_Z)
     dpdz_sxy_z => self%backend%allocator%get_block(DIR_Z)
 
-    ! Staggared der for p field in z
+    ! Staggered der for p field in z
     ! Interpolation for p field in z
     call self%backend%tds_solve(p_sxy_z, p, z_interpl_c2v)
     call self%backend%tds_solve(dpdz_sxy_z, p, z_stagder_c2v)
@@ -297,32 +298,28 @@ contains
     call self%backend%allocator%release_block(p_sxy_z)
     call self%backend%allocator%release_block(dpdz_sxy_z)
 
+    ! derivatives in y, with careful memory management
     p_sx_y => self%backend%allocator%get_block(DIR_Y)
     dpdy_sx_y => self%backend%allocator%get_block(DIR_Y)
-    dpdz_sx_y => self%backend%allocator%get_block(DIR_Y)
-
-    ! similar to the z direction, obtain derivatives in y.
     call self%backend%tds_solve(p_sx_y, p_sxy_y, y_interpl_c2v)
     call self%backend%tds_solve(dpdy_sx_y, p_sxy_y, y_stagder_c2v)
-    call self%backend%tds_solve(dpdz_sx_y, dpdz_sxy_y, y_interpl_c2v)
-
-    ! release memory
     call self%backend%allocator%release_block(p_sxy_y)
+
+    dpdz_sx_y => self%backend%allocator%get_block(DIR_Y)
+    call self%backend%tds_solve(dpdz_sx_y, dpdz_sxy_y, y_interpl_c2v)
     call self%backend%allocator%release_block(dpdz_sxy_y)
 
-    ! just like in y direction, get some fields for the x derivatives.
+    ! reorder from y to x, and release memory one by one
     p_sx_x => self%backend%allocator%get_block(DIR_X)
-    dpdy_sx_x => self%backend%allocator%get_block(DIR_X)
-    dpdz_sx_x => self%backend%allocator%get_block(DIR_X)
-
-    ! reorder from y to x
     call self%backend%reorder(p_sx_x, p_sx_y, RDR_Y2X)
-    call self%backend%reorder(dpdy_sx_x, dpdy_sx_y, RDR_Y2X)
-    call self%backend%reorder(dpdz_sx_x, dpdz_sx_y, RDR_Y2X)
-
-    ! release all the y directional fields.
     call self%backend%allocator%release_block(p_sx_y)
+
+    dpdy_sx_x => self%backend%allocator%get_block(DIR_X)
+    call self%backend%reorder(dpdy_sx_x, dpdy_sx_y, RDR_Y2X)
     call self%backend%allocator%release_block(dpdy_sx_y)
+
+    dpdz_sx_x => self%backend%allocator%get_block(DIR_X)
+    call self%backend%reorder(dpdz_sx_x, dpdz_sx_y, RDR_Y2X)
     call self%backend%allocator%release_block(dpdz_sx_y)
 
     ! get the derivatives in x
@@ -336,6 +333,52 @@ contains
     call self%backend%allocator%release_block(dpdz_sx_x)
 
   end subroutine gradient_c2v
+
+  subroutine interpl_c2v(self, p_out, p, &
+                         x_interpl_c2v, y_interpl_c2v, z_interpl_c2v)
+    !! Interpolation of a scalar field from cell centres to vertices.
+    !!
+    !! Input field is at cell centres (data_loc=CELL) in DIR_Z layout.
+    !! Output field is at vertices (data_loc=VERT) in DIR_X layout.
+    implicit none
+
+    class(vector_calculus_t) :: self
+    class(field_t), intent(inout) :: p_out
+    class(field_t), intent(in) :: p
+    class(tdsops_t), intent(in) :: x_interpl_c2v, y_interpl_c2v, &
+      z_interpl_c2v
+
+    class(field_t), pointer :: p_sy_z, p_sy_y, p_out_y, p_out_x
+
+    if (p_out%dir /= DIR_X .or. p%dir /= DIR_Z) then
+      error stop 'Error in interpl_c2v input/output field dirs: &
+                  &output must be in DIR_X, input must be in DIR_Z layout.'
+    end if
+
+    ! z-direction interpolation
+    p_sy_z => self%backend%allocator%get_block(DIR_Z)
+    call self%backend%tds_solve(p_sy_z, p, z_interpl_c2v)
+
+    ! reorder Z -> Y
+    p_sy_y => self%backend%allocator%get_block(DIR_Y)
+    call self%backend%reorder(p_sy_y, p_sy_z, RDR_Z2Y)
+    call self%backend%allocator%release_block(p_sy_z)
+
+    ! y-direction interpolation
+    p_out_y => self%backend%allocator%get_block(DIR_Y)
+    call self%backend%tds_solve(p_out_y, p_sy_y, y_interpl_c2v)
+    call self%backend%allocator%release_block(p_sy_y)
+
+    ! reorder Y -> X
+    p_out_x => self%backend%allocator%get_block(DIR_X)
+    call self%backend%reorder(p_out_x, p_out_y, RDR_Y2X)
+    call self%backend%allocator%release_block(p_out_y)
+
+    ! x-direction interpolation
+    call self%backend%tds_solve(p_out, p_out_x, x_interpl_c2v)
+    call self%backend%allocator%release_block(p_out_x)
+
+  end subroutine interpl_c2v
 
   subroutine laplacian(self, lapl_u, u, x_der2nd, y_der2nd, z_der2nd)
     !! Laplacian of a scalar field 'u'.
