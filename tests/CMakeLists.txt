@@ -434,11 +434,11 @@ if(WITH_2DECOMPFFT AND _cpu_omp_backend)
     ${_smoke_cmp_args})
 endif()
 
-define_test(test_poisson_cg_eval.f90 1 omp)
-define_test(test_poisson_cg_eval.f90 ${CMAKE_CTEST_NPROCS} omp)
+define_test(unit/test_poisson_cg_eval.f90 1 omp)
+define_test(unit/test_poisson_cg_eval.f90 ${CMAKE_CTEST_NPROCS} omp)
 if (${POISSON_SOLVER} STREQUAL "ITER")
-  define_test(test_poisson_cg_solve.f90 1 omp)
-  define_test(test_poisson_cg_solve.f90 ${CMAKE_CTEST_NPROCS} omp)
+  define_test(verification/test_poisson_cg_solve.f90 1 omp)
+  define_test(verification/test_poisson_cg_solve.f90 ${CMAKE_CTEST_NPROCS} omp)
 endif()
 
 # Heavier nightly regression case (opt-in; kept out of PR CI to stay fast).
