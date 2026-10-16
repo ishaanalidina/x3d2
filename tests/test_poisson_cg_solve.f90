@@ -5,7 +5,7 @@
 program test_poisson_cg_solve
   !! Tests solving the Poisson problem using CG.
 
-  use mpi
+  use m_mpi
   use petsc
 
   use m_common, only: dp, DIR_Z, CELL, pi
@@ -75,7 +75,7 @@ contains
 #ifdef CUDA
       error stop "CUDA iterative solver not currently supported"
 #else
-      allocator = allocator_t(mesh, SZ)
+      allocator = allocator_t([nx, ny, nz], SZ)
       if (allocated(backend)) then
         deallocate (backend)
       end if

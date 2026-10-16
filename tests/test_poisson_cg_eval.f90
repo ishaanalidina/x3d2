@@ -6,7 +6,7 @@ program test_poisson_cg_eval
   !! Tests evaluating the Poisson/Laplace operator Lapl(p) on the pressure grid,
   !! used by the iterative Poisson solver.
 
-  use MPI
+  use m_mpi
 
   use m_allocator, only: field_t
   use m_base_backend, only: base_backend_t
@@ -160,7 +160,7 @@ contains
       deallocate (allocator)
     end if
     allocate (allocator)
-    allocator = allocator_t(mesh, SZ)
+    allocator = allocator_t(n, SZ)
 
     if (allocated(backend)) then
       deallocate (backend)
