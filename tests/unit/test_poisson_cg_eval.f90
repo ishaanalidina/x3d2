@@ -18,6 +18,7 @@ program test_poisson_cg_eval
   use m_common, only: DIR_X, DIR_Y, DIR_Z, CELL, POISSON_SOLVER_CG
   use m_base_poisson_cg, only: laplace_operator_t, poisson_precon_t
   use m_poisson_cg_backend, only: init_precon, poisson_precon_impl
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -131,9 +132,10 @@ contains
     class(*), intent(in) :: linear_operator
 
     type(mesh_t) :: mesh
+    type(solver_config_t) :: solver_cfg
     real(dp) :: rms_err
 
-    call initialise_test(mesh, n)
+    call initialise_test(mesh, n, solver_cfg)
 
     call test_constant_field(f, linear_operator, pressure, mesh)
     rms_err = test_variable_field(f, linear_operator, pressure, mesh)
@@ -145,12 +147,13 @@ contains
 
   end function run_test
 
-  subroutine initialise_test(mesh, n)
+  subroutine initialise_test(mesh, n, solver_cfg)
 
     type(mesh_t), intent(out) :: mesh
+    type(solver_config_t), intent(out) :: solver_cfg
     integer, dimension(3), intent(in) :: n
 
-    call init_globs(mesh, n, nproc, [Lx, Ly, Lz])
+    call init_globs(mesh, n, nproc, [Lx, Ly, Lz], solver_cfg)
 #ifdef CUDA
     if (irank == 0) then
       error stop "CUDA iterative solver not currently supported"
@@ -168,7 +171,7 @@ contains
     allocate (omp_backend_t :: backend)
     backend = omp_backend_t(mesh, allocator)
 #endif
-    lapl = laplace_operator_t(backend, mesh)
+    lapl = laplace_operator_t(backend, mesh, solver_cfg)
 #ifdef HAVE_CG
     precon = init_precon(backend)
 #endif
@@ -184,10 +187,11 @@ contains
 
   end subroutine initialise_test
 
-  subroutine init_globs(mesh, n, nproc, L)
+  subroutine init_globs(mesh, n, nproc, L, solver_cfg)
     !! Initialisation for the globs object
 
     type(mesh_t), intent(out) :: mesh
+    type(solver_config_t), intent(out) :: solver_cfg ! The solver configuration
     integer, dimension(3), intent(in) :: n  ! The grid sizes
     integer, intent(in) :: nproc            ! The number of processors
     real(dp), dimension(3), intent(in) :: L ! The domain dimensions
@@ -196,6 +200,16 @@ contains
                   ["periodic", "periodic"], &
                   ["periodic", "periodic"], &
                   ["periodic", "periodic"])
+
+
+    ! The important components in this solver config setup at the stagder_scheme (set to 'compact6' currently) and the interpl_scheme (set to 'classic' currently).
+
+    solver_cfg = solver_config_t(&
+    1000, 1.0e-5, &
+    .false., [1._dp], 0, 0, 0, .false., &
+    .false., .false., 0.49_dp, 'RK4', 'CG', &
+    'compact6', 'compact6', 'classic', &
+    'compact6', 0.44_dp, 0._dp)
 
   end subroutine init_globs
 

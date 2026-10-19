@@ -10,6 +10,7 @@ module m_cg_types
   use m_base_backend, only: base_backend_t
   use m_allocator, only: field_t
   use m_base_poisson_cg, only: laplace_operator_t
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -453,18 +454,25 @@ contains
 
   end subroutine solve_petsc
 
-  module subroutine init_solver(solver, backend, mesh)
+  module subroutine init_solver(solver, backend, mesh, solver_cfg)
     !! Public constructor for the poisson_cg_t type.
+
+    use m_config, only: solver_config_t
+
     class(poisson_solver_t), allocatable, intent(out) :: solver
     class(base_backend_t), target, intent(in) :: backend
+    type(solver_config_t), intent(in) :: solver_cfg
     type(mesh_t), intent(in) :: mesh
 
     allocate (poisson_solver_impl :: solver)
 
     select type (solver)
     type is (poisson_solver_impl)
+
       solver%precon = init_precon(backend)
-      solver%lapl = laplace_operator_t(backend, mesh)
+      solver%solver_cfg = solver_cfg
+      solver%lapl = laplace_operator_t(backend, mesh, solver%solver_cfg)
+
       call init_petsc_cg(solver, backend)
     class default
       ! This should be impossible

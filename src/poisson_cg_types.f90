@@ -11,6 +11,7 @@ module m_base_poisson_cg
   use m_mesh, only: mesh_t
   use m_tdsops, only: tdsops_t, dirps_t
   use m_vector_calculus, only: vector_calculus_t
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -58,6 +59,7 @@ module m_base_poisson_cg
   type, abstract, public :: poisson_solver_t
     !! Base definition of the backend-specific implementation of the iterative
     !! Poisson solver.
+    type(solver_config_t) :: solver_cfg
   contains
     private
     ! Solves the Poisson problem
@@ -79,23 +81,20 @@ module m_base_poisson_cg
 
 contains
 
-  function init_lapl(backend, mesh) result(lapl)
+  function init_lapl(backend, mesh, solver_cfg) result(lapl)
     !! Public constructor for the laplace_operator_t type.
     class(base_backend_t), target, intent(in) :: backend
     type(mesh_t), intent(in) :: mesh
     type(laplace_operator_t) :: lapl
-
-    ! TODO: read these from config
-    character(len=*), parameter :: stagder_scheme = "compact6"
-    character(len=*), parameter :: interpl_scheme = "classic"
+    type(solver_config_t) :: solver_cfg
 
     lapl%vector_calculus = vector_calculus_t(backend)
 
     lapl%xdirps%dir = DIR_X; lapl%ydirps%dir = DIR_Y; lapl%zdirps%dir = DIR_Z
 
-    call allocate_lapl_tdsops(lapl%xdirps, backend, mesh, stagder_scheme, interpl_scheme)
-    call allocate_lapl_tdsops(lapl%ydirps, backend, mesh, stagder_scheme, interpl_scheme)
-    call allocate_lapl_tdsops(lapl%zdirps, backend, mesh, stagder_scheme, interpl_scheme)
+    call allocate_lapl_tdsops(lapl%xdirps, backend, mesh, solver_cfg%stagder_scheme, solver_cfg%interpl_scheme)
+    call allocate_lapl_tdsops(lapl%ydirps, backend, mesh, solver_cfg%stagder_scheme, solver_cfg%interpl_scheme)
+    call allocate_lapl_tdsops(lapl%zdirps, backend, mesh, solver_cfg%stagder_scheme, solver_cfg%interpl_scheme)
 
   end function init_lapl
 
