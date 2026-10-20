@@ -1,0 +1,2382 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>m_allocator &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>m_allocator
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.6% of total for modules and submodules.">123 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/allocator.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/allocator.f90.html'>allocator.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">m_allocator</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_allocator.html#interface-allocator_t">allocator_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_allocator.html#type-allocator_t">allocator_t</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_allocator.html#proc-allocator_init">allocator_init</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-create_block">create_block</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-get_block">get_block</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-get_block_ids">get_block_ids</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-get_padded_dims">get_padded_dims</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-get_n_groups">get_n_groups</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_allocator.html#proc-release_block">release_block</a>
+            <a class="list-group-item" href="../module/m_allocator.html#proc-destroy">destroy</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='m_field.html'>m_field</a></li>
+                  <li class="list-inline-item"><a href='m_common.html'>m_common</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~m_allocator~~UsesGraph Pages: 1 -->
+<svg id="modulem_allocatorUsesGraph" width="523pt" height="94pt"
+ viewBox="0.00 0.00 523.00 94.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~m_allocator~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 90)">
+<title>module~~m_allocator~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-90 519,-90 519,4 -4,4"/>
+<!-- module~m_allocator -->
+<g id="module~~m_allocator~~UsesGraph_node1" class="node">
+<title>module~m_allocator</title>
+<polygon fill="none" stroke="black" points="515,-46 439,-46 439,-22 515,-22 515,-46"/>
+<text text-anchor="middle" x="477" y="-31.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_allocator</text>
+</g>
+<!-- module~m_common -->
+<g id="module~~m_allocator~~UsesGraph_node2" class="node">
+<title>module~m_common</title>
+<g id="a_module~~m_allocator~~UsesGraph_node2"><a xlink:href="../module/m_common.html" xlink:title="m_common">
+<polygon fill="#337ab7" stroke="#337ab7" points="309,-66 233,-66 233,-42 309,-42 309,-66"/>
+<text text-anchor="middle" x="271" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_common</text>
+</a>
+</g>
+</g>
+<!-- module~m_allocator&#45;&gt;module~m_common -->
+<g id="module~~m_allocator~~UsesGraph_edge1" class="edge">
+<title>module~m_allocator&#45;&gt;module~m_common</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M438.58,-37.67C405.08,-40.95 355.79,-45.79 319.51,-49.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="318.79,-45.9 309.18,-50.35 319.47,-52.86 318.79,-45.9"/>
+</g>
+<!-- module~m_field -->
+<g id="module~~m_allocator~~UsesGraph_node3" class="node">
+<title>module~m_field</title>
+<g id="a_module~~m_allocator~~UsesGraph_node3"><a xlink:href="../module/m_field.html" xlink:title="m_field">
+<polygon fill="#337ab7" stroke="#337ab7" points="403,-26 349,-26 349,-2 403,-2 403,-26"/>
+<text text-anchor="middle" x="376" y="-11.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_field</text>
+</a>
+</g>
+</g>
+<!-- module~m_allocator&#45;&gt;module~m_field -->
+<g id="module~~m_allocator~~UsesGraph_edge2" class="edge">
+<title>module~m_allocator&#45;&gt;module~m_field</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M438.85,-26.5C430.43,-24.79 421.49,-22.99 413.11,-21.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="413.73,-17.85 403.23,-19.3 412.34,-24.71 413.73,-17.85"/>
+</g>
+<!-- m_mpi -->
+<g id="module~~m_allocator~~UsesGraph_node5" class="node">
+<title>m_mpi</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="74,-86 20,-86 20,-62 74,-62 74,-86"/>
+<text text-anchor="middle" x="47" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mpi</text>
+</g>
+<!-- module~m_common&#45;&gt;m_mpi -->
+<g id="module~~m_allocator~~UsesGraph_edge3" class="edge">
+<title>module~m_common&#45;&gt;m_mpi</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M232.84,-57.35C191.51,-61.07 125.18,-67.05 84.23,-70.74"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="83.79,-67.26 74.14,-71.64 84.42,-74.23 83.79,-67.26"/>
+</g>
+<!-- module~m_logger -->
+<g id="module~~m_allocator~~UsesGraph_node6" class="node">
+<title>module~m_logger</title>
+<g id="a_module~~m_allocator~~UsesGraph_node6"><a xlink:href="../module/m_logger.html" xlink:title="m_logger">
+<polygon fill="#337ab7" stroke="#337ab7" points="193,-46 130,-46 130,-22 193,-22 193,-46"/>
+<text text-anchor="middle" x="161.5" y="-31.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger</text>
+</a>
+</g>
+</g>
+<!-- module~m_common&#45;&gt;module~m_logger -->
+<g id="module~~m_allocator~~UsesGraph_edge4" class="edge">
+<title>module~m_common&#45;&gt;module~m_logger</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M232.7,-47.06C223.16,-45.29 212.85,-43.37 203.15,-41.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="203.79,-38.12 193.32,-39.73 202.51,-45 203.79,-38.12"/>
+</g>
+<!-- module~m_field&#45;&gt;module~m_common -->
+<g id="module~~m_allocator~~UsesGraph_edge6" class="edge">
+<title>module~m_field&#45;&gt;module~m_common</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M348.74,-24.2C337.74,-28.47 324.69,-33.54 312.5,-38.27"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="311.02,-35.09 302.97,-41.97 313.56,-41.62 311.02,-35.09"/>
+</g>
+<!-- iso_c_binding -->
+<g id="module~~m_allocator~~UsesGraph_node4" class="node">
+<title>iso_c_binding</title>
+<g id="a_module~~m_allocator~~UsesGraph_node4"><a xlink:href="http://fortranwiki.org/fortran/show/iso_c_binding" xlink:title="iso_c_binding">
+<polygon fill="#337ab7" stroke="#337ab7" points="313,-24 229,-24 229,0 313,0 313,-24"/>
+<text text-anchor="middle" x="271" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_c_binding</text>
+</a>
+</g>
+</g>
+<!-- module~m_field&#45;&gt;iso_c_binding -->
+<g id="module~~m_allocator~~UsesGraph_edge5" class="edge">
+<title>module~m_field&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M348.74,-13.49C340.95,-13.34 332.12,-13.17 323.31,-13"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="323.09,-9.49 313.03,-12.8 322.96,-16.49 323.09,-9.49"/>
+</g>
+<!-- module~m_logger&#45;&gt;m_mpi -->
+<g id="module~~m_allocator~~UsesGraph_edge8" class="edge">
+<title>module~m_logger&#45;&gt;m_mpi</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M129.76,-44.93C115.59,-49.97 98.69,-55.98 83.94,-61.22"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="82.38,-58.06 74.13,-64.71 84.72,-64.66 82.38,-58.06"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~m_allocator~~UsesGraph_node7" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~m_allocator~~UsesGraph_node7"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~m_logger&#45;&gt;iso_fortran_env -->
+<g id="module~~m_allocator~~UsesGraph_edge7" class="edge">
+<title>module~m_logger&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M129.76,-33.45C121.9,-33.31 113.21,-33.16 104.5,-33"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="104.39,-29.5 94.33,-32.82 104.26,-36.5 104.39,-29.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~m_allocator~~UsedByGraph Pages: 1 -->
+<svg id="modulem_allocatorUsedByGraph" width="641pt" height="443pt"
+ viewBox="0.00 0.00 641.00 443.06" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~m_allocator~~UsedByGraph" class="graph" transform="scale(0.35 0.35) rotate(0) translate(4 1254.66)">
+<title>module~~m_allocator~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1254.66 1817,-1254.66 1817,4 -4,4"/>
+<!-- module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_node1" class="node">
+<title>module~m_allocator</title>
+<polygon fill="none" stroke="black" points="76,-1011.65 0,-1011.65 0,-987.65 76,-987.65 76,-1011.65"/>
+<text text-anchor="middle" x="38" y="-997.25" font-family="Helvetica,sans-Serif" font-size="10.50">m_allocator</text>
+</g>
+<!-- module~m_abl -->
+<g id="module~~m_allocator~~UsedByGraph_node2" class="node">
+<title>module~m_abl</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node2"><a xlink:href="../module/m_abl.html" xlink:title="m_abl">
+<polygon fill="#337ab7" stroke="#337ab7" points="503,-796.65 449,-796.65 449,-772.65 503,-772.65 503,-796.65"/>
+<text text-anchor="middle" x="476" y="-782.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_abl</text>
+</a>
+</g>
+</g>
+<!-- module~m_abl&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge1" class="edge">
+<title>module~m_abl&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M471.46,-796.69C459.17,-837.81 417.32,-971.72 385,-1001.65 365.1,-1020.08 354.02,-1018.23 327,-1020.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M325,-1020.65C297.98,-1023.07 291.4,-1013.5 267,-1001.65 221.6,-979.59 221.59,-926.89 172.5,-938.65"/>
+</g>
+<!-- module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_node5" class="node">
+<title>module~m_base_backend</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node5"><a xlink:href="../module/m_base_backend.html" xlink:title="m_base_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="224,-696.65 119,-696.65 119,-672.65 224,-672.65 224,-696.65"/>
+<text text-anchor="middle" x="171.5" y="-682.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_base_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_abl&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge28" class="edge">
+<title>module~m_abl&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M448.84,-790.76C418.21,-796.56 366.63,-802.08 327,-784.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M325,-784.65C275.36,-762.81 223.88,-725.43 195.24,-703.08"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="197.13,-700.11 187.11,-696.66 192.79,-705.61 197.13,-700.11"/>
+</g>
+<!-- module~m_les -->
+<g id="module~~m_allocator~~UsedByGraph_node34" class="node">
+<title>module~m_les</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node34"><a xlink:href="../module/m_les.html" xlink:title="m_les">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-716.65 299,-716.65 299,-692.65 353,-692.65 353,-716.65"/>
+<text text-anchor="middle" x="326" y="-702.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_les</text>
+</a>
+</g>
+</g>
+<!-- module~m_abl&#45;&gt;module~m_les -->
+<g id="module~~m_allocator~~UsedByGraph_edge113" class="edge">
+<title>module~m_abl&#45;&gt;module~m_les</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M452.52,-772.5C427.38,-758.91 386.5,-736.81 358.26,-721.54"/>
+<polygon fill="#009fff" stroke="#009fff" points="359.67,-718.33 349.2,-716.65 356.34,-724.48 359.67,-718.33"/>
+</g>
+<!-- module~m_adm -->
+<g id="module~~m_allocator~~UsedByGraph_node3" class="node">
+<title>module~m_adm</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node3"><a xlink:href="../module/m_adm.html" xlink:title="m_adm">
+<polygon fill="#337ab7" stroke="#337ab7" points="1095,-216.65 1041,-216.65 1041,-192.65 1095,-192.65 1095,-216.65"/>
+<text text-anchor="middle" x="1068" y="-202.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_adm</text>
+</a>
+</g>
+</g>
+<!-- module~m_adm&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge2" class="edge">
+<title>module~m_adm&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1052.92,-192.53C1035.87,-178.52 1005.74,-155.85 976,-143.65 969.47,-140.97 483.71,-46.48 477,-48.65"/>
+</g>
+<!-- module~m_adm&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge30" class="edge">
+<title>module~m_adm&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1040.83,-203.42C1012.1,-202.4 964.65,-201.68 924,-205.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M922,-205.65C650.68,-232.14 516.87,-159.04 327,-354.65"/>
+</g>
+<!-- module~m_turbine_model -->
+<g id="module~~m_allocator~~UsedByGraph_node22" class="node">
+<title>module~m_turbine_model</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node22"><a xlink:href="../module/m_turbine_model.html" xlink:title="m_turbine_model">
+<polygon fill="#337ab7" stroke="#337ab7" points="976,-176.65 870,-176.65 870,-152.65 976,-152.65 976,-176.65"/>
+<text text-anchor="middle" x="923" y="-162.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_turbine_model</text>
+</a>
+</g>
+</g>
+<!-- module~m_adm&#45;&gt;module~m_turbine_model -->
+<g id="module~~m_allocator~~UsedByGraph_edge91" class="edge">
+<title>module~m_adm&#45;&gt;module~m_turbine_model</title>
+<path fill="none" stroke="#ff00c7" stroke-dasharray="5,2" d="M1040.77,-197.31C1022.87,-192.3 998.54,-185.5 976.72,-179.39"/>
+<polygon fill="#ff00c7" stroke="#ff00c7" points="977.48,-175.97 966.9,-176.65 975.59,-182.71 977.48,-175.97"/>
+</g>
+<!-- module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_node33" class="node">
+<title>module~m_io_session</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node33"><a xlink:href="../module/m_io_session.html" xlink:title="m_io_session">
+<polygon fill="#337ab7" stroke="#337ab7" points="662.5,-366.65 580.5,-366.65 580.5,-342.65 662.5,-342.65 662.5,-366.65"/>
+<text text-anchor="middle" x="621.5" y="-352.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_session</text>
+</a>
+</g>
+</g>
+<!-- module~m_adm&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge106" class="edge">
+<title>module~m_adm&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M922,-205.65C800.52,-219.28 785.64,-274.6 676,-328.65 669.78,-331.72 663.13,-334.96 656.72,-338.09"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="655.03,-335.02 647.57,-342.54 658.09,-341.31 655.03,-335.02"/>
+</g>
+<!-- module~m_backend_setup -->
+<g id="module~~m_allocator~~UsedByGraph_node4" class="node">
+<title>module~m_backend_setup</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node4"><a xlink:href="../module/m_backend_setup.html" xlink:title="m_backend_setup">
+<polygon fill="#337ab7" stroke="#337ab7" points="676,-962.65 567,-962.65 567,-938.65 676,-938.65 676,-962.65"/>
+<text text-anchor="middle" x="621.5" y="-948.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_backend_setup</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge3" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M325,-1138.65C256.53,-1147.15 235.57,-1195.61 172.5,-1167.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M170.5,-1167.65C145.51,-1156.57 132.65,-1166.56 112,-1148.65 72.51,-1114.39 52.32,-1053.82 43.92,-1021.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="47.29,-1020.53 41.51,-1011.65 40.49,-1022.2 47.29,-1020.53"/>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge31" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M620.69,-938.53C620.64,-895.57 614.15,-749.54 531,-683.65 459.63,-627.09 416.45,-647.59 327,-664.65"/>
+</g>
+<!-- module~m_cuda_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_node13" class="node">
+<title>module~m_cuda_allocator</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node13"><a xlink:href="../module/m_cuda_allocator.html" xlink:title="m_cuda_allocator">
+<polygon fill="#337ab7" stroke="#337ab7" points="225,-1089.65 118,-1089.65 118,-1065.65 225,-1065.65 225,-1089.65"/>
+<text text-anchor="middle" x="171.5" y="-1075.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_allocator</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_cuda_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge68" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_cuda_allocator</title>
+<path fill="none" stroke="#00ffdd" stroke-dasharray="5,2" d="M611.27,-962.83C577.85,-1005.42 458.17,-1144.72 327,-1138.65"/>
+<path fill="none" stroke="#00ffdd" stroke-dasharray="5,2" d="M325,-1138.65C312.92,-1140.15 249.15,-1112.52 207.99,-1093.95"/>
+<polygon fill="#00ffdd" stroke="#00ffdd" points="209.37,-1090.73 198.81,-1089.79 206.48,-1097.11 209.37,-1090.73"/>
+</g>
+<!-- module~m_cuda_backend -->
+<g id="module~~m_allocator~~UsedByGraph_node14" class="node">
+<title>module~m_cuda_backend</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node14"><a xlink:href="../module/m_cuda_backend.html" xlink:title="m_cuda_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="529,-1032.65 423,-1032.65 423,-1008.65 529,-1008.65 529,-1032.65"/>
+<text text-anchor="middle" x="476" y="-1018.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_cuda_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge71" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_cuda_backend</title>
+<path fill="none" stroke="#00ddff" stroke-dasharray="5,2" d="M595.83,-962.68C572.42,-974.1 537.04,-991.36 510.97,-1004.08"/>
+<polygon fill="#00ddff" stroke="#00ddff" points="509.28,-1001.01 501.83,-1008.54 512.35,-1007.3 509.28,-1001.01"/>
+</g>
+<!-- module~m_omp_backend -->
+<g id="module~~m_allocator~~UsedByGraph_node16" class="node">
+<title>module~m_omp_backend</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node16"><a xlink:href="../module/m_omp_backend.html" xlink:title="m_omp_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="377.5,-992.65 274.5,-992.65 274.5,-968.65 377.5,-968.65 377.5,-992.65"/>
+<text text-anchor="middle" x="326" y="-978.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_omp_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge73" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_omp_backend</title>
+<path fill="none" stroke="#0058ff" stroke-dasharray="5,2" d="M475,-960.65C446.16,-961.54 414.43,-965.44 387.77,-969.56"/>
+<polygon fill="#0058ff" stroke="#0058ff" points="387.14,-966.11 377.81,-971.14 388.24,-973.02 387.14,-966.11"/>
+</g>
+<!-- module~m_omptgt_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_node17" class="node">
+<title>module~m_omptgt_allocator</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node17"><a xlink:href="../module/m_omptgt_allocator.html" xlink:title="m_omptgt_allocator">
+<polygon fill="#337ab7" stroke="#337ab7" points="231,-1139.65 112,-1139.65 112,-1115.65 231,-1115.65 231,-1139.65"/>
+<text text-anchor="middle" x="171.5" y="-1125.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omptgt_allocator</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_omptgt_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge74" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_omptgt_allocator</title>
+<path fill="none" stroke="#0016ff" stroke-dasharray="5,2" d="M325,-1138.65C297.79,-1142.03 267.71,-1140.89 241.51,-1138.33"/>
+<polygon fill="#0016ff" stroke="#0016ff" points="241.61,-1134.82 231.3,-1137.24 240.87,-1141.78 241.61,-1134.82"/>
+</g>
+<!-- module~m_omptgt_backend -->
+<g id="module~~m_allocator~~UsedByGraph_node18" class="node">
+<title>module~m_omptgt_backend</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node18"><a xlink:href="../module/m_omptgt_backend.html" xlink:title="m_omptgt_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="385,-950.65 267,-950.65 267,-926.65 385,-926.65 385,-950.65"/>
+<text text-anchor="middle" x="326" y="-936.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omptgt_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_backend_setup&#45;&gt;module~m_omptgt_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge75" class="edge">
+<title>module~m_backend_setup&#45;&gt;module~m_omptgt_backend</title>
+<path fill="none" stroke="#2c00ff" stroke-dasharray="5,2" d="M566.72,-955.38C539.8,-957.5 506.7,-959.73 477,-960.65"/>
+<path fill="none" stroke="#2c00ff" stroke-dasharray="5,2" d="M475,-960.65C445.99,-961.55 414.11,-957.47 387.4,-952.59"/>
+<polygon fill="#2c00ff" stroke="#2c00ff" points="387.9,-949.12 377.43,-950.69 386.59,-956 387.9,-949.12"/>
+</g>
+<!-- module~m_base_backend&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge4" class="edge">
+<title>module~m_base_backend&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M165.35,-697C145.46,-744.63 73.58,-916.81 48.06,-977.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="44.74,-976.81 44.12,-987.38 51.2,-979.5 44.74,-976.81"/>
+</g>
+<!-- module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_node6" class="node">
+<title>module~m_base_case</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node6"><a xlink:href="../module/m_base_case.html" xlink:title="m_base_case">
+<polygon fill="#337ab7" stroke="#337ab7" points="1549,-410.65 1465,-410.65 1465,-386.65 1549,-386.65 1549,-410.65"/>
+<text text-anchor="middle" x="1507" y="-396.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_base_case</text>
+</a>
+</g>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge5" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1382,-596.65C1336.66,-625.63 1347.46,-659.5 1301,-686.65 1297.53,-688.67 176.4,-937.71 172.5,-938.65"/>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge32" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1382,-596.65C1339.62,-622.46 1208.97,-612.63 1160,-620.65 1107,-629.32 977.7,-673.43 924,-672.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M922,-672.65C881.51,-668.95 873.77,-656.09 834,-647.65 716.75,-622.77 684.81,-631.73 567,-609.65 526.63,-602.08 517.5,-581.78 477,-588.65"/>
+</g>
+<!-- module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_node19" class="node">
+<title>module~m_solver</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node19"><a xlink:href="../module/m_solver.html" xlink:title="m_solver">
+<polygon fill="#337ab7" stroke="#337ab7" points="953.5,-530.65 892.5,-530.65 892.5,-506.65 953.5,-506.65 953.5,-530.65"/>
+<text text-anchor="middle" x="923" y="-516.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_solver</text>
+</a>
+</g>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge76" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1464.77,-390.06C1440.16,-386.98 1408.95,-386.74 1384,-398.65"/>
+</g>
+<!-- module~m_io_manager -->
+<g id="module~~m_allocator~~UsedByGraph_node32" class="node">
+<title>module~m_io_manager</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node32"><a xlink:href="../module/m_io_manager.html" xlink:title="m_io_manager">
+<polygon fill="#337ab7" stroke="#337ab7" points="1429,-370.65 1337,-370.65 1337,-346.65 1429,-346.65 1429,-370.65"/>
+<text text-anchor="middle" x="1383" y="-356.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_manager</text>
+</a>
+</g>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_io_manager -->
+<g id="module~~m_allocator~~UsedByGraph_edge105" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_io_manager</title>
+<path fill="none" stroke="#00ff9f" stroke-dasharray="5,2" d="M1469.4,-386.65C1457.2,-382.65 1443.45,-378.14 1430.61,-373.93"/>
+<polygon fill="#00ff9f" stroke="#00ff9f" points="1431.59,-370.57 1421,-370.78 1429.41,-377.22 1431.59,-370.57"/>
+</g>
+<!-- module~m_monitoring -->
+<g id="module~~m_allocator~~UsedByGraph_node35" class="node">
+<title>module~m_monitoring</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node35"><a xlink:href="../module/m_monitoring.html" xlink:title="m_monitoring">
+<polygon fill="#337ab7" stroke="#337ab7" points="1274,-532.65 1187,-532.65 1187,-508.65 1274,-508.65 1274,-532.65"/>
+<text text-anchor="middle" x="1230.5" y="-518.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_monitoring</text>
+</a>
+</g>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_monitoring -->
+<g id="module~~m_allocator~~UsedByGraph_edge116" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_monitoring</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1502.76,-410.74C1492.46,-446.56 1456.76,-552.33 1384,-596.65"/>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1382,-596.65C1359.03,-610.64 1291.49,-565.38 1255.2,-538.73"/>
+<polygon fill="#003fff" stroke="#003fff" points="1257.23,-535.87 1247.11,-532.71 1253.05,-541.49 1257.23,-535.87"/>
+</g>
+<!-- module~m_postprocess -->
+<g id="module~~m_allocator~~UsedByGraph_node36" class="node">
+<title>module~m_postprocess</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node36"><a xlink:href="../module/m_postprocess.html" xlink:title="m_postprocess">
+<polygon fill="#337ab7" stroke="#337ab7" points="1428.5,-492.65 1337.5,-492.65 1337.5,-468.65 1428.5,-468.65 1428.5,-492.65"/>
+<text text-anchor="middle" x="1383" y="-478.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_postprocess</text>
+</a>
+</g>
+</g>
+<!-- module~m_base_case&#45;&gt;module~m_postprocess -->
+<g id="module~~m_allocator~~UsedByGraph_edge117" class="edge">
+<title>module~m_base_case&#45;&gt;module~m_postprocess</title>
+<path fill="none" stroke="#1f00ff" stroke-dasharray="5,2" d="M1488,-410.75C1467.55,-424.49 1433.97,-447.06 1410.52,-462.82"/>
+<polygon fill="#1f00ff" stroke="#1f00ff" points="1408.42,-460.02 1402.08,-468.5 1412.33,-465.82 1408.42,-460.02"/>
+</g>
+<!-- module~m_case_abl -->
+<g id="module~~m_allocator~~UsedByGraph_node7" class="node">
+<title>module~m_case_abl</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node7"><a xlink:href="../module/m_case_abl.html" xlink:title="m_case_abl">
+<polygon fill="#337ab7" stroke="#337ab7" points="1686,-492.65 1611,-492.65 1611,-468.65 1686,-468.65 1686,-492.65"/>
+<text text-anchor="middle" x="1648.5" y="-478.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_abl</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_abl&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge6" class="edge">
+<title>module~m_case_abl&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1506,-900.65C1460.67,-930.39 1433.97,-879.59 1384,-900.65"/>
+</g>
+<!-- module~m_case_abl&#45;&gt;module~m_abl -->
+<g id="module~~m_allocator~~UsedByGraph_edge24" class="edge">
+<title>module~m_case_abl&#45;&gt;module~m_abl</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1645.54,-492.99C1635.02,-557.53 1582.81,-855.1 1508,-900.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1506,-900.65C1476.29,-918.74 1463.39,-891.86 1429,-886.65 1341.57,-873.4 1319.6,-870.18 1231.5,-862.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1229.5,-862.65C1158.87,-852.63 1139.75,-871.76 1069,-862.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1067,-862.65C1026.42,-857.42 1016.52,-854.36 976,-848.65 802.84,-824.23 595.3,-798.86 513.08,-788.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="513.35,-785.47 503,-787.75 512.52,-792.42 513.35,-785.47"/>
+</g>
+<!-- module~m_case_abl&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge33" class="edge">
+<title>module~m_case_abl&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1067,-862.65C936.86,-857.94 904.22,-862.65 774,-862.65 774,-862.65 774,-862.65 620.5,-862.65 553.01,-862.65 388.77,-811.82 327,-784.65"/>
+</g>
+<!-- module~m_case_abl&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge55" class="edge">
+<title>module~m_case_abl&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1610.91,-470.71C1602.17,-467.7 1593.05,-464.01 1585,-459.65 1563.88,-448.19 1542.68,-430.86 1527.89,-417.6"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1530.11,-414.89 1520.37,-410.71 1525.38,-420.05 1530.11,-414.89"/>
+</g>
+<!-- module~m_abl_diagnostics -->
+<g id="module~~m_allocator~~UsedByGraph_node25" class="node">
+<title>module~m_abl_diagnostics</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node25"><a xlink:href="../module/m_abl_diagnostics.html" xlink:title="m_abl_diagnostics">
+<polygon fill="#337ab7" stroke="#337ab7" points="531,-716.65 421,-716.65 421,-692.65 531,-692.65 531,-716.65"/>
+<text text-anchor="middle" x="476" y="-702.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_abl_diagnostics</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_abl&#45;&gt;module~m_abl_diagnostics -->
+<g id="module~~m_allocator~~UsedByGraph_edge95" class="edge">
+<title>module~m_case_abl&#45;&gt;module~m_abl_diagnostics</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1229.5,-862.65C1111.37,-844.21 1092.3,-800.35 976,-772.65 797.74,-730.19 748.15,-748.25 567,-720.65 558.66,-719.38 549.89,-717.94 541.25,-716.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="541.63,-712.98 531.18,-714.73 540.44,-719.88 541.63,-712.98"/>
+</g>
+<!-- module~m_case_channel -->
+<g id="module~~m_allocator~~UsedByGraph_node8" class="node">
+<title>module~m_case_channel</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node8"><a xlink:href="../module/m_case_channel.html" xlink:title="m_case_channel">
+<polygon fill="#337ab7" stroke="#337ab7" points="1699,-450.65 1598,-450.65 1598,-426.65 1699,-426.65 1699,-450.65"/>
+<text text-anchor="middle" x="1648.5" y="-436.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_channel</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_channel&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge7" class="edge">
+<title>module~m_case_channel&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1506,-815.65C1456.6,-859.54 1444.9,-874.98 1384,-900.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1382,-900.65C874.72,-1114.46 675.75,-1390.78 172.5,-1167.65"/>
+</g>
+<!-- module~m_case_channel&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge34" class="edge">
+<title>module~m_case_channel&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1229.5,-672.65C1165.19,-641.77 1140.21,-668.5 1069,-672.65"/>
+</g>
+<!-- module~m_case_channel&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge56" class="edge">
+<title>module~m_case_channel&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1605.65,-426.65C1591.03,-422.46 1574.46,-417.7 1559.17,-413.32"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1559.92,-409.89 1549.34,-410.5 1557.99,-416.62 1559.92,-409.89"/>
+</g>
+<!-- module~m_case_channel&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge77" class="edge">
+<title>module~m_case_channel&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1597.92,-449.51C1593.07,-452.18 1588.61,-455.51 1585,-459.65 1531.79,-520.64 1570.94,-764.76 1508,-815.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1506,-815.65C1399.03,-902.14 1361.34,-718.1 1231.5,-672.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1229.5,-672.65C1125.57,-629.99 1008.45,-566.3 954.36,-535.94"/>
+<polygon fill="#6e00ff" stroke="#6e00ff" points="955.75,-532.71 945.32,-530.85 952.31,-538.8 955.75,-532.71"/>
+</g>
+<!-- module~m_case_cylinder -->
+<g id="module~~m_allocator~~UsedByGraph_node9" class="node">
+<title>module~m_case_cylinder</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node9"><a xlink:href="../module/m_case_cylinder.html" xlink:title="m_case_cylinder">
+<polygon fill="#337ab7" stroke="#337ab7" points="1699,-100.65 1598,-100.65 1598,-76.65 1699,-76.65 1699,-100.65"/>
+<text text-anchor="middle" x="1648.5" y="-86.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_cylinder</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_cylinder&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge8" class="edge">
+<title>module~m_case_cylinder&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1610.41,-100.73C1572.68,-112.86 1518.34,-129.88 1508,-130.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1506,-130.65C1451.92,-134.64 1437.89,-136.64 1384,-130.65"/>
+</g>
+<!-- module~m_case_cylinder&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge35" class="edge">
+<title>module~m_case_cylinder&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1599.59,-100.77C1594.38,-103.22 1589.38,-106.15 1585,-109.65 1560.99,-128.81 1573.89,-150.65 1549,-168.65 1373.98,-295.21 1284.67,-232.83 1069,-244.65"/>
+</g>
+<!-- module~m_case_cylinder&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge57" class="edge">
+<title>module~m_case_cylinder&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1597.71,-99.33C1592.89,-102.03 1588.5,-105.41 1585,-109.65 1509.78,-200.54 1612.75,-273.37 1549,-372.65 1547.22,-375.41 1545.04,-377.94 1542.61,-380.24"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1540.43,-377.5 1534.75,-386.44 1544.77,-382.99 1540.43,-377.5"/>
+</g>
+<!-- module~m_case_cylinder&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge78" class="edge">
+<title>module~m_case_cylinder&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1597.93,-99.52C1593.07,-102.19 1588.62,-105.51 1585,-109.65 1508.76,-196.86 1604.35,-294.35 1508,-358.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1506,-358.65C1458.54,-390.32 1435.5,-374.07 1384,-398.65"/>
+</g>
+<!-- module~m_case_generic -->
+<g id="module~~m_allocator~~UsedByGraph_node10" class="node">
+<title>module~m_case_generic</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node10"><a xlink:href="../module/m_case_generic.html" xlink:title="m_case_generic">
+<polygon fill="#337ab7" stroke="#337ab7" points="1698,-370.65 1599,-370.65 1599,-346.65 1698,-346.65 1698,-370.65"/>
+<text text-anchor="middle" x="1648.5" y="-356.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_generic</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_generic&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge9" class="edge">
+<title>module~m_case_generic&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1640.63,-346.52C1614.34,-301.85 1515.03,-148.06 1384,-130.65"/>
+</g>
+<!-- module~m_case_generic&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge36" class="edge">
+<title>module~m_case_generic&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1633.58,-370.8C1620.56,-382.39 1600.82,-400.57 1585,-417.65 1510.06,-498.57 1524.12,-554.81 1429,-610.65 1420.25,-615.78 1079.13,-672.06 1069,-672.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1067,-672.65C1003.5,-675.28 987.43,-676.65 924,-672.65"/>
+</g>
+<!-- module~m_case_generic&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge58" class="edge">
+<title>module~m_case_generic&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1605.65,-370.65C1591.03,-374.84 1574.46,-379.59 1559.17,-383.97"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1557.99,-380.67 1549.34,-386.79 1559.92,-387.4 1557.99,-380.67"/>
+</g>
+<!-- module~m_case_generic&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge79" class="edge">
+<title>module~m_case_generic&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1602.34,-346.6C1573.06,-341.51 1535.4,-340.36 1508,-358.65"/>
+</g>
+<!-- module~m_case_tgv -->
+<g id="module~~m_allocator~~UsedByGraph_node11" class="node">
+<title>module~m_case_tgv</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node11"><a xlink:href="../module/m_case_tgv.html" xlink:title="m_case_tgv">
+<polygon fill="#337ab7" stroke="#337ab7" points="1686,-142.65 1611,-142.65 1611,-118.65 1686,-118.65 1686,-142.65"/>
+<text text-anchor="middle" x="1648.5" y="-128.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_tgv</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_tgv&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge10" class="edge">
+<title>module~m_case_tgv&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1610.73,-129.17C1582.57,-128.4 1542.78,-128.08 1508,-130.65"/>
+</g>
+<!-- module~m_case_tgv&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge37" class="edge">
+<title>module~m_case_tgv&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1642.36,-142.97C1630.47,-169.66 1598.3,-232.5 1549,-258.65 1366.78,-355.29 821.99,-262.21 622.5,-314.65"/>
+</g>
+<!-- module~m_case_tgv&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge59" class="edge">
+<title>module~m_case_tgv&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1645.29,-142.83C1637.87,-180.77 1610.81,-298.68 1549,-372.65 1546.59,-375.53 1543.77,-378.2 1540.76,-380.65"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1538.59,-377.89 1532.51,-386.57 1542.67,-383.58 1538.59,-377.89"/>
+</g>
+<!-- module~m_case_tgv&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge80" class="edge">
+<title>module~m_case_tgv&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1644.26,-143.13C1634.83,-177.44 1604.49,-274.54 1549,-334.65 1534.68,-350.16 1525.56,-346.93 1508,-358.65"/>
+</g>
+<!-- module~m_case_wind_turbine -->
+<g id="module~~m_allocator~~UsedByGraph_node12" class="node">
+<title>module~m_case_wind_turbine</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node12"><a xlink:href="../module/m_case_wind_turbine.html" xlink:title="m_case_wind_turbine">
+<polygon fill="#337ab7" stroke="#337ab7" points="1712,-58.65 1585,-58.65 1585,-34.65 1712,-34.65 1712,-58.65"/>
+<text text-anchor="middle" x="1648.5" y="-44.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_case_wind_turbine</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge11" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1608.78,-58.68C1580.66,-67.6 1541.77,-80.3 1508,-92.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1506,-92.65C1452.66,-112.15 1440.44,-136.93 1384,-130.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1382,-130.65C980.61,-86 859.48,81.04 477,-48.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M475,-48.65C450.43,-56.88 442.9,-56.8 421,-70.65 373.14,-100.91 376.89,-129.87 327,-156.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M325,-156.65C301.63,-169.19 289.75,-157.02 267,-170.65 212.86,-203.08 216.26,-231.16 172.5,-276.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M170.5,-276.65C70.33,-380.76 44.48,-866.55 39.85,-977.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="36.34,-977.35 39.43,-987.49 43.33,-977.63 36.34,-977.35"/>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_adm -->
+<g id="module~~m_allocator~~UsedByGraph_edge25" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_adm</title>
+<path fill="none" stroke="#ff4200" stroke-dasharray="5,2" d="M1598.26,-58.78C1593.46,-61.22 1588.93,-64.14 1585,-67.65 1556.82,-92.81 1578.62,-121.2 1549,-144.65 1532.23,-157.92 1292.73,-203.27 1231.5,-206.65"/>
+<path fill="none" stroke="#ff4200" stroke-dasharray="5,2" d="M1229.5,-206.65C1187.13,-212.32 1137.91,-210.48 1105.26,-208.09"/>
+<polygon fill="#ff4200" stroke="#ff4200" points="1105.52,-204.6 1095.27,-207.3 1104.97,-211.58 1105.52,-204.6"/>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge38" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1229.5,-206.65C1156.84,-216.38 1142.2,-240.75 1069,-244.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M1067,-244.65C867.29,-255.29 814.62,-259.08 622.5,-314.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M620.5,-314.65C555.94,-329.35 543.05,-350.13 477,-354.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M475,-354.65C409.38,-359.14 374.34,-308.98 327,-354.65"/>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge60" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1595.27,-58.68C1591.4,-61.14 1587.89,-64.09 1585,-67.65 1498.95,-173.61 1621.69,-257.11 1549,-372.65 1547.25,-375.43 1545.08,-377.97 1542.66,-380.27"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1540.48,-377.53 1534.82,-386.49 1544.83,-383.02 1540.48,-377.53"/>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge81" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1597.3,-58.74C1592.8,-61.18 1588.59,-64.12 1585,-67.65 1551,-101.04 1568.86,-125.33 1549,-168.65 1504.05,-266.72 1509.64,-307.98 1429,-379.65 1412.77,-394.07 1403.59,-389.3 1384,-398.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1382,-398.65C1341.49,-419.6 1341.79,-441.24 1301,-461.65 1272.36,-475.98 1261.85,-470.44 1231.5,-480.65"/>
+</g>
+<!-- module~m_turbine_dummy -->
+<g id="module~~m_allocator~~UsedByGraph_node21" class="node">
+<title>module~m_turbine_dummy</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node21"><a xlink:href="../module/m_turbine_dummy.html" xlink:title="m_turbine_dummy">
+<polygon fill="#337ab7" stroke="#337ab7" points="1124,-136.65 1012,-136.65 1012,-112.65 1124,-112.65 1124,-136.65"/>
+<text text-anchor="middle" x="1068" y="-122.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_turbine_dummy</text>
+</a>
+</g>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_turbine_dummy -->
+<g id="module~~m_allocator~~UsedByGraph_edge90" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_turbine_dummy</title>
+<path fill="none" stroke="#f300ff" stroke-dasharray="5,2" d="M1506,-92.65C1467.54,-107.68 1467.83,-130.59 1429,-144.65 1346.05,-174.69 1319.48,-171.2 1231.5,-164.65"/>
+<path fill="none" stroke="#f300ff" stroke-dasharray="5,2" d="M1229.5,-164.65C1187.88,-163.33 1141.92,-150.67 1109.88,-139.94"/>
+<polygon fill="#f300ff" stroke="#f300ff" points="1111,-136.62 1100.41,-136.69 1108.73,-143.25 1111,-136.62"/>
+</g>
+<!-- module~m_case_wind_turbine&#45;&gt;module~m_turbine_model -->
+<g id="module~~m_allocator~~UsedByGraph_edge92" class="edge">
+<title>module~m_case_wind_turbine&#45;&gt;module~m_turbine_model</title>
+<path fill="none" stroke="#ff00c7" stroke-dasharray="5,2" d="M1229.5,-164.65C1145.44,-161.98 1048.3,-162.61 986.53,-163.49"/>
+<polygon fill="#ff00c7" stroke="#ff00c7" points="986.13,-159.99 976.18,-163.64 986.23,-166.99 986.13,-159.99"/>
+</g>
+<!-- module~m_cuda_allocator&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge12" class="edge">
+<title>module~m_cuda_allocator&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M150.24,-1065.63C128.3,-1052.61 93.09,-1031.73 68.17,-1016.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="69.88,-1013.9 59.5,-1011.81 66.31,-1019.92 69.88,-1013.9"/>
+</g>
+<!-- module~m_cuda_backend&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge13" class="edge">
+<title>module~m_cuda_backend&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422.84,-1018.38C394.45,-1017.72 358.73,-1017.81 327,-1020.65"/>
+</g>
+<!-- module~m_cuda_backend&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge39" class="edge">
+<title>module~m_cuda_backend&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M458.25,-1008.52C446.96,-999.85 432.13,-987.49 421,-974.65 401.37,-952.01 403.66,-941.09 385,-917.65 338.62,-859.37 317.04,-853.82 267,-798.65 238.21,-766.9 206.84,-728.16 188.46,-705"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="191.03,-702.6 182.09,-696.93 185.54,-706.94 191.03,-702.6"/>
+</g>
+<!-- module~m_cuda_backend&#45;&gt;module~m_cuda_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge69" class="edge">
+<title>module~m_cuda_backend&#45;&gt;module~m_cuda_allocator</title>
+<path fill="none" stroke="#00ffdd" stroke-dasharray="5,2" d="M462.6,-1032.7C446.34,-1047.58 416.22,-1072.06 385,-1081.65 336.34,-1096.58 278.42,-1094.26 235.35,-1088.94"/>
+<polygon fill="#00ffdd" stroke="#00ffdd" points="235.66,-1085.46 225.29,-1087.61 234.75,-1092.39 235.66,-1085.46"/>
+</g>
+<!-- module~m_cuda_poisson_fft -->
+<g id="module~~m_allocator~~UsedByGraph_node27" class="node">
+<title>module~m_cuda_poisson_fft</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node27"><a xlink:href="../module/m_cuda_poisson_fft.html" xlink:title="m_cuda_poisson_fft">
+<polygon fill="#337ab7" stroke="#337ab7" points="384.5,-1072.65 267.5,-1072.65 267.5,-1048.65 384.5,-1048.65 384.5,-1072.65"/>
+<text text-anchor="middle" x="326" y="-1058.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft</text>
+</a>
+</g>
+</g>
+<!-- module~m_cuda_backend&#45;&gt;module~m_cuda_poisson_fft -->
+<g id="module~~m_allocator~~UsedByGraph_edge97" class="edge">
+<title>module~m_cuda_backend&#45;&gt;module~m_cuda_poisson_fft</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M430.6,-1032.65C415.15,-1036.82 397.65,-1041.55 381.49,-1045.92"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="380.37,-1042.6 371.63,-1048.59 382.2,-1049.36 380.37,-1042.6"/>
+</g>
+<!-- module~m_ibm -->
+<g id="module~~m_allocator~~UsedByGraph_node15" class="node">
+<title>module~m_ibm</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node15"><a xlink:href="../module/m_ibm.html" xlink:title="m_ibm">
+<polygon fill="#337ab7" stroke="#337ab7" points="800,-560.65 746,-560.65 746,-536.65 800,-536.65 800,-560.65"/>
+<text text-anchor="middle" x="773" y="-546.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_ibm</text>
+</a>
+</g>
+</g>
+<!-- module~m_ibm&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge14" class="edge">
+<title>module~m_ibm&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M745.73,-541.91C702.44,-529.5 616.07,-499 567,-442.65 535.43,-406.39 567.88,-371.49 531,-340.65 439.81,-264.38 383.74,-320.11 267,-297.65 224.75,-289.52 202.74,-246.04 172.5,-276.65"/>
+</g>
+<!-- module~m_ibm&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge40" class="edge">
+<title>module~m_ibm&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M745.77,-547.56C715.89,-546.58 665.61,-545.69 622.5,-548.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M620.5,-548.65C554.45,-553.18 542.28,-577.58 477,-588.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M475,-588.65C449.11,-593.04 444.51,-600.95 421,-612.65 378.26,-633.92 373.9,-655.7 327,-664.65"/>
+</g>
+<!-- module~m_ibm&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge109" class="edge">
+<title>module~m_ibm&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M762.65,-536.51C737.64,-504.05 669,-414.99 638.03,-374.79"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="640.72,-372.56 631.85,-366.78 635.18,-376.84 640.72,-372.56"/>
+</g>
+<!-- module~m_omp_backend&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge15" class="edge">
+<title>module~m_omp_backend&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M288.41,-968.57C247,-955.23 183.82,-935.94 172.5,-938.65"/>
+</g>
+<!-- module~m_omp_backend&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge46" class="edge">
+<title>module~m_omp_backend&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M278.92,-968.53C274.54,-966.09 270.45,-963.16 267,-959.65 195.59,-887.06 178.04,-758.14 173.81,-706.72"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="177.3,-706.42 173.08,-696.7 170.32,-706.93 177.3,-706.42"/>
+</g>
+<!-- module~m_omptgt_allocator&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge16" class="edge">
+<title>module~m_omptgt_allocator&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M139.38,-1115.59C130.01,-1111.1 120.08,-1105.42 112,-1098.65 85.35,-1076.3 63.06,-1042.31 50.37,-1020.54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="53.36,-1018.72 45.38,-1011.75 47.27,-1022.18 53.36,-1018.72"/>
+</g>
+<!-- module~m_omptgt_backend&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge17" class="edge">
+<title>module~m_omptgt_backend&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.68,-932.32C237.95,-930.8 203.01,-931.34 172.5,-938.65"/>
+</g>
+<!-- module~m_omptgt_backend&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge47" class="edge">
+<title>module~m_omptgt_backend&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M311.88,-926.29C299.32,-914.01 280.36,-894.22 267,-874.65 228.25,-817.87 195.79,-742.93 181.03,-706.46"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="184.15,-704.83 177.19,-696.84 177.65,-707.42 184.15,-704.83"/>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge18" class="edge">
+<title>module~m_solver&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M772,-708.65C674.47,-770.45 643.34,-779 531,-805.65 442.48,-826.65 409.08,-783.4 327,-822.65"/>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge48" class="edge">
+<title>module~m_solver&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M904.87,-530.84C878.36,-548.72 825.13,-580.78 774,-588.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M772,-588.65C704.02,-599.11 691.12,-543.94 622.5,-548.65"/>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_ibm -->
+<g id="module~~m_allocator~~UsedByGraph_edge72" class="edge">
+<title>module~m_solver&#45;&gt;module~m_ibm</title>
+<path fill="none" stroke="#009bff" stroke-dasharray="5,2" d="M892.41,-524.65C868.68,-529.46 835.29,-536.22 810.02,-541.35"/>
+<polygon fill="#009bff" stroke="#009bff" points="809.18,-537.94 800.08,-543.36 810.57,-544.81 809.18,-537.94"/>
+</g>
+<!-- module~m_time_integrator -->
+<g id="module~~m_allocator~~UsedByGraph_node20" class="node">
+<title>module~m_time_integrator</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node20"><a xlink:href="../module/m_time_integrator.html" xlink:title="m_time_integrator">
+<polygon fill="#337ab7" stroke="#337ab7" points="381.5,-288.65 270.5,-288.65 270.5,-264.65 381.5,-264.65 381.5,-288.65"/>
+<text text-anchor="middle" x="326" y="-274.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_time_integrator</text>
+</a>
+</g>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_time_integrator -->
+<g id="module~~m_allocator~~UsedByGraph_edge89" class="edge">
+<title>module~m_solver&#45;&gt;module~m_time_integrator</title>
+<path fill="none" stroke="#b100ff" stroke-dasharray="5,2" d="M892.36,-511.11C811.43,-490.32 591.1,-432.11 567,-408.65 531.35,-373.94 569.53,-334.13 531,-302.65 492.53,-271.21 435.6,-266.27 391.65,-268.31"/>
+<polygon fill="#b100ff" stroke="#b100ff" points="391.41,-264.81 381.63,-268.9 391.82,-271.8 391.41,-264.81"/>
+</g>
+<!-- module~m_vector_calculus -->
+<g id="module~~m_allocator~~UsedByGraph_node23" class="node">
+<title>module~m_vector_calculus</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node23"><a xlink:href="../module/m_vector_calculus.html" xlink:title="m_vector_calculus">
+<polygon fill="#337ab7" stroke="#337ab7" points="381.5,-246.65 270.5,-246.65 270.5,-222.65 381.5,-222.65 381.5,-246.65"/>
+<text text-anchor="middle" x="326" y="-232.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_vector_calculus</text>
+</a>
+</g>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_vector_calculus -->
+<g id="module~~m_allocator~~UsedByGraph_edge94" class="edge">
+<title>module~m_solver&#45;&gt;module~m_vector_calculus</title>
+<path fill="none" stroke="#ff0085" stroke-dasharray="5,2" d="M907.25,-506.59C890.41,-493.31 861.61,-472.07 834,-458.65 767.76,-426.45 746.36,-430.43 676,-408.65 627.65,-393.68 603.09,-411.13 567,-375.65 529.71,-338.99 570.97,-297.35 531,-263.65 492.94,-231.56 435.98,-225.79 391.91,-227.2"/>
+<polygon fill="#ff0085" stroke="#ff0085" points="391.69,-223.71 381.86,-227.66 392.01,-230.7 391.69,-223.71"/>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_les -->
+<g id="module~~m_allocator~~UsedByGraph_edge115" class="edge">
+<title>module~m_solver&#45;&gt;module~m_les</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M919.14,-531.05C911.27,-562.4 886.3,-645.5 834,-689.65 812.63,-707.69 797.67,-693.75 774,-708.65"/>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M772,-708.65C680.86,-766 638.54,-689.21 531,-683.65 482.18,-681.12 469.59,-678.29 421,-683.65 401.55,-685.79 380.24,-690.37 362.83,-694.7"/>
+<polygon fill="#009fff" stroke="#009fff" points="361.89,-691.33 353.08,-697.2 363.63,-698.11 361.89,-691.33"/>
+</g>
+<!-- module~m_tdsops_setup -->
+<g id="module~~m_allocator~~UsedByGraph_node39" class="node">
+<title>module~m_tdsops_setup</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node39"><a xlink:href="../module/m_tdsops_setup.html" xlink:title="m_tdsops_setup">
+<polygon fill="#337ab7" stroke="#337ab7" points="670,-600.65 573,-600.65 573,-576.65 670,-576.65 670,-600.65"/>
+<text text-anchor="middle" x="621.5" y="-586.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_tdsops_setup</text>
+</a>
+</g>
+</g>
+<!-- module~m_solver&#45;&gt;module~m_tdsops_setup -->
+<g id="module~~m_allocator~~UsedByGraph_edge121" class="edge">
+<title>module~m_solver&#45;&gt;module~m_tdsops_setup</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M772,-588.65C742.09,-593.25 708.41,-593.66 680.6,-592.74"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="680.38,-589.23 670.25,-592.33 680.1,-596.22 680.38,-589.23"/>
+</g>
+<!-- module~m_time_integrator&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge19" class="edge">
+<title>module~m_time_integrator&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M291.57,-264.58C256.69,-254.39 202.92,-245.85 172.5,-276.65"/>
+</g>
+<!-- module~m_time_integrator&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge50" class="edge">
+<title>module~m_time_integrator&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M310.77,-288.7C297.58,-300.62 278.33,-320.01 267,-340.65 205.79,-452.11 181.98,-606.05 174.95,-662.64"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="171.47,-662.27 173.76,-672.62 178.42,-663.1 171.47,-662.27"/>
+</g>
+<!-- module~m_turbine_dummy&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge20" class="edge">
+<title>module~m_turbine_dummy&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1033.74,-112.56C960.08,-87.19 777.41,-32.07 622.5,-48.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M620.5,-48.65C557,-54.6 537.4,-28.17 477,-48.65"/>
+</g>
+<!-- module~m_turbine_dummy&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge51" class="edge">
+<title>module~m_turbine_dummy&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M620.5,-48.65C521.33,-55.1 508.29,-102.14 421,-149.65 404.73,-158.5 401.77,-162.78 385,-170.65 334.47,-194.36 303.37,-171.31 267,-213.65 207.51,-282.9 180.66,-578.19 174.13,-662.24"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="170.62,-662.22 173.36,-672.45 177.6,-662.74 170.62,-662.22"/>
+</g>
+<!-- module~m_turbine_dummy&#45;&gt;module~m_turbine_model -->
+<g id="module~~m_allocator~~UsedByGraph_edge93" class="edge">
+<title>module~m_turbine_dummy&#45;&gt;module~m_turbine_model</title>
+<path fill="none" stroke="#ff00c7" stroke-dasharray="5,2" d="M1024.1,-136.65C1009.38,-140.76 992.74,-145.42 977.3,-149.74"/>
+<polygon fill="#ff00c7" stroke="#ff00c7" points="976.06,-146.45 967.37,-152.52 977.94,-153.19 976.06,-146.45"/>
+</g>
+<!-- module~m_turbine_dummy&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge112" class="edge">
+<title>module~m_turbine_dummy&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1011.58,-124.39C971.5,-125.54 916.46,-129.91 870,-143.65 794.13,-166.08 763.82,-165.86 712,-225.65 680.24,-262.29 708.24,-292.43 676,-328.65 673.14,-331.86 669.8,-334.71 666.2,-337.24"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="664.19,-334.37 657.47,-342.56 667.83,-340.35 664.19,-334.37"/>
+</g>
+<!-- module~m_turbine_model&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge21" class="edge">
+<title>module~m_turbine_model&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M869.67,-155.34C785.15,-142.32 614.23,-124.41 477,-163.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M475,-163.65C413.14,-186.23 385.02,-125.51 327,-156.65"/>
+</g>
+<!-- module~m_turbine_model&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge52" class="edge">
+<title>module~m_turbine_model&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M475,-163.65C449.57,-170.92 438.6,-168.91 421,-188.65 387.05,-226.73 411.95,-254.33 385,-297.65 365.91,-328.34 352.17,-328.71 327,-354.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M325,-354.65C234.35,-448.03 190.79,-605.09 177.28,-662.65"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="173.84,-661.97 175.03,-672.5 180.67,-663.52 173.84,-661.97"/>
+</g>
+<!-- module~m_checkpoint_state -->
+<g id="module~~m_allocator~~UsedByGraph_node41" class="node">
+<title>module~m_checkpoint_state</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node41"><a xlink:href="../module/m_checkpoint_state.html" xlink:title="m_checkpoint_state">
+<polygon fill="#337ab7" stroke="#337ab7" points="832,-366.65 714,-366.65 714,-342.65 832,-342.65 832,-366.65"/>
+<text text-anchor="middle" x="773" y="-352.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_checkpoint_state</text>
+</a>
+</g>
+</g>
+<!-- module~m_turbine_model&#45;&gt;module~m_checkpoint_state -->
+<g id="module~~m_allocator~~UsedByGraph_edge125" class="edge">
+<title>module~m_turbine_model&#45;&gt;module~m_checkpoint_state</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M891.79,-176.73C884.12,-180.72 876.27,-185.7 870,-191.65 826.15,-233.22 795.75,-299.22 782.11,-333.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="778.81,-331.89 778.42,-342.48 785.33,-334.45 778.81,-331.89"/>
+</g>
+<!-- module~m_vector_calculus&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge22" class="edge">
+<title>module~m_vector_calculus&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M270.25,-236.51C237.72,-240.5 197.97,-250.86 172.5,-276.65"/>
+</g>
+<!-- module~m_vector_calculus&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge53" class="edge">
+<title>module~m_vector_calculus&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M277.94,-246.71C273.86,-249.16 270.11,-252.11 267,-255.65 212.47,-317.8 182.52,-582.44 174.63,-661.96"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="171.11,-662.01 173.63,-672.3 178.08,-662.69 171.11,-662.01"/>
+</g>
+<!-- program~x3d2_poisson_solver -->
+<g id="module~~m_allocator~~UsedByGraph_node24" class="node">
+<title>program~x3d2_poisson_solver</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node24"><a xlink:href="../program/x3d2_poisson_solver.html" xlink:title="x3d2_poisson_solver">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="834,-680.65 712,-680.65 712,-656.65 834,-656.65 834,-680.65"/>
+<text text-anchor="middle" x="773" y="-666.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">x3d2_poisson_solver</text>
+</a>
+</g>
+</g>
+<!-- program~x3d2_poisson_solver&#45;&gt;module~m_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge23" class="edge">
+<title>program~x3d2_poisson_solver&#45;&gt;module~m_allocator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M620.5,-666.65C572.86,-666.33 573.74,-704.59 531,-725.65 484.6,-748.5 465.04,-736.53 421,-763.65 402,-775.35 403.64,-786.38 385,-798.65 361.69,-813.98 352.17,-810.61 327,-822.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M325,-822.65C248.18,-859.39 255.32,-918.82 172.5,-938.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M170.5,-938.65C133.01,-947.62 93.3,-967.7 67.45,-982.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="65.49,-979.47 58.59,-987.51 68.99,-985.53 65.49,-979.47"/>
+</g>
+<!-- program~x3d2_poisson_solver&#45;&gt;module~m_backend_setup -->
+<g id="module~~m_allocator~~UsedByGraph_edge26" class="edge">
+<title>program~x3d2_poisson_solver&#45;&gt;module~m_backend_setup</title>
+<path fill="none" stroke="#ff8500" stroke-dasharray="5,2" d="M731.58,-680.66C724.35,-684.25 717.41,-688.83 712,-694.65 648.2,-763.26 629.51,-879.89 624.35,-928.43"/>
+<polygon fill="#ff8500" stroke="#ff8500" points="620.85,-928.19 623.37,-938.48 627.82,-928.86 620.85,-928.19"/>
+</g>
+<!-- program~x3d2_poisson_solver&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge54" class="edge">
+<title>program~x3d2_poisson_solver&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M711.99,-667.66C684.68,-667.26 651.96,-666.84 622.5,-666.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M620.5,-666.65C547.91,-666.17 548.57,-576.52 477,-588.65"/>
+</g>
+<!-- program~x3d2_poisson_solver&#45;&gt;module~m_tdsops_setup -->
+<g id="module~~m_allocator~~UsedByGraph_edge122" class="edge">
+<title>program~x3d2_poisson_solver&#45;&gt;module~m_tdsops_setup</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M749.29,-656.5C723.9,-642.91 682.6,-620.81 654.07,-605.54"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="655.4,-602.28 644.93,-600.65 652.1,-608.45 655.4,-602.28"/>
+</g>
+<!-- module~m_abl_diagnostics&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge29" class="edge">
+<title>module~m_abl_diagnostics&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M443.32,-692.59C406.86,-679.33 349.16,-660.42 327,-664.65"/>
+</g>
+<!-- module~m_abl_diagnostics&#45;&gt;module~m_les -->
+<g id="module~~m_allocator~~UsedByGraph_edge114" class="edge">
+<title>module~m_abl_diagnostics&#45;&gt;module~m_les</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M420.73,-704.65C401.6,-704.65 380.57,-704.65 363.29,-704.65"/>
+<polygon fill="#009fff" stroke="#009fff" points="363.07,-701.15 353.07,-704.65 363.07,-708.15 363.07,-701.15"/>
+</g>
+<!-- module~m_checkpoint_manager -->
+<g id="module~~m_allocator~~UsedByGraph_node26" class="node">
+<title>module~m_checkpoint_manager</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node26"><a xlink:href="../module/m_checkpoint_manager.html" xlink:title="m_checkpoint_manager">
+<polygon fill="#337ab7" stroke="#337ab7" points="1301,-372.65 1160,-372.65 1160,-348.65 1301,-348.65 1301,-372.65"/>
+<text text-anchor="middle" x="1230.5" y="-358.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_checkpoint_manager</text>
+</a>
+</g>
+</g>
+<!-- module~m_checkpoint_manager&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge82" class="edge">
+<title>module~m_checkpoint_manager&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1210.96,-372.86C1195.68,-383.68 1174.27,-400.67 1160,-419.65 1136.56,-450.81 1152.79,-473.35 1124,-499.65 1104.91,-517.09 1094.36,-513.56 1069,-518.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1067,-518.65C1032.64,-525.55 992.69,-524.84 963.77,-522.81"/>
+<polygon fill="#6e00ff" stroke="#6e00ff" points="963.88,-519.31 953.64,-522.02 963.34,-526.29 963.88,-519.31"/>
+</g>
+<!-- module~m_io_field_utils -->
+<g id="module~~m_allocator~~UsedByGraph_node31" class="node">
+<title>module~m_io_field_utils</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node31"><a xlink:href="../module/m_io_field_utils.html" xlink:title="m_io_field_utils">
+<polygon fill="#337ab7" stroke="#337ab7" points="1115,-490.65 1021,-490.65 1021,-466.65 1115,-466.65 1115,-490.65"/>
+<text text-anchor="middle" x="1068" y="-476.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_field_utils</text>
+</a>
+</g>
+</g>
+<!-- module~m_checkpoint_manager&#45;&gt;module~m_io_field_utils -->
+<g id="module~~m_allocator~~UsedByGraph_edge103" class="edge">
+<title>module~m_checkpoint_manager&#45;&gt;module~m_io_field_utils</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M1212.93,-372.83C1184.7,-393.59 1127.12,-435.92 1093.98,-460.28"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="1091.71,-457.61 1085.72,-466.35 1095.85,-463.25 1091.71,-457.61"/>
+</g>
+<!-- module~m_checkpoint_manager&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge107" class="edge">
+<title>module~m_checkpoint_manager&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M922,-394.65C856.23,-395.46 838.51,-407.52 774,-394.65"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M772,-394.65C738.18,-387.9 700.69,-377.86 671.71,-369.53"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="672.41,-366.09 661.83,-366.66 670.46,-372.81 672.41,-366.09"/>
+</g>
+<!-- module~m_stats -->
+<g id="module~~m_allocator~~UsedByGraph_node38" class="node">
+<title>module~m_stats</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node38"><a xlink:href="../module/m_stats.html" xlink:title="m_stats">
+<polygon fill="#337ab7" stroke="#337ab7" points="1095,-410.65 1041,-410.65 1041,-386.65 1095,-386.65 1095,-410.65"/>
+<text text-anchor="middle" x="1068" y="-396.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_stats</text>
+</a>
+</g>
+</g>
+<!-- module~m_checkpoint_manager&#45;&gt;module~m_stats -->
+<g id="module~~m_allocator~~UsedByGraph_edge119" class="edge">
+<title>module~m_checkpoint_manager&#45;&gt;module~m_stats</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M1178.72,-372.67C1154.77,-378.34 1126.77,-384.97 1105.04,-390.11"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="1104.16,-386.73 1095.23,-392.44 1105.77,-393.54 1104.16,-386.73"/>
+</g>
+<!-- module~m_checkpoint_manager&#45;&gt;module~m_checkpoint_state -->
+<g id="module~~m_allocator~~UsedByGraph_edge123" class="edge">
+<title>module~m_checkpoint_manager&#45;&gt;module~m_checkpoint_state</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.74,-364.09C1116.97,-366.7 1061.17,-371 1012,-377.65 972.53,-382.99 963.77,-392.44 924,-394.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M922,-394.65C882.91,-395.13 839.95,-381.89 810.43,-370.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="811.55,-367.19 800.96,-366.75 808.96,-373.7 811.55,-367.19"/>
+</g>
+<!-- module~m_cuda_poisson_fft&#45;&gt;module~m_cuda_allocator -->
+<g id="module~~m_allocator~~UsedByGraph_edge70" class="edge">
+<title>module~m_cuda_poisson_fft&#45;&gt;module~m_cuda_allocator</title>
+<path fill="none" stroke="#00ffdd" stroke-dasharray="5,2" d="M267.35,-1067.07C256.86,-1068.24 245.88,-1069.47 235.26,-1070.65"/>
+<polygon fill="#00ffdd" stroke="#00ffdd" points="234.77,-1067.18 225.22,-1071.77 235.54,-1074.14 234.77,-1067.18"/>
+</g>
+<!-- module~m_io_backend -->
+<g id="module~~m_allocator~~UsedByGraph_node28" class="node">
+<title>module~m_io_backend</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node28"><a xlink:href="../module/m_io_backend.html" xlink:title="m_io_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="520.5,-406.65 431.5,-406.65 431.5,-382.65 520.5,-382.65 520.5,-406.65"/>
+<text text-anchor="middle" x="476" y="-392.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_io_backend&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge41" class="edge">
+<title>module~m_io_backend&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M450.21,-382.62C412.68,-365.27 344.01,-337.12 327,-354.65"/>
+</g>
+<!-- module~m_io_base -->
+<g id="module~~m_allocator~~UsedByGraph_node30" class="node">
+<title>module~m_io_base</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node30"><a xlink:href="../module/m_io_base.html" xlink:title="m_io_base">
+<polygon fill="#337ab7" stroke="#337ab7" points="360.5,-540.65 291.5,-540.65 291.5,-516.65 360.5,-516.65 360.5,-540.65"/>
+<text text-anchor="middle" x="326" y="-526.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_base</text>
+</a>
+</g>
+</g>
+<!-- module~m_io_backend&#45;&gt;module~m_io_base -->
+<g id="module~~m_allocator~~UsedByGraph_edge99" class="edge">
+<title>module~m_io_backend&#45;&gt;module~m_io_base</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M461.6,-406.78C435.74,-430.19 378.75,-481.79 347.87,-509.75"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="345.32,-507.34 340.26,-516.64 350.02,-512.53 345.32,-507.34"/>
+</g>
+<!-- module~m_io_backend~2 -->
+<g id="module~~m_allocator~~UsedByGraph_node29" class="node">
+<title>module~m_io_backend~2</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node29"><a xlink:href="../module/m_io_backend~2.html" xlink:title="m_io_backend">
+<polygon fill="#337ab7" stroke="#337ab7" points="520.5,-560.65 431.5,-560.65 431.5,-536.65 520.5,-536.65 520.5,-560.65"/>
+<text text-anchor="middle" x="476" y="-546.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_io_backend</text>
+</a>
+</g>
+</g>
+<!-- module~m_io_backend~2&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge42" class="edge">
+<title>module~m_io_backend~2&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M445.76,-560.67C437.46,-564.62 428.61,-569.37 421,-574.65 373.47,-607.6 383.82,-653.81 327,-664.65"/>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M325,-664.65C295.33,-670.3 262.11,-674.87 234.27,-678.2"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="233.79,-674.73 224.27,-679.37 234.61,-681.68 233.79,-674.73"/>
+</g>
+<!-- module~m_io_backend~2&#45;&gt;module~m_io_base -->
+<g id="module~~m_allocator~~UsedByGraph_edge100" class="edge">
+<title>module~m_io_backend~2&#45;&gt;module~m_io_base</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M431.4,-542.75C412.31,-540.18 389.97,-537.16 370.86,-534.57"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="371.29,-531.1 360.91,-533.23 370.35,-538.04 371.29,-531.1"/>
+</g>
+<!-- module~m_io_base&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge43" class="edge">
+<title>module~m_io_base&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M313.03,-540.89C286.64,-567.89 223.26,-632.72 191.42,-665.29"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="188.9,-662.87 184.41,-672.46 193.9,-667.76 188.9,-662.87"/>
+</g>
+<!-- module~m_io_field_utils&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge83" class="edge">
+<title>module~m_io_field_utils&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1024.1,-490.65C1004.85,-496.03 982.29,-502.34 963.47,-507.61"/>
+<polygon fill="#6e00ff" stroke="#6e00ff" points="962.41,-504.27 953.72,-510.33 964.3,-511.01 962.41,-504.27"/>
+</g>
+<!-- module~m_io_field_utils&#45;&gt;module~m_io_base -->
+<g id="module~~m_allocator~~UsedByGraph_edge101" class="edge">
+<title>module~m_io_field_utils&#45;&gt;module~m_io_base</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M1020.81,-473.16C919.46,-462.78 671.15,-446.53 477,-508.65"/>
+</g>
+<!-- module~m_io_manager&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge84" class="edge">
+<title>module~m_io_manager&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1354.82,-370.8C1348.41,-374.57 1342,-379.19 1337,-384.65 1311.47,-412.49 1329.89,-437.31 1301,-461.65 1276.51,-482.28 1261.85,-470.44 1231.5,-480.65"/>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1229.5,-480.65C1194.76,-492.34 1104.94,-511.43 1069,-518.65"/>
+</g>
+<!-- module~m_io_manager&#45;&gt;module~m_checkpoint_manager -->
+<g id="module~~m_allocator~~UsedByGraph_edge96" class="edge">
+<title>module~m_io_manager&#45;&gt;module~m_checkpoint_manager</title>
+<path fill="none" stroke="#ff5f00" stroke-dasharray="5,2" d="M1336.85,-359.25C1328.75,-359.35 1320.11,-359.47 1311.38,-359.59"/>
+<polygon fill="#ff5f00" stroke="#ff5f00" points="1311.08,-356.09 1301.12,-359.72 1311.17,-363.09 1311.08,-356.09"/>
+</g>
+<!-- module~m_snapshot_manager -->
+<g id="module~~m_allocator~~UsedByGraph_node37" class="node">
+<title>module~m_snapshot_manager</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node37"><a xlink:href="../module/m_snapshot_manager.html" xlink:title="m_snapshot_manager">
+<polygon fill="#337ab7" stroke="#337ab7" points="1295.5,-452.65 1165.5,-452.65 1165.5,-428.65 1295.5,-428.65 1295.5,-452.65"/>
+<text text-anchor="middle" x="1230.5" y="-438.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_snapshot_manager</text>
+</a>
+</g>
+</g>
+<!-- module~m_io_manager&#45;&gt;module~m_snapshot_manager -->
+<g id="module~~m_allocator~~UsedByGraph_edge118" class="edge">
+<title>module~m_io_manager&#45;&gt;module~m_snapshot_manager</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1359.1,-370.87C1351.87,-375 1343.96,-379.79 1337,-384.65 1319.92,-396.57 1319.01,-404.18 1301,-414.65 1294.57,-418.38 1287.5,-421.76 1280.41,-424.74"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1278.79,-421.62 1270.79,-428.57 1281.38,-428.13 1278.79,-421.62"/>
+</g>
+<!-- module~m_io_manager&#45;&gt;module~m_stats -->
+<g id="module~~m_allocator~~UsedByGraph_edge120" class="edge">
+<title>module~m_io_manager&#45;&gt;module~m_stats</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M1345.67,-370.67C1331.84,-374.79 1315.83,-379.03 1301,-381.65 1232.56,-393.74 1151.29,-397.26 1105.37,-398.26"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="1105.24,-394.77 1095.31,-398.46 1105.37,-401.76 1105.24,-394.77"/>
+</g>
+<!-- module~m_io_manager&#45;&gt;module~m_checkpoint_state -->
+<g id="module~~m_allocator~~UsedByGraph_edge124" class="edge">
+<title>module~m_io_manager&#45;&gt;module~m_checkpoint_state</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1339.03,-346.63C1326.84,-343.75 1313.48,-341.09 1301,-339.65 1137.28,-320.7 943.14,-335.83 842.38,-346.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="841.9,-343 832.33,-347.55 842.65,-349.96 841.9,-343"/>
+</g>
+<!-- module~m_io_session&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge44" class="edge">
+<title>module~m_io_session&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M580.24,-353.18C551.45,-352.49 511.8,-352.27 477,-354.65"/>
+</g>
+<!-- module~m_io_session&#45;&gt;module~m_io_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge98" class="edge">
+<title>module~m_io_session&#45;&gt;module~m_io_backend</title>
+<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M580.15,-365.9C564.63,-370.22 546.68,-375.23 530.14,-379.84"/>
+<polygon fill="#dfff00" stroke="#dfff00" points="528.75,-376.59 520.06,-382.64 530.63,-383.33 528.75,-376.59"/>
+</g>
+<!-- module~m_io_session&#45;&gt;module~m_io_base -->
+<g id="module~~m_allocator~~UsedByGraph_edge102" class="edge">
+<title>module~m_io_session&#45;&gt;module~m_io_base</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M614.66,-366.88C598.41,-399.13 549.05,-485.6 477,-508.65"/>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M475,-508.65C440.98,-519.53 400.72,-524.49 370.78,-526.75"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="370.39,-523.27 360.65,-527.45 370.87,-530.26 370.39,-523.27"/>
+</g>
+<!-- module~m_les&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge45" class="edge">
+<title>module~m_les&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M298.78,-701.21C281.06,-698.88 256.88,-695.71 234.42,-692.77"/>
+<polygon fill="#ffc700" stroke="#ffc700" points="234.62,-689.26 224.25,-691.43 233.71,-696.2 234.62,-689.26"/>
+</g>
+<!-- module~m_monitoring&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge85" class="edge">
+<title>module~m_monitoring&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1186.81,-515.3C1154.21,-512.37 1108.34,-510.75 1069,-518.65"/>
+</g>
+<!-- module~m_postprocess&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge86" class="edge">
+<title>module~m_postprocess&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1337.33,-473.32C1306.74,-470.05 1265.67,-469.15 1231.5,-480.65"/>
+</g>
+<!-- module~m_snapshot_manager&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge87" class="edge">
+<title>module~m_snapshot_manager&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1189.31,-452.7C1179.37,-456.47 1169.01,-461.13 1160,-466.65 1141.5,-477.99 1142.65,-488.54 1124,-499.65 1101.78,-512.88 1094.36,-513.56 1069,-518.65"/>
+</g>
+<!-- module~m_snapshot_manager&#45;&gt;module~m_io_field_utils -->
+<g id="module~~m_allocator~~UsedByGraph_edge104" class="edge">
+<title>module~m_snapshot_manager&#45;&gt;module~m_io_field_utils</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M1178.72,-452.67C1161.67,-456.71 1142.57,-461.23 1125.14,-465.36"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="1124.02,-462.02 1115.1,-467.73 1125.64,-468.83 1124.02,-462.02"/>
+</g>
+<!-- module~m_snapshot_manager&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge110" class="edge">
+<title>module~m_snapshot_manager&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1165.33,-441.78C1103.44,-442.36 1007.18,-441.9 924,-435.65"/>
+</g>
+<!-- module~m_stats&#45;&gt;module~m_solver -->
+<g id="module~~m_allocator~~UsedByGraph_edge88" class="edge">
+<title>module~m_stats&#45;&gt;module~m_solver</title>
+<path fill="none" stroke="#6e00ff" stroke-dasharray="5,2" d="M1052.5,-410.81C1027.45,-431.84 975.9,-475.09 946.27,-499.96"/>
+<polygon fill="#6e00ff" stroke="#6e00ff" points="943.95,-497.34 938.54,-506.45 948.45,-502.7 943.95,-497.34"/>
+</g>
+<!-- module~m_stats&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge111" class="edge">
+<title>module~m_stats&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1041.38,-410.66C1013.12,-422.63 966.07,-438.81 924,-435.65"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M922,-435.65C853.94,-430.53 840.94,-408.01 774,-394.65"/>
+</g>
+<!-- module~m_tdsops_setup&#45;&gt;module~m_base_backend -->
+<g id="module~~m_allocator~~UsedByGraph_edge49" class="edge">
+<title>module~m_tdsops_setup&#45;&gt;module~m_base_backend</title>
+<path fill="none" stroke="#ffc700" stroke-dasharray="5,2" d="M572.99,-584.68C544.88,-583.32 508.69,-583.28 477,-588.65"/>
+</g>
+<!-- program~xcompact -->
+<g id="module~~m_allocator~~UsedByGraph_node40" class="node">
+<title>program~xcompact</title>
+<g id="a_module~~m_allocator~~UsedByGraph_node40"><a xlink:href="../program/xcompact.html" xlink:title="xcompact">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1813,-390.65 1748,-390.65 1748,-366.65 1813,-366.65 1813,-390.65"/>
+<text text-anchor="middle" x="1780.5" y="-376.25" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xcompact</text>
+</a>
+</g>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_backend_setup -->
+<g id="module~~m_allocator~~UsedByGraph_edge27" class="edge">
+<title>program~xcompact&#45;&gt;module~m_backend_setup</title>
+<path fill="none" stroke="#ff8500" stroke-dasharray="5,2" d="M1779.42,-390.86C1778.22,-472.76 1760.29,-938.65 1508,-938.65 1508,-938.65 1508,-938.65 922,-938.65 840.59,-938.65 746.82,-943.13 686.21,-946.61"/>
+<polygon fill="#ff8500" stroke="#ff8500" points="685.81,-943.13 676.04,-947.21 686.22,-950.12 685.81,-943.13"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_base_case -->
+<g id="module~~m_allocator~~UsedByGraph_edge61" class="edge">
+<title>program~xcompact&#45;&gt;module~m_base_case</title>
+<path fill="none" stroke="#f3ff00" stroke-dasharray="5,2" d="M1747.82,-380.98C1701.47,-384.4 1614.66,-390.79 1559.18,-394.88"/>
+<polygon fill="#f3ff00" stroke="#f3ff00" points="1558.91,-391.39 1549.2,-395.61 1559.43,-398.37 1558.91,-391.39"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_abl -->
+<g id="module~~m_allocator~~UsedByGraph_edge62" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_abl</title>
+<path fill="none" stroke="#b1ff00" stroke-dasharray="5,2" d="M1772.37,-390.91C1761.52,-408.55 1739.19,-441.04 1712,-459.65 1707.04,-463.04 1701.48,-465.93 1695.78,-468.37"/>
+<polygon fill="#b1ff00" stroke="#b1ff00" points="1694.21,-465.22 1686.13,-472.08 1696.72,-471.76 1694.21,-465.22"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_channel -->
+<g id="module~~m_allocator~~UsedByGraph_edge63" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_channel</title>
+<path fill="none" stroke="#6eff00" stroke-dasharray="5,2" d="M1756.58,-390.71C1743.61,-397.4 1727.03,-405.75 1712,-412.65 1704.72,-415.99 1696.88,-419.4 1689.3,-422.6"/>
+<polygon fill="#6eff00" stroke="#6eff00" points="1687.77,-419.44 1679.89,-426.52 1690.47,-425.9 1687.77,-419.44"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_cylinder -->
+<g id="module~~m_allocator~~UsedByGraph_edge64" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_cylinder</title>
+<path fill="none" stroke="#2cff00" stroke-dasharray="5,2" d="M1778,-366.49C1771.96,-319.25 1747.96,-148.54 1712,-109.65 1710.63,-108.17 1709.15,-106.79 1707.59,-105.51"/>
+<polygon fill="#2cff00" stroke="#2cff00" points="1709.41,-102.52 1699.15,-99.89 1705.53,-108.34 1709.41,-102.52"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_generic -->
+<g id="module~~m_allocator~~UsedByGraph_edge65" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_generic</title>
+<path fill="none" stroke="#00ff16" stroke-dasharray="5,2" d="M1747.7,-373.75C1735.84,-371.93 1721.96,-369.8 1708.44,-367.71"/>
+<polygon fill="#00ff16" stroke="#00ff16" points="1708.62,-364.2 1698.21,-366.14 1707.56,-371.12 1708.62,-364.2"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_tgv -->
+<g id="module~~m_allocator~~UsedByGraph_edge66" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_tgv</title>
+<path fill="none" stroke="#00ff58" stroke-dasharray="5,2" d="M1773.05,-366.35C1752.26,-326.67 1686.77,-201.75 1660.53,-151.69"/>
+<polygon fill="#00ff58" stroke="#00ff58" points="1663.58,-149.96 1655.83,-142.73 1657.38,-153.21 1663.58,-149.96"/>
+</g>
+<!-- program~xcompact&#45;&gt;module~m_case_wind_turbine -->
+<g id="module~~m_allocator~~UsedByGraph_edge67" class="edge">
+<title>program~xcompact&#45;&gt;module~m_case_wind_turbine</title>
+<path fill="none" stroke="#00ff9b" stroke-dasharray="5,2" d="M1778.44,-366.42C1773.72,-314.56 1753,-113.44 1712,-67.65 1711.12,-66.66 1710.19,-65.73 1709.22,-64.83"/>
+<polygon fill="#00ff9b" stroke="#00ff9b" points="1711.2,-61.94 1701.08,-58.8 1707.03,-67.57 1711.2,-61.94"/>
+</g>
+<!-- module~m_checkpoint_state&#45;&gt;module~m_io_session -->
+<g id="module~~m_allocator~~UsedByGraph_edge108" class="edge">
+<title>module~m_checkpoint_state&#45;&gt;module~m_io_session</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M713.77,-354.65C700.32,-354.65 686.11,-354.65 673.01,-354.65"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="672.78,-351.15 662.78,-354.65 672.78,-358.15 672.78,-351.15"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulem_allocatorUsedByGraph = svgPanZoom('#modulem_allocatorUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-allocator_t"></span>
+      <h3>public        interface <a href='../interface/allocator_t.html'>allocator_t</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    public  function <a href='../proc/allocator_init.html'>allocator_init</a>(dims, sz) result(allocator)  
+
+    </h3>
+    
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dims~46"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dims</strong>(3)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sz~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sz</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/allocator_t.html'>allocator_t</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-allocator_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/allocator_t.html'>allocator_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>An instance of type allocator_t is responsible for the
+maintenance of a linked list of instances of equal size
+<a href="../module/m_allocator.html">m_allocator</a> objects:</p><a href="../type/allocator_t.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ngrid"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ngrid</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sz~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sz</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-next_id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>next_id</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>The id for the next allocated block.  This counter is
+incremented each time a new block is allocated.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first"></span>
+              class(<a href='../type/field_t.html'>field_t</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+<td>=&gt; </td>
+                <td>null()</td>
+            <td>
+<p>The pointer to the first block on the list.  Non associated if
+the list is empty</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        public
+
+                    
+                    function
+                    <strong><a href='/home/runner/work/x3d2/x3d2/docs/api-docs/proc/allocator_init.html'>allocator_init</a></strong>
+                    (dims, sz)
+                  </td>
+                  <td></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-get_block'>get_block</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-release_block'>release_block</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-create_block'>create_block</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-get_block_ids'>get_block_ids</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-destroy'>destroy</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-get_padded_dims'>get_padded_dims</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/allocator_t.html#boundprocedure-get_n_groups'>get_n_groups</a></strong></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-allocator_init"></span> <h3>public  function <a href='../proc/allocator_init.html'>allocator_init</a>(dims, sz) result(allocator)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dims~46"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dims</strong>(3)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sz~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sz</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/allocator_t.html'>allocator_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-create_block"></span> <h3>public  function <a href='../proc/create_block.html'>create_block</a>(self, next) result(ptr)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocate memory for a new block and return a pointer to a new
+<a href="../module/m_allocator.html">m_allocator</a> object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~225"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-next"></span>
+              class(<a href='../type/field_t.html'>field_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>next</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/field_t.html'>field_t</a>), pointer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_block"></span> <h3>public  function <a href='../proc/get_block.html'>get_block</a>(self, dir, data_loc) result(handle)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return a pointer to the first available memory block, i.e. the
+current head of the block list.  If the list is empty, allocate
+a new block with <a href="../proc/create_block.html">create_block</a>
+first.</p><a href="../proc/get_block.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~226"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dir~17"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dir</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_loc~8"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_loc</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/field_t.html'>field_t</a>), pointer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_block_ids"></span> <h3>public  function <a href='../proc/get_block_ids.html'>get_block_ids</a>(self)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Utility function that returns an array made of the <code>id</code> of the
+block currently in the block list.  Return the array [0] if
+block list is empty.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~229"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_padded_dims"></span> <h3>public  function <a href='../proc/get_padded_dims.html'>get_padded_dims</a>(self, dir) result(dims)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~230"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dir~18"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dir</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, (3)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_n_groups"></span> <h3>public  function <a href='../proc/get_n_groups.html'>get_n_groups</a>(self, dir) result(n_groups)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~231"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dir~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dir</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-release_block"></span> <h3>public  subroutine <a href='../proc/release_block.html'>release_block</a>(self, handle)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Release memory block pointed to by HANDLE to the block list.
+It is pushed to the front of the block list, in other words it
+is made the head block.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~227"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-handle~2"></span>
+              class(<a href='../type/field_t.html'>field_t</a>),
+            </td>
+<td></td>
+              <td></td>            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>handle</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-destroy"></span> <h3>public  subroutine <a href='../proc/destroy.html'>destroy</a>(self)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Go through the block list from head to tail, deallocating each
+memory block in turn.  Deallocation of a
+<a href="../module/m_allocator.html">m_allocator</a> object automatically
+deallocates its internal allocatable
+<a href="../type/field_t.html#variable-data~11">data</a> array.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~228"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
