@@ -8,12 +8,11 @@ program test_tridiag
   use m_mpi, only: MPI_COMM_WORLD, MPI_IN_PLACE, MPI_SUM, MPI_Allreduce
 
   use m_allocator, only: allocator_t, field_t
-  use m_backend_runtime, only: backend_runtime_t, backend_sz
+  use m_backend_runtime, only: backend_runtime_t, backend_sz, tdsops_slot_t
   use m_base_backend, only: base_backend_t
   use m_common, only: dp, pi, MPI_X3D2_DP, DIR_X, VERT, &
                       BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, BC_HALO
   use m_mesh, only: mesh_t
-  use m_tdsops, only: tdsops_t
   use m_test_utils, only: initialise_mpi, finalise_test
 
   implicit none
@@ -38,13 +37,8 @@ program test_tridiag
   type(mesh_t), target :: mesh
   class(base_backend_t), pointer :: backend
   class(allocator_t), pointer :: allocator
-  ! One operator per case, never deallocated: NVHPC (25.3) crashes in
-  ! pgf90_dealloc_poly03 when a class(tdsops_t) holding a cuda_tdsops_t is
-  ! deallocated.
-  type :: tdsops_slot_t
-    class(tdsops_t), allocatable :: op
-  end type tdsops_slot_t
-  type(tdsops_slot_t) :: ops(8)
+  ! One operator per case, never deallocated (see tdsops_slot_t)
+  type(tdsops_slot_t) :: ops(15)
   integer :: icase = 0
   class(field_t), pointer :: u_field, du_field
 
@@ -173,6 +167,77 @@ program test_tridiag
                             sym=.false., c_nu=0.22_dp, nu0_nu=63._dp)
   call run_case(sin_0_2pi, n, n, sin_0_2pi, 1, tol_hyper, &
                 '2nd ders, hyperviscous, dir-neu')
+
+  ! ===========================================================================
+  ! Identical tests are included for the compact2 and classic2 interpolation and derivative cases.
+
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n, dx_per, operation='second-deriv', &
+                            scheme='compact2', &
+                            bc_start=BC_PERIODIC, bc_end=BC_PERIODIC)
+  call run_case(sin_0_2pi_per, n, n, sin_0_2pi_per, 1, tol_2nd, &
+                ' 2nd-order 2nd derivatives, periodic BCs')
+
+  ! ===========================================================================
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n, dx_per, operation='first-deriv', &
+                            scheme='compact2', &
+                            bc_start=BC_PERIODIC, bc_end=BC_PERIODIC)
+  call run_case(sin_0_2pi_per, n, n, cos_0_2pi_per, -1, tol, &
+                '2nd-order 1st derivatives, periodic BCs')
+
+  ! ===========================================================================
+  ! Non-periodic cases: physical BCs at the ends of the global domain only
+  bc_start = BC_HALO
+  bc_end = BC_HALO
+  if (nrank == 0) bc_start = BC_DIRICHLET
+  if (nrank == nproc - 1) bc_end = BC_NEUMANN
+
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n, dx, operation='first-deriv', &
+                            scheme='compact2', &
+                            bc_start=bc_start, bc_end=bc_end, sym=.false.)
+  call run_case(sin_0_2pi, n, n, cos_0_2pi, -1, tol, &
+                '2nd-order 1st derivatives, dir-neu')
+
+  ! ===========================================================================
+  ! Staggered operators: the last subdomain holds one fewer cell centre
+  if (nrank == 0) bc_start = BC_NEUMANN
+  n_loc = n
+  if (nrank == nproc - 1) n_loc = n - 1
+
+  ! stag-interpolate v2p requires an even, cos-type function
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n_loc, dx_pi, operation='interpolate', &
+                            scheme='classic2', &
+                            bc_start=bc_start, bc_end=bc_end, from_to='v2p')
+  call run_case(cos_0_pi, n, n_loc, cos_0_pi_stag, -1, tol, &
+                '2nd-order interpolation "v2p"')
+
+  ! stag-interpolate p2v requires an even, cos-type function
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n, dx_pi, operation='interpolate', &
+                            scheme='classic2', &
+                            bc_start=bc_start, bc_end=bc_end, from_to='p2v')
+  call run_case(cos_0_pi_stag, n_loc, n, cos_0_pi, -1, tol, &
+                '2nd-order interpolation "p2v"')
+
+  ! stag-derivative v2p requires an odd, sin-type function
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n_loc, dx_pi, operation='stag-deriv', &
+                            scheme='compact2', &
+                            bc_start=bc_start, bc_end=bc_end, from_to='v2p')
+  call run_case(sin_0_pi, n, n_loc, cos_0_pi_stag, -1, tol, &
+                '2nd-order stag derivative "v2p"')
+
+  ! stag-derivative p2v requires an even, cos-type function
+  icase = icase + 1
+  call backend%alloc_tdsops(ops(icase)%op, n, dx_pi, operation='stag-deriv', &
+                            scheme='compact2', &
+                            bc_start=bc_start, bc_end=bc_end, from_to='p2v')
+  call run_case(cos_0_pi_stag, n_loc, n, sin_0_pi, 1, tol, &
+                '2nd-order stag derivative "p2v"')
+
 
   call allocator%release_block(u_field)
   call allocator%release_block(du_field)

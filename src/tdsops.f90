@@ -1,8 +1,7 @@
 module m_tdsops
-  use iso_fortran_env, only: stderr => error_unit
-
   use m_common, only: dp, pi, VERT, CELL, &
                       BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET
+  use m_logger, only: log_warn, abort_run, str
 
   implicit none
 
@@ -136,10 +135,9 @@ contains
     if (present(n_halo)) then
       tdsops%n_halo = n_halo
       if (n_halo /= 4) then
-        write (stderr, '("Warning: n_halo is set to ", i2, "be careful! &
-                          &The default is 4 and there are quite a few &
-                          &places where things are hardcoded assuming &
-                          &n_halo is 4.")') n_halo
+        call log_warn('n_halo is set to '//str(n_halo)//', be careful! &
+                      &The default is 4 and there are quite a few places &
+                      &where things are hardcoded assuming n_halo is 4.')
       end if
     else
       tdsops%n_halo = 4
@@ -190,10 +188,10 @@ contains
       call tdsops%stagder_1st(delta, scheme, from_to, bc_start, bc_end, sym)
     else if (operation == 'filter') then
       if (.not. present(filter_alpha)) &
-        error stop 'filter operation requires filter_alpha'
+        call abort_run('filter operation requires filter_alpha')
       call tdsops%lowpass(filter_alpha, bc_start, bc_end, sym)
     else
-      error stop 'operation is not defined'
+      call abort_run('operation is not defined')
     end if
 
     select case (from_to)
@@ -209,10 +207,13 @@ contains
     ! distributed-algorithm reduction coefficient. Skip the distributed-solver
     ! health check in that case.
     if (.not. tdsops%pentadiag .and. tdsops%dist_sa(n_tds) > tol) then
-      print *, 'There are ', n_tds, 'points in a subdomain, it may be too few!'
-      print *, 'The entry distributed solver disregards in "' &
-        //operation//'" operation is:', tdsops%dist_sa(n_tds)
-      print *, 'It may result in numerical errors with the distributed solver!'
+      ! The subdomain size can differ between ranks, so each reports its own.
+      call log_warn('There are '//str(n_tds)//' points in a subdomain, ' &
+                    //'it may be too few! The entry the distributed solver ' &
+                    //'disregards in the '//operation//' operation is: ' &
+                    //str(tdsops%dist_sa(n_tds))//'. It may result in ' &
+                    //'numerical errors with the distributed solver!', &
+                    all_ranks=.true.)
     end if
 
   end function tdsops_init
@@ -231,7 +232,7 @@ contains
     integer :: i, n, n_halo
     logical :: symmetry
 
-    if (self%n_halo < 2) error stop 'First derivative require n_halo >= 2'
+    if (self%n_halo < 2) call abort_run('First derivative require n_halo >= 2')
 
     if (present(sym)) then
       symmetry = sym
@@ -241,6 +242,8 @@ contains
 
     ! alpha is alfa
 
+    ! Every valid scheme overwrites these; abort_run stops the others.
+    alpha = 0._dp; afi = 0._dp; bfi = 0._dp; cfi = 0._dp
     select case (scheme)
     case ('compact6')
       alpha = 1._dp/3._dp
@@ -263,8 +266,13 @@ contains
       afi = 17._dp/24._dp/delta   ! a/(2h): a=17/12
       bfi = 101._dp/600._dp/delta ! b/(4h): b=101/150
       cfi = 1._dp/600._dp/delta   ! c/(6h): c=1/100
+    case ('compact2')
+      alpha = 0._dp
+      afi = 1._dp/(2._dp * delta)
+      bfi = 0._dp
+      cfi = 0._dp
     case default
-      error stop 'scheme is not defined'
+      call abort_run('scheme is not defined')
     end select
 
     self%alpha = alpha
@@ -452,8 +460,9 @@ contains
     integer :: i, n, n_halo
     logical :: symmetry
 
-    if (self%n_halo < 3) error stop 'Low-pass filter requires n_halo >= 3'
-    if (abs(af) >= 0.5_dp) error stop 'Low-pass filter needs -0.5 < af < 0.5'
+    if (self%n_halo < 3) call abort_run('Low-pass filter requires n_halo >= 3')
+    if (abs(af) >= 0.5_dp) &
+      call abort_run('Low-pass filter needs -0.5 < af < 0.5')
 
     if (present(sym)) then
       symmetry = sym
@@ -610,7 +619,8 @@ contains
     integer :: i, n, n_halo
     logical :: symmetry
 
-    if (self%n_halo < 4) error stop 'Second derivative require n_halo >= 4'
+    if (self%n_halo < 4) &
+      call abort_run('Second derivative require n_halo >= 4')
 
     if (present(sym)) then
       symmetry = sym
@@ -622,6 +632,8 @@ contains
 
     ! alpha is alsa
 
+    ! Every valid scheme overwrites these; abort_run stops the others.
+    alpha = 0._dp; asi = 0._dp; bsi = 0._dp; csi = 0._dp; dsi = 0._dp
     select case (scheme)
     case ('compact6')
       alpha = 2._dp/11._dp
@@ -645,10 +657,16 @@ contains
         dsi = (198._dp*xnpi2 + 128._dp*xmpi2 &
                - 40._dp*xnpi2*xmpi2 - 736._dp)/den/(16._dp*d2)
       else
-        error stop 'compact6-hyperviscous requires c_nu and nu0_nu'
+        call abort_run('compact6-hyperviscous requires c_nu and nu0_nu')
       end if
+    case ('compact2')
+      alpha = 0._dp
+      asi = 1._dp / d2
+      bsi = 0._dp
+      csi = 0._dp
+      dsi = 0._dp
     case default
-      error stop 'scheme is not defined'
+      call abort_run('scheme is not defined')
     end select
 
     self%alpha = alpha
@@ -818,10 +836,12 @@ contains
     real(dp) :: alpha, aici, bici, cici, dici
     integer :: i, n, n_halo
 
-    if (self%n_halo < 4) error stop 'Interpolation require n_halo >= 4'
+    if (self%n_halo < 4) call abort_run('Interpolation require n_halo >= 4')
 
     ! alpha is ailcai
 
+    ! Every valid scheme overwrites these; abort_run stops the others.
+    alpha = 0._dp; aici = 0._dp; bici = 0._dp; cici = 0._dp; dici = 0._dp
     select case (scheme)
     case ('classic')
       alpha = 0.3_dp
@@ -841,8 +861,14 @@ contains
       bici = (-25._dp + 126._dp*alpha)/256._dp
       cici = (3._dp - 10._dp*alpha)/256._dp
       dici = 0._dp
+    case ('classic2')
+      alpha = 0._dp
+      aici = 0.5_dp
+      bici = 0._dp
+      cici = 0._dp
+      dici = 0._dp
     case default
-      error stop 'scheme is not defined'
+      call abort_run('scheme is not defined')
     end select
 
     self%alpha = alpha
@@ -906,7 +932,8 @@ contains
                                bici, cici, dici, 0._dp]
       end select
     case (BC_DIRICHLET)
-      error stop 'Dirichlet BC is not supported for midpoint interpolations!'
+      call abort_run('Dirichlet BC is not supported for midpoint &
+                     &interpolations!')
     end select
 
     select case (bc_end)
@@ -944,7 +971,8 @@ contains
                                bici, cici + dici, 0._dp, 0._dp]
       end select
     case (BC_DIRICHLET)
-      error stop 'Dirichlet BC is not supported for midpoint interpolations!'
+      call abort_run('Dirichlet BC is not supported for midpoint &
+                     &interpolations!')
     end select
 
     call self%preprocess_thom(dist_b)
@@ -965,17 +993,23 @@ contains
     real(dp) :: alpha, aci, bci
     integer :: i, n, n_halo
 
-    if (self%n_halo < 2) error stop 'Staggared deriv require n_halo >= 2'
+    if (self%n_halo < 2) call abort_run('Staggared deriv require n_halo >= 2')
 
     ! alpha is alcai
 
+    ! Every valid scheme overwrites these; abort_run stops the others.
+    alpha = 0._dp; aci = 0._dp; bci = 0._dp
     select case (scheme)
     case ('compact6')
       alpha = 9._dp/62._dp
       aci = 63._dp/62._dp/delta
       bci = 17._dp/62._dp/3._dp/delta
+    case ('compact2')
+      alpha = 0._dp
+      aci = 1._dp / delta
+      bci = 0._dp
     case default
-      error stop 'scheme is not defined'
+      call abort_run('scheme is not defined')
     end select
 
     self%alpha = alpha
@@ -1028,7 +1062,7 @@ contains
                                bci, 0._dp, 0._dp, 0._dp]
       end select
     case (BC_DIRICHLET)
-      error stop 'Dirichlet BC is not supported for midpoint derivatives!'
+      call abort_run('Dirichlet BC is not supported for midpoint derivatives!')
     end select
 
     select case (bc_end)
@@ -1052,7 +1086,7 @@ contains
                                         0._dp, 0._dp, 0._dp, 0._dp]
       end select
     case (BC_DIRICHLET)
-      error stop 'Dirichlet BC is not supported for midpoint derivatives!'
+      call abort_run('Dirichlet BC is not supported for midpoint derivatives!')
     end select
 
     call self%preprocess_thom(dist_b)

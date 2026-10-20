@@ -162,13 +162,20 @@ used.
      - CUDA Fortran backend for NVIDIA GPUs. Configuring fails with any other
        compiler.
    * - ``OMP_TGT``
-     - Cray, GNU, NVHPC, Flang
+     - Cray, GNU, NVHPC, Flang, Intel ifx
      - OpenMP target offload backend. Requires an OpenMP 4.5 or newer
-       compiler. Still under construction: it offloads field copies,
-       reordering and the vector operations, and reports
-       ``<operation>: not implemented by the active backend`` for anything else, so
-       it cannot run a flow case. ``xcompact`` in an ``OMP_TGT`` build is
-       the CPU solver.
+       compiler. It offloads every operation the CUDA backend implements
+       natively (transport equation, tridiagonal and pentadiagonal solves,
+       reordering, field and LES operations, boundary conditions), but not
+       yet the FFT Poisson solver, which reports
+       ``init_poisson_fft: not implemented by the active backend``, so it
+       cannot run a flow case. ``xcompact`` in an ``OMP_TGT`` build is the
+       CPU solver. With more than one rank it hands device buffers to MPI,
+       which must therefore be GPU-aware. With a UCX-based MPI (e.g. HPC-X)
+       also set ``UCX_MEMTYPE_CACHE=n``: UCX's memory type cache can miss
+       the OpenMP runtime's device allocations and treat them as host
+       memory, which fails with ``process_vm_readv ... Bad address``. With
+       Intel MPI set ``I_MPI_OFFLOAD=1``.
 
 "Flang" covers both upstream LLVM Flang and AMD's ROCm ``amdflang``; CMake
 reports either as a ``CMAKE_Fortran_COMPILER_ID`` of ``LLVMFlang`` or
@@ -187,17 +194,19 @@ required with any of them.
 
 Both GPU backends need the target architecture, given with ``BACKEND_ARCH``.
 Configuring a GPU build fails if it is unset. NVIDIA targets are named by their
-compute capability as ``ccXX``, the convention nvfortran uses, and AMD targets
-as ``gfx<model>``:
+compute capability as ``ccXX``, the convention nvfortran uses, AMD targets
+as ``gfx<model>``, and Intel targets by their ``ocloc`` device name (or
+``spir64`` to compile at first launch for any Intel GPU):
 
 .. code-block:: bash
 
    -DENABLE_BACKEND=OMP_TGT -DBACKEND_ARCH=gfx942   # AMD MI300X
+   -DENABLE_BACKEND=OMP_TGT -DBACKEND_ARCH=pvc      # Intel Data Center GPU Max
    -DENABLE_BACKEND=CUDA -DBACKEND_ARCH=cc80        # NVIDIA A100
 
 The build passes the name to the selected compiler in the form it expects, for
-example ``-gpu=cc80`` for NVHPC and ``--offload-arch=gfx942`` for GNU and
-Flang. See :doc:`user/advanced_build` for the per-compiler details.
+example ``-gpu=cc80`` for NVHPC, ``--offload-arch=gfx942`` for GNU and
+Flang, and ``-fopenmp-targets=spir64_gen`` with ``-device pvc`` for ifx. See :doc:`user/advanced_build` for the per-compiler details.
 
 NVHPC compiles against the CUDA toolkit that matches the installed driver. On a
 node without a GPU, such as a login node, there is no driver and nvfortran

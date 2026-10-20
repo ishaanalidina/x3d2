@@ -1,36 +1,14 @@
 # 1. Set source files
 set(SRC
-  allocator.f90
-  common.f90
-  config.f90
-  mpi.f90
-  field.f90
-  mesh.f90
-  ordering.f90
-  poisson_fft.f90
-  poisson_cg_types.f90
   solver.f90
   les/les.f90
   postprocess/postprocess.f90
   postprocess/monitoring.f90
   postprocess/scalar_series.f90
-  tdsops.f90
   time_integrator.f90
-  mesh.f90
-  mesh_content.f90
-  field.f90
-  vector_calculus.f90
-  backend/backend.f90
   turbine/turbine_model.f90
   turbine/turbine_dummy.f90
   turbine/adm.f90
-  backend/omp/common.f90
-  backend/omp/kernels/distributed.f90
-  backend/omp/kernels/spectral_processing.f90
-  backend/omp/kernels/thomas.f90
-  backend/omp/sendrecv.f90
-  backend/omp/exec_dist.f90
-  backend/omp/exec_thom.f90
   case/base_case.f90
   case/abl.f90
   case/channel.f90
@@ -42,41 +20,94 @@ set(SRC
   abl/diagnostics.f90
   module/ibm.f90
 )
-set(CUDASRC
-  backend/cuda/allocator.f90
-  backend/cuda/common.f90
-  backend/cuda/exec_dist.f90
-  backend/cuda/exec_thom.f90
-  backend/cuda/kernels/distributed.f90
-  backend/cuda/kernels/fieldops.f90
-  backend/cuda/kernels/reorder.f90
-  backend/cuda/kernels/spectral_processing.f90
-  backend/cuda/kernels/thomas.f90
-  backend/cuda/poisson_fft.f90
-  backend/cuda/sendrecv.f90
-  backend/cuda/tdsops.f90
+set(BACKENDSRC
+  backend/omp/backend.f90
+  backend/setup.f90
 )
+# Poisson solver core: everything the standalone Poisson solve needs, split
+# out into its own library so it can be built/tested independently of the
+# rest of x3d2.
+set(POISSONSRC
+  mpi.f90
+  config.f90
+  logger.f90
+  common.f90
+  field.f90
+  allocator.f90
+  mesh_content.f90
+  mesh.f90
+  ordering.f90
+  tdsops.f90
+  tdsops_setup.f90
+  poisson_fft.f90
+  poisson_cg_types.f90
+  vector_calculus.f90
+  backend/backend.f90
+  backend/omp/common.f90
+  backend/omp/sendrecv.f90
+  backend/omp/exec_dist.f90
+  backend/omp/exec_thom.f90
+  backend/omp/kernels/distributed.f90
+  backend/omp/kernels/thomas.f90
+  backend/omp/kernels/spectral_processing.f90
+)
+
 if (${POISSON_SOLVER} STREQUAL "ITER")
-  set(CGSRC
+  list(APPEND POISSONSRC
     petsc/poisson_cg.f90
     poisson_cg.f90
   )
 else()
-  set(CGSRC
+  list(APPEND POISSONSRC
     dummy/poisson_cg.f90
     poisson_cg.f90
   )
 endif()
-set(BACKENDSRC
-  backend/omp/backend.f90
+
+# CUDA specific
+if (${ENABLE_BACKEND} STREQUAL "CUDA")
+  list(APPEND POISSONSRC
+    backend/cuda/allocator.f90
+    backend/cuda/common.f90
+    backend/cuda/errors.f90
+    backend/cuda/exec_dist.f90
+    backend/cuda/exec_thom.f90
+    backend/cuda/kernels/distributed.f90
+    backend/cuda/kernels/fieldops.f90
+    backend/cuda/kernels/reorder.f90
+    backend/cuda/kernels/spectral_processing.f90
+    backend/cuda/kernels/thomas.f90
+    backend/cuda/poisson_fft.f90
+    backend/cuda/sendrecv.f90
+    backend/cuda/tdsops.f90
   )
-set(2DECOMPFFTSRC
-  backend/omp/poisson_fft.f90
-  decomp/decomp_2decompfft.f90
-)
-set(DUMMYDECOMPSRC
-  decomp/decomp_dummy.f90
-)
+  list(APPEND BACKENDSRC
+    backend/cuda/backend.f90)
+# OMP TGT specific
+elseif (${ENABLE_BACKEND} STREQUAL "OMP_TGT")
+  list(APPEND POISSONSRC
+    backend/omptgt/common.f90
+    backend/omptgt/allocator.f90
+    backend/omptgt/device_info.f90
+    backend/omptgt/exec_dist.f90
+    backend/omptgt/exec_thom.f90
+    backend/omptgt/kernels/distributed.f90
+    backend/omptgt/kernels/fieldops.f90
+    backend/omptgt/kernels/thomas.f90
+    backend/omptgt/sendrecv.f90
+    backend/omptgt/tdsops.f90
+  )
+  list(APPEND BACKENDSRC
+    backend/omptgt/backend.f90)
+endif()
+
+# 2Decomp
+if(WITH_2DECOMPFFT)
+  list(APPEND POISSONSRC
+    backend/omp/poisson_fft.f90
+    decomp/decomp_2decompfft.f90
+  )
+endif()
 
 if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "PGI" OR
    ${CMAKE_Fortran_COMPILER_ID} STREQUAL "NVHPC")
@@ -118,24 +149,38 @@ if(WITH_2DECOMPFFT)
 else()
   list(APPEND SRC ${DUMMYDECOMPSRC})
 endif()
-list(APPEND SRC ${CGSRC})
+
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+
+# 2. Create the main library
+add_library(x3d2_poisson STATIC ${POISSONSRC})
+set_target_properties(x3d2_poisson PROPERTIES
+  Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2_poisson")
+target_include_directories(x3d2_poisson INTERFACE
+  ${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2_poisson)
 
 add_library(x3d2 STATIC ${SRC})
 set_target_properties(x3d2 PROPERTIES
   Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2")
 target_include_directories(x3d2 INTERFACE
   ${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2)
+target_link_libraries(x3d2 PUBLIC x3d2_poisson)
 
 add_library(x3d2_backends STATIC ${BACKENDSRC})
 set_target_properties(x3d2_backends PROPERTIES
   Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2_backends")
 target_include_directories(x3d2_backends INTERFACE
   ${CMAKE_CURRENT_BINARY_DIR}/modules/x3d2_backends)
-target_link_libraries(x3d2_backends PRIVATE x3d2)
+target_link_libraries(x3d2_backends PRIVATE x3d2_poisson)
 
 add_executable(xcompact xcompact.f90)
 target_link_libraries(xcompact PRIVATE x3d2_backends)
 target_link_libraries(xcompact PRIVATE x3d2)
+
+add_executable(x3d2_poisson_solver poisson_solver.f90)
+target_link_libraries(x3d2_poisson_solver PRIVATE x3d2_backends x3d2_poisson
+                      OpenMP::OpenMP_Fortran)
 
 # 3. Set compiler specific flags and options
 if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR
@@ -146,13 +191,25 @@ if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR
       ${CMAKE_Fortran_COMPILER_ID} STREQUAL "Flang")
     # Flang assumes OpenMP 3.1, which rejects both `declare target` in a pure
     # procedure (4.5) and the `loop` construct (5.0) used by the sources.
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fopenmp-version=50")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fopenmp-version=51")
     set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -ffast-math -funroll-loops -march=native")
     set(CMAKE_Fortran_FLAGS_DEBUG "-g -Wall -Wno-ambiguous-structure-constructor -Werror")
   else()
     set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -ffast-math -funroll-loops -floop-optimize -march=native")
     set(CMAKE_Fortran_FLAGS_DEBUG "-g -Og -Wall -Wpedantic -Werror -Wimplicit-interface -Wimplicit-procedure -Wno-unused-dummy-argument")
   endif()
+elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "IntelLLVM" OR
+       ${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
+  # ifx (IntelLLVM) and classic ifort (Intel) spell these differently from the
+  # GNU drivers: neither preprocesses .f90 unless asked, and the standard is
+  # selected by name rather than by -std=.  `nounused` stands in for GNU's
+  # -Wno-unused-dummy-argument, which the unused stubs in mpi.f90 need; ifx has
+  # no finer-grained switch, so it silences unused locals as well.  -check
+  # uninit is deliberately absent: ifx implements it with MemorySanitizer,
+  # which needs the whole program instrumented and fails to link otherwise.
+  set(CMAKE_Fortran_FLAGS "-fpp -stand f18")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -xHost -fp-model=fast")
+  set(CMAKE_Fortran_FLAGS_DEBUG "-g -O0 -traceback -check bounds,pointers -warn all,nounused")
 elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "NVHPC" OR
        ${CMAKE_Fortran_COMPILER_ID} STREQUAL "PGI")
   set(CMAKE_Fortran_FLAGS "-cpp")
@@ -161,6 +218,7 @@ elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
   set(CMAKE_Fortran_FLAGS_DEBUG "-G2 -O0")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3")
   target_link_options(x3d2 INTERFACE -h omp)
+  target_link_options(x3d2_poisson INTERFACE -h omp)
   target_link_options(x3d2_backends INTERFACE -h omp)
 else()
   message(FATAL_ERROR "Unsupported compiler")
@@ -177,17 +235,19 @@ if (${ENABLE_BACKEND} STREQUAL "CUDA")
     set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} -Ktrap=fp")
   endif()
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -fast")
-  target_link_options(x3d2 INTERFACE "-cuda" "${NVHPC_GPU_FLAG}")
+  # The cuFFT/cuFFTMp code now lives in x3d2_poisson: link options move there.
+  target_link_options(x3d2_poisson INTERFACE "-cuda" "${NVHPC_GPU_FLAG}")
   # cuFFTMp distributes a transform over MPI ranks and its nvfortran wrapper
   # calls MPI_Comm_f2c, so it cannot link into a build without MPI.  A serial
   # build is one rank and links plain cuFFT instead: see create_fft_plan in
   # backend/cuda/poisson_fft.f90 for the matching runtime path.
   if(WITH_MPI)
-    target_link_options(x3d2 INTERFACE "-cudalib=cufftmp")
+    target_link_options(x3d2_poisson INTERFACE "-cudalib=cufftmp")
   else()
-    target_link_options(x3d2 INTERFACE "-cudalib=cufft")
+    target_link_options(x3d2_poisson INTERFACE "-cudalib=cufft")
   endif()
-  target_compile_options(xcompact PRIVATE "-DCUDA")
+  # Selects the CUDA backend in backend/setup.f90
+  target_compile_options(x3d2_backends PRIVATE "-DCUDA")
   # NVTX ranges label the ADIOS2 write paths in Nsight Systems (see
   # io/nvtx.f90). Without ADIOS2 there is no output to label.
   if(WITH_ADIOS2)
@@ -201,36 +261,51 @@ if (${ENABLE_BACKEND} STREQUAL "CUDA")
   endif()
 elseif (${ENABLE_BACKEND} STREQUAL "OMP_TGT")
   add_definitions("-DOMP_TGT")
+  # backend/omptgt/device_info.f90 opens the vendor runtime with dlopen
+  target_link_libraries(x3d2_poisson PUBLIC ${CMAKE_DL_LIBS})
   if(CMAKE_Fortran_COMPILER_ID STREQUAL "NVHPC" OR CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
     set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -fast")
     add_definitions("-DOMP_TGT_NVIDIA")
+    # NVHPC rejects has_device_addr; the OpenMP 4.5 form of is_device_ptr on
+    # a dummy array says the same (see backend/omptgt/common.f90).
+    add_definitions("-DOMP_DEVICE_ADDR=is_device_ptr")
   elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR
          ${CMAKE_Fortran_COMPILER_ID} STREQUAL "LLVMFlang" OR
          ${CMAKE_Fortran_COMPILER_ID} STREQUAL "Flang")
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fopenmp --offload-arch=${BACKEND_ARCH}")
     add_definitions("-DOMP_TGT_AMD") # Assume AMD GPU
+    add_definitions("-DOMP_DEVICE_ADDR=has_device_addr")
   elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
     add_definitions("-DOMP_TGT_AMD") # Assume AMD GPU
+    add_definitions("-DOMP_DEVICE_ADDR=has_device_addr")
+  elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "IntelLLVM")
+    # The offload flags ride on OpenMP::OpenMP_Fortran (root CMakeLists.txt)
+    add_definitions("-DOMP_TGT_INTEL")
+    add_definitions("-DOMP_DEVICE_ADDR=has_device_addr")
   endif()
 endif()
 
 # OpenMP is resolved once at the top level (see the root CMakeLists.txt).
 target_link_libraries(x3d2 PRIVATE OpenMP::OpenMP_Fortran)
+target_link_libraries(x3d2_poisson PRIVATE OpenMP::OpenMP_Fortran)
 target_link_libraries(x3d2_backends PRIVATE OpenMP::OpenMP_Fortran)
 target_link_libraries(xcompact PRIVATE OpenMP::OpenMP_Fortran)
 
 if(WITH_MPI)
   target_link_libraries(x3d2 PRIVATE MPI::MPI_Fortran)
+  target_link_libraries(x3d2_poisson PRIVATE MPI::MPI_Fortran)
   target_link_libraries(x3d2_backends PRIVATE MPI::MPI_Fortran)
   target_link_libraries(xcompact PRIVATE MPI::MPI_Fortran)
+  target_link_libraries(x3d2_poisson_solver PRIVATE MPI::MPI_Fortran)
 endif()
 
 # 5. Set thirdparty libary dependencies
 if(WITH_2DECOMPFFT)
   message(STATUS "Using the FFT poisson solver with 2decomp&fft support on the OpenMP backend")
-  target_link_libraries(x3d2 PRIVATE decomp2d)
+  target_link_libraries(x3d2_poisson PRIVATE decomp2d)
   target_link_libraries(x3d2_backends PRIVATE decomp2d)
-  target_compile_options(x3d2 PRIVATE "-DWITH_2DECOMPFFT")
+  target_link_libraries(x3d2_poisson_solver PRIVATE decomp2d)
+  target_compile_options(x3d2_poisson PRIVATE "-DWITH_2DECOMPFFT")
   target_compile_options(x3d2_backends PRIVATE "-DWITH_2DECOMPFFT")
 endif()
 
@@ -250,11 +325,10 @@ if (${POISSON_SOLVER} STREQUAL "FFT")
   message(STATUS "Using the FFT Poisson solver")
 elseif (${POISSON_SOLVER} STREQUAL "ITER")
   message(STATUS "Using the iterative Poisson solver")
-
   # Find and link PETSc
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(PETSC REQUIRED IMPORTED_TARGET petsc)
-  target_link_libraries(x3d2 PUBLIC PkgConfig::PETSC)
+  target_link_libraries(x3d2_poisson PUBLIC PkgConfig::PETSC)
 else()
   message(FATAL_ERROR "Unrecognised Poisson solver: ${POISSON_SOLVER}")
 endif()
