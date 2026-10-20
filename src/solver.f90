@@ -231,7 +231,7 @@ contains
         print *, 'Poisson solver: CG'
       end if
 
-      solver%poisson_cg = poisson_cg_t(solver%backend, mesh)
+      solver%poisson_cg = poisson_cg_t(solver%backend, mesh, solver_cfg)
       solver%poisson => poisson_cg
     case default
       error stop 'poisson_solver_type is not valid. Use "FFT" or "CG".'

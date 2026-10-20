@@ -17,6 +17,7 @@ program test_poisson_cg_solve
 #endif
   use m_poisson_cg, only: poisson_cg_t
   use m_ordering, only: get_index_dir
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -59,6 +60,7 @@ contains
     class(base_backend_t), allocatable :: backend
     class(poisson_cg_t), allocatable :: poisson_cg
     class(field_t), pointer :: p, f
+    type(solver_config_t) :: solver_cfg
 
     real(dp), dimension(nref) :: rms
 
@@ -82,7 +84,18 @@ contains
       allocate (omp_backend_t :: backend)
       backend = omp_backend_t(mesh, allocator)
 #endif
-      poisson_cg = poisson_cg_t(backend, mesh)
+
+
+    ! The important components in this solver config setup at the stagder_scheme (set to 'compact6' currently) and the interpl_scheme (set to 'classic' currently).
+
+    solver_cfg = solver_config_t(&
+    1000, 1.0e-5, &
+    .false., [1._dp], 0, 0, 0, .false., &
+    .false., .false., 0.49_dp, 'RK4', 'CG', &
+    'compact6', 'compact6', 'classic', &
+    'compact6', 0.44_dp, 0._dp)
+
+      poisson_cg = poisson_cg_t(backend, mesh, solver_cfg)
 
       ! Main solver calls Poisson in the DIR_Z orientation
       p => backend%allocator%get_block(DIR_Z, CELL)

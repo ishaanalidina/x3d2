@@ -10,6 +10,7 @@ module m_cg_types
   use m_base_backend, only: base_backend_t
   use m_allocator, only: field_t
   use m_base_poisson_cg, only: laplace_operator_t
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -92,70 +93,6 @@ module m_poisson_cg_backend
     procedure :: init => init_precon_petsc
     procedure :: apply => petsc_apply_precon
   end type poisson_precon_impl
-
-  ! TODO: Remove these during the final merge of this implementation into the code.
-
-  ! interface MatCreateShell
-  !   !! Defines the interface to the external (PETSc) function to create a
-  !   !! matrix-free operator.
-  !   subroutine MatCreateShell(comm, nrow_l, ncol_l, nrow_g, ncol_g, ctx, M, &
-  !                             ierr)
-  !     use petsc
-  !     use m_cg_types
-  !     integer :: comm
-  !     integer :: nrow_l ! Local number of rows
-  !     integer :: ncol_l ! Local number of columns
-  !     integer :: nrow_g ! Global number of rows
-  !     integer :: ncol_g ! Global number of columns
-  !     type(mat_ctx_t) :: ctx ! The shell matrix context
-  !     type(tMat) :: M   ! The matrix object
-  !     integer :: ierr
-  !   end subroutine MatCreateShell
-  ! end interface MatCreateShell
-
-  ! interface MatShellSetContext
-  !   !! Defines the interface to the external (PETSc) function to store
-  !   !! application-dependent information required by the matrix-free operator.
-  !   subroutine MatShellSetContext(M, ctx, ierr)
-  !     use petsc
-  !     use m_cg_types
-  !     type(tMat) :: M      ! The matrix object
-  !     type(mat_ctx_t) :: ctx ! The shell matrix context
-  !     integer :: ierr
-  !   end subroutine MatShellSetContext
-  ! end interface MatShellSetContext
-
-  ! interface MatShellGetContext
-  !   !! Defines the interface to the external (PETSc) function to retrieve
-  !   !! application-dependent information from the matrix-free operator.
-  !   subroutine MatShellGetContext(M, ctx, ierr)
-  !     use petsc
-  !     use m_cg_types
-  !     type(tMat) :: M      ! The matrix object
-  !     type(mat_ctx_t) :: ctx ! The shell matrix context
-  !     integer :: ierr
-  !   end subroutine MatShellGetContext
-  ! end interface MatShellGetContext
-
-  ! interface MatShellSetOperation
-  !   !! Defines the interface to the external (PETSc) function to set the
-  !   !! matrix-free operator procedure that evaluates `f = Mx`.
-  !   subroutine MatShellSetOperation(M, OP, fn, ierr)
-  !     use petsc
-  !     type(tMat) :: M
-  !     integer :: OP
-  !     interface
-  !       subroutine fn(M, x, f, ierr)
-  !         use petsc
-  !         type(tMat) :: M ! The operator
-  !         type(tVec) :: x ! The input vector
-  !         type(tVec) :: f ! The output vector
-  !         integer :: ierr ! The error code
-  !       end subroutine fn
-  !     end interface
-  !     integer :: ierr
-  !   end subroutine MatShellSetOperation
-  ! end interface MatShellSetOperation
 
   type(mat_ctx_t), save :: ctx_global ! XXX: This sucks!
   type(tDM), pointer, save :: da_ptr_global        ! XXX: This sucks!
@@ -453,18 +390,25 @@ contains
 
   end subroutine solve_petsc
 
-  module subroutine init_solver(solver, backend, mesh)
+  module subroutine init_solver(solver, backend, mesh, solver_cfg)
     !! Public constructor for the poisson_cg_t type.
+
+    use m_config, only: solver_config_t
+
     class(poisson_solver_t), allocatable, intent(out) :: solver
     class(base_backend_t), target, intent(in) :: backend
+    type(solver_config_t), intent(in) :: solver_cfg
     type(mesh_t), intent(in) :: mesh
 
     allocate (poisson_solver_impl :: solver)
 
     select type (solver)
     type is (poisson_solver_impl)
+
       solver%precon = init_precon(backend)
-      solver%lapl = laplace_operator_t(backend, mesh)
+      solver%solver_cfg = solver_cfg
+      solver%lapl = laplace_operator_t(backend, mesh, solver%solver_cfg)
+
       call init_petsc_cg(solver, backend)
     class default
       ! This should be impossible

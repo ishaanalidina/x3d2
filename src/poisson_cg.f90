@@ -8,6 +8,7 @@ module m_poisson_cg
   use m_allocator, only: allocator_t, field_t
   use m_base_backend, only: base_backend_t
   use m_mesh, only: mesh_t
+  use m_config, only: solver_config_t
 
   implicit none
 
@@ -17,10 +18,11 @@ module m_poisson_cg
     !! Conjugate Gradient based Poisson solver.
     !! Supports any decomposition that is also supported by the underlying
     !! finite difference schemes.
-
+  
     ! Prevent default access to components of type.
     private
     class(poisson_solver_t), allocatable :: solver
+    type(solver_config_t) :: solver_cfg
 
   contains
     private
@@ -46,25 +48,27 @@ contains
     call self%solver%solve(p, f, backend)
   end subroutine solve
 
-  function init_cg(backend, mesh) result(solver)
+  function init_cg(backend, mesh, solver_cfg) result(solver)
     !! Initialises the conjugate gradient (CG) solver.
     !! XXX: The solver implementation is responsible for initialising the
     !!      preconditioner, i.e. it should at some point during its initialisation
     !!      do the equivalent of: `call self%precon = poisson_precon_t(backend)`.
     class(base_backend_t), target, intent(in) :: backend
     type(mesh_t), intent(in) :: mesh
+    type(solver_config_t), intent(in) :: solver_cfg
     type(poisson_cg_t) :: solver
 
-    call solver%init(backend, mesh)
+    call solver%init(backend, mesh, solver_cfg)
 
   end function init_cg
 
-  subroutine init_internal(self, backend, mesh)
+  subroutine init_internal(self, backend, mesh, solver_cfg)
     class(poisson_cg_t), intent(out) :: self
     class(base_backend_t), target, intent(in) :: backend
     type(mesh_t), intent(in) :: mesh
+    type(solver_config_t), intent(in) :: solver_cfg
 
-    call init_solver(self%solver, backend, mesh)
+    call init_solver(self%solver, backend, mesh, solver_cfg)
 
   end subroutine init_internal
 
