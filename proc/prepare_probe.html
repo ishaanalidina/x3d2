@@ -1,0 +1,1015 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>prepare_probe &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>prepare_probe
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">31 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/estimate.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/estimate.f90.html'>estimate.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_memcheck_estimate.html'>m_memcheck_estimate</a></li>
+            <li class="breadcrumb-item active" aria-current="page">prepare_probe</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine prepare_probe(ctx)  
+</h2>
+    
+
+    <p>Decides the FFT probe once per run and runs it. The small-grid probe
+gives the context and the heap. The full-grid probe follows when the
+mode allows and the card has room for the memory the plans need. The
+decision is in ctx%probe_plan and ctx%probe_reason (see ensure_probe
+in the device).</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ctx~24"></span>
+              type(<a href='../type/memcheck_ctx_t.html'>memcheck_ctx_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ctx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~prepare_probe~~CallsGraph Pages: 1 -->
+<svg id="procprepare_probeCallsGraph" width="641pt" height="203pt"
+ viewBox="0.00 0.00 641.00 203.26" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~prepare_probe~~CallsGraph" class="graph" transform="scale(0.31 0.31) rotate(0) translate(4 660)">
+<title>proc~~prepare_probe~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-660 2090,-660 2090,4 -4,4"/>
+<!-- proc~prepare_probe -->
+<g id="proc~~prepare_probe~~CallsGraph_node1" class="node">
+<title>proc~prepare_probe</title>
+<polygon fill="none" stroke="black" points="224,-150 0,-150 0,-126 224,-126 224,-150"/>
+<text text-anchor="middle" x="112" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_memcheck_estimate::prepare_probe</text>
+</g>
+<!-- none~ensure_probe -->
+<g id="proc~~prepare_probe~~CallsGraph_node2" class="node">
+<title>none~ensure_probe</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node2"><a xlink:href="../type/cuda_memcheck_device_t.html#boundprocedure-ensure_probe" xlink:title="m_cuda_memcheck_device::cuda_memcheck_device_t%ensure_probe">
+<polygon fill="#a7506f" stroke="#a7506f" points="666.5,-272 277.5,-272 277.5,-248 666.5,-248 666.5,-272"/>
+<text text-anchor="middle" x="472" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_memcheck_device::cuda_memcheck_device_t%ensure_probe</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;none~ensure_probe -->
+<g id="proc~~prepare_probe~~CallsGraph_edge1" class="edge">
+<title>proc~prepare_probe&#45;&gt;none~ensure_probe</title>
+<path fill="none" stroke="#ff0000" d="M126.82,-150.22C151.56,-171.32 205.89,-214.22 260,-234 272.83,-238.69 286.36,-242.57 300.12,-245.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="299.66,-249.25 310.18,-247.99 301.17,-242.42 299.66,-249.25"/>
+</g>
+<!-- none~mem_info -->
+<g id="proc~~prepare_probe~~CallsGraph_node3" class="node">
+<title>none~mem_info</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node3"><a xlink:href="../type/cuda_memcheck_device_t.html#boundprocedure-mem_info" xlink:title="m_cuda_memcheck_device::cuda_memcheck_device_t%mem_info">
+<polygon fill="#a7506f" stroke="#a7506f" points="1090,-272 720,-272 720,-248 1090,-248 1090,-272"/>
+<text text-anchor="middle" x="905" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_memcheck_device::cuda_memcheck_device_t%mem_info</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;none~mem_info -->
+<g id="proc~~prepare_probe~~CallsGraph_edge2" class="edge">
+<title>proc~prepare_probe&#45;&gt;none~mem_info</title>
+<path fill="none" stroke="#ff0000" d="M135.14,-150.12C163.25,-164.89 213.69,-189.32 260,-201 443.45,-247.28 495.61,-221.57 684,-239 711.56,-241.55 741.06,-244.33 769.21,-247.01"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="769.23,-250.53 779.52,-247.99 769.9,-243.56 769.23,-250.53"/>
+</g>
+<!-- none~query_plan_need -->
+<g id="proc~~prepare_probe~~CallsGraph_node4" class="node">
+<title>none~query_plan_need</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node4"><a xlink:href="../type/cuda_memcheck_device_t.html#boundprocedure-query_plan_need" xlink:title="m_cuda_memcheck_device::cuda_memcheck_device_t%query_plan_need">
+<polygon fill="#a7506f" stroke="#a7506f" points="676.5,-192 267.5,-192 267.5,-168 676.5,-168 676.5,-192"/>
+<text text-anchor="middle" x="472" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_memcheck_device::cuda_memcheck_device_t%query_plan_need</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;none~query_plan_need -->
+<g id="proc~~prepare_probe~~CallsGraph_edge3" class="edge">
+<title>proc~prepare_probe&#45;&gt;none~query_plan_need</title>
+<path fill="none" stroke="#ff0000" d="M192.64,-150.01C214.46,-153.13 238.12,-156.35 260,-159 283.02,-161.79 307.49,-164.48 331.3,-166.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="331.16,-170.45 341.46,-167.99 331.87,-163.48 331.16,-170.45"/>
+</g>
+<!-- none~use_predicted_heap -->
+<g id="proc~~prepare_probe~~CallsGraph_node5" class="node">
+<title>none~use_predicted_heap</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node5"><a xlink:href="../type/cuda_memcheck_device_t.html#boundprocedure-use_predicted_heap" xlink:title="m_cuda_memcheck_device::cuda_memcheck_device_t%use_predicted_heap">
+<polygon fill="#a7506f" stroke="#a7506f" points="684,-150 260,-150 260,-126 684,-126 684,-150"/>
+<text text-anchor="middle" x="472" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_memcheck_device::cuda_memcheck_device_t%use_predicted_heap</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;none~use_predicted_heap -->
+<g id="proc~~prepare_probe~~CallsGraph_edge4" class="edge">
+<title>proc~prepare_probe&#45;&gt;none~use_predicted_heap</title>
+<path fill="none" stroke="#ff0000" d="M224.31,-138C232.57,-138 241.06,-138 249.69,-138"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="249.87,-141.5 259.87,-138 249.87,-134.5 249.87,-141.5"/>
+</g>
+<!-- proc~cuda_fft_spectral_dims -->
+<g id="proc~~prepare_probe~~CallsGraph_node6" class="node">
+<title>proc~cuda_fft_spectral_dims</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node6"><a xlink:href="../proc/cuda_fft_spectral_dims.html" xlink:title="m_cuda_poisson_fft::cuda_fft_spectral_dims">
+<polygon fill="#d9534f" stroke="#d9534f" points="595,-108 349,-108 349,-84 595,-84 595,-108"/>
+<text text-anchor="middle" x="472" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft::cuda_fft_spectral_dims</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;proc~cuda_fft_spectral_dims -->
+<g id="proc~~prepare_probe~~CallsGraph_edge5" class="edge">
+<title>proc~prepare_probe&#45;&gt;proc~cuda_fft_spectral_dims</title>
+<path fill="none" stroke="#ff0000" d="M192.64,-125.99C214.46,-122.87 238.12,-119.65 260,-117 285.44,-113.92 312.64,-110.96 338.77,-108.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="339.13,-111.77 348.73,-107.28 338.43,-104.8 339.13,-111.77"/>
+</g>
+<!-- proc~spectral_slab_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_node7" class="node">
+<title>proc~spectral_slab_bytes</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node7"><a xlink:href="../proc/spectral_slab_bytes.html" xlink:title="m_memory_estimate::spectral_slab_bytes">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="590,-66 354,-66 354,-42 590,-42 590,-66"/>
+<text text-anchor="middle" x="472" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_memory_estimate::spectral_slab_bytes</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;proc~spectral_slab_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_edge6" class="edge">
+<title>proc~prepare_probe&#45;&gt;proc~spectral_slab_bytes</title>
+<path fill="none" stroke="#ff0000" d="M135.16,-125.95C163.29,-111.26 213.75,-86.91 260,-75 286.67,-68.13 315.77,-63.48 343.61,-60.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="344.23,-63.8 353.8,-59.26 343.48,-56.84 344.23,-63.8"/>
+</g>
+<!-- proc~to_gib -->
+<g id="proc~~prepare_probe~~CallsGraph_node8" class="node">
+<title>proc~to_gib</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node8"><a xlink:href="../proc/to_gib.html" xlink:title="m_memcheck_estimate::to_gib">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="561.5,-24 382.5,-24 382.5,0 561.5,0 561.5,-24"/>
+<text text-anchor="middle" x="472" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_memcheck_estimate::to_gib</text>
+</a>
+</g>
+</g>
+<!-- proc~prepare_probe&#45;&gt;proc~to_gib -->
+<g id="proc~~prepare_probe~~CallsGraph_edge7" class="edge">
+<title>proc~prepare_probe&#45;&gt;proc~to_gib</title>
+<path fill="none" stroke="#ff0000" d="M125.03,-125.92C148.56,-103.17 203.34,-54.31 260,-33 295.28,-19.73 336.08,-13.72 372.35,-11.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="372.68,-14.77 382.45,-10.68 372.26,-7.78 372.68,-14.77"/>
+</g>
+<!-- none~ensure_probe&#45;&gt;none~mem_info -->
+<g id="proc~~prepare_probe~~CallsGraph_edge8" class="edge">
+<title>none~ensure_probe&#45;&gt;none~mem_info</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M666.75,-260C680.97,-260 695.31,-260 709.53,-260"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="709.86,-263.5 719.86,-260 709.86,-256.5 709.86,-263.5"/>
+</g>
+<!-- proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_node10" class="node">
+<title>proc~abort_run</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node10"><a xlink:href="../proc/abort_run.html" xlink:title="m_logger::abort_run">
+<polygon fill="#d9534f" stroke="#d9534f" points="1949,-290 1827,-290 1827,-266 1949,-266 1949,-290"/>
+<text text-anchor="middle" x="1888" y="-275.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::abort_run</text>
+</a>
+</g>
+</g>
+<!-- none~ensure_probe&#45;&gt;proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_edge9" class="edge">
+<title>none~ensure_probe&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M600.48,-247.98C638.87,-244.68 681.12,-241.36 720,-239 950.84,-224.98 1008.73,-220 1240,-220 1240,-220 1240,-220 1494.5,-220 1613.82,-220 1751.37,-246.56 1827.85,-263.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1827.25,-267.18 1837.78,-265.98 1828.8,-260.36 1827.25,-267.18"/>
+</g>
+<!-- proc~fft_workspace_bytes_query -->
+<g id="proc~~prepare_probe~~CallsGraph_node11" class="node">
+<title>proc~fft_workspace_bytes_query</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node11"><a xlink:href="../proc/fft_workspace_bytes_query.html" xlink:title="m_cuda_memcheck_device::fft_workspace_bytes_query">
+<polygon fill="#d9534f" stroke="#d9534f" points="1060,-390 750,-390 750,-366 1060,-366 1060,-390"/>
+<text text-anchor="middle" x="905" y="-375.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_memcheck_device::fft_workspace_bytes_query</text>
+</a>
+</g>
+</g>
+<!-- none~ensure_probe&#45;&gt;proc~fft_workspace_bytes_query -->
+<g id="proc~~prepare_probe~~CallsGraph_edge10" class="edge">
+<title>none~ensure_probe&#45;&gt;proc~fft_workspace_bytes_query</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M517.1,-272.07C596.66,-293.85 763.92,-339.65 850.12,-363.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="849.39,-366.68 859.96,-365.94 851.24,-359.93 849.39,-366.68"/>
+</g>
+<!-- cudamemgetinfo -->
+<g id="proc~~prepare_probe~~CallsGraph_node9" class="node">
+<title>cudamemgetinfo</title>
+<polygon fill="#777777" stroke="#777777" points="1293,-310 1189,-310 1189,-286 1293,-286 1293,-310"/>
+<text text-anchor="middle" x="1241" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cudamemgetinfo</text>
+</g>
+<!-- none~mem_info&#45;&gt;cudamemgetinfo -->
+<g id="proc~~prepare_probe~~CallsGraph_edge11" class="edge">
+<title>none~mem_info&#45;&gt;cudamemgetinfo</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1011.68,-272.02C1066.7,-278.28 1132.03,-285.72 1178.68,-291.02"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="1178.3,-294.5 1188.64,-292.16 1179.1,-287.55 1178.3,-294.5"/>
+</g>
+<!-- none~mem_info&#45;&gt;proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_edge12" class="edge">
+<title>none~mem_info&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1090.23,-263.38C1310.06,-267.41 1666.7,-273.96 1816.84,-276.71"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="1816.8,-280.21 1826.86,-276.9 1816.93,-273.21 1816.8,-280.21"/>
+</g>
+<!-- none~query_plan_need&#45;&gt;proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_edge13" class="edge">
+<title>none~query_plan_need&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M617.16,-167.97C639.59,-165.43 662.46,-162.45 684,-159 700.18,-156.41 703.81,-153.55 720,-151 949.3,-114.86 1007.87,-102 1240,-102 1240,-102 1240,-102 1494.5,-102 1647.22,-102 1806.41,-214.31 1864.28,-259.5"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="1862.36,-262.44 1872.38,-265.9 1866.71,-256.95 1862.36,-262.44"/>
+</g>
+<!-- none~query_plan_need&#45;&gt;proc~fft_workspace_bytes_query -->
+<g id="proc~~prepare_probe~~CallsGraph_edge14" class="edge">
+<title>none~query_plan_need&#45;&gt;proc~fft_workspace_bytes_query</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M558.36,-192.03C598.77,-200.58 646.31,-214.98 684,-239 704.73,-252.21 700.79,-265.66 720,-281 764.62,-316.62 824.31,-345.24 863.43,-361.92"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="862.34,-365.26 872.91,-365.9 865.05,-358.8 862.34,-365.26"/>
+</g>
+<!-- proc~predicted_fft_heap_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_node12" class="node">
+<title>proc~predicted_fft_heap_bytes</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node12"><a xlink:href="../proc/predicted_fft_heap_bytes.html" xlink:title="m_memory_estimate::predicted_fft_heap_bytes">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1037.5,-192 772.5,-192 772.5,-168 1037.5,-168 1037.5,-192"/>
+<text text-anchor="middle" x="905" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_memory_estimate::predicted_fft_heap_bytes</text>
+</a>
+</g>
+</g>
+<!-- none~query_plan_need&#45;&gt;proc~predicted_fft_heap_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_edge15" class="edge">
+<title>none~query_plan_need&#45;&gt;proc~predicted_fft_heap_bytes</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M676.51,-180C705.53,-180 734.84,-180 762.33,-180"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="762.37,-183.5 772.37,-180 762.37,-176.5 762.37,-183.5"/>
+</g>
+<!-- proc~round_up_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_node13" class="node">
+<title>proc~round_up_bytes</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node13"><a xlink:href="../proc/round_up_bytes.html" xlink:title="m_memory_estimate::round_up_bytes">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1349,-173 1133,-173 1133,-149 1349,-149 1349,-173"/>
+<text text-anchor="middle" x="1241" y="-158.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_memory_estimate::round_up_bytes</text>
+</a>
+</g>
+</g>
+<!-- none~query_plan_need&#45;&gt;proc~round_up_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_edge16" class="edge">
+<title>none~query_plan_need&#45;&gt;proc~round_up_bytes</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M590.34,-167.98C631.32,-164.32 677.65,-160.8 720,-159 884.3,-152.03 925.56,-157.9 1090,-159 1100.57,-159.07 1111.55,-159.17 1122.56,-159.28"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="1122.63,-162.79 1132.66,-159.4 1122.7,-155.79 1122.63,-162.79"/>
+</g>
+<!-- interface~str -->
+<g id="proc~~prepare_probe~~CallsGraph_node17" class="node">
+<title>interface~str</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node17"><a xlink:href="../interface/str.html" xlink:title="m_logger::str">
+<polygon fill="#a7506f" stroke="#a7506f" points="2077.5,-437 1993.5,-437 1993.5,-413 2077.5,-413 2077.5,-437"/>
+<text text-anchor="middle" x="2035.5" y="-422.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::str</text>
+</a>
+</g>
+</g>
+<!-- proc~abort_run&#45;&gt;interface~str -->
+<g id="proc~~prepare_probe~~CallsGraph_edge17" class="edge">
+<title>proc~abort_run&#45;&gt;interface~str</title>
+<path fill="none" stroke="#cbff00" d="M1902.38,-290.21C1915.23,-302.35 1934.75,-321.86 1949,-341 1968.26,-366.87 1960.89,-382.58 1985,-404 1986.47,-405.3 1988.02,-406.53 1989.65,-407.69"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1987.87,-410.71 1998.23,-412.93 1991.52,-404.73 1987.87,-410.71"/>
+</g>
+<!-- mpi_abort -->
+<g id="proc~~prepare_probe~~CallsGraph_node18" class="node">
+<title>mpi_abort</title>
+<polygon fill="#777777" stroke="#777777" points="2069,-185 2002,-185 2002,-161 2069,-161 2069,-185"/>
+<text text-anchor="middle" x="2035.5" y="-170.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_abort</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_abort -->
+<g id="proc~~prepare_probe~~CallsGraph_edge18" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_abort</title>
+<path fill="none" stroke="#cbff00" d="M1900.43,-265.78C1917.49,-248.1 1951.23,-215.18 1985,-194 1987.57,-192.39 1990.28,-190.85 1993.06,-189.39"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1994.6,-192.53 2002.06,-185 1991.54,-186.24 1994.6,-192.53"/>
+</g>
+<!-- mpi_barrier -->
+<g id="proc~~prepare_probe~~CallsGraph_node19" class="node">
+<title>mpi_barrier</title>
+<polygon fill="#777777" stroke="#777777" points="2073,-227 1998,-227 1998,-203 2073,-203 2073,-227"/>
+<text text-anchor="middle" x="2035.5" y="-212.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_barrier</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_barrier -->
+<g id="proc~~prepare_probe~~CallsGraph_edge19" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_barrier</title>
+<path fill="none" stroke="#cbff00" d="M1916.28,-265.97C1935.47,-257.53 1961.78,-246.01 1985,-236 1988.7,-234.4 1992.57,-232.75 1996.43,-231.1"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1998.12,-234.19 2005.95,-227.05 1995.37,-227.75 1998.12,-234.19"/>
+</g>
+<!-- mpi_comm_rank -->
+<g id="proc~~prepare_probe~~CallsGraph_node20" class="node">
+<title>mpi_comm_rank</title>
+<polygon fill="#777777" stroke="#777777" points="2086,-395 1985,-395 1985,-371 2086,-371 2086,-395"/>
+<text text-anchor="middle" x="2035.5" y="-380.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_rank</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_rank -->
+<g id="proc~~prepare_probe~~CallsGraph_edge20" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#cbff00" d="M1900.43,-290.22C1917.49,-307.9 1951.23,-340.82 1985,-362 1987.57,-363.61 1990.28,-365.15 1993.06,-366.61"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1991.54,-369.76 2002.06,-371 1994.6,-363.47 1991.54,-369.76"/>
+</g>
+<!-- mpi_comm_size -->
+<g id="proc~~prepare_probe~~CallsGraph_node21" class="node">
+<title>mpi_comm_size</title>
+<polygon fill="#777777" stroke="#777777" points="2084,-353 1987,-353 1987,-329 2084,-329 2084,-353"/>
+<text text-anchor="middle" x="2035.5" y="-338.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_size</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_size -->
+<g id="proc~~prepare_probe~~CallsGraph_edge21" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#cbff00" d="M1916.28,-290.03C1935.47,-298.47 1961.78,-309.99 1985,-320 1988.7,-321.6 1992.57,-323.25 1996.43,-324.9"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1995.37,-328.25 2005.95,-328.95 1998.12,-321.81 1995.37,-328.25"/>
+</g>
+<!-- mpi_finalized -->
+<g id="proc~~prepare_probe~~CallsGraph_node22" class="node">
+<title>mpi_finalized</title>
+<polygon fill="#777777" stroke="#777777" points="2077,-311 1994,-311 1994,-287 2077,-287 2077,-311"/>
+<text text-anchor="middle" x="2035.5" y="-296.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_finalized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_finalized -->
+<g id="proc~~prepare_probe~~CallsGraph_edge22" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#cbff00" d="M1949.02,-286.66C1960.53,-288.32 1972.47,-290.05 1983.66,-291.66"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1983.28,-295.14 1993.68,-293.11 1984.28,-288.22 1983.28,-295.14"/>
+</g>
+<!-- mpi_initialized -->
+<g id="proc~~prepare_probe~~CallsGraph_node23" class="node">
+<title>mpi_initialized</title>
+<polygon fill="#777777" stroke="#777777" points="2080,-269 1991,-269 1991,-245 2080,-245 2080,-269"/>
+<text text-anchor="middle" x="2035.5" y="-254.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_initialized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_initialized -->
+<g id="proc~~prepare_probe~~CallsGraph_edge23" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#cbff00" d="M1949.02,-269.34C1959.47,-267.83 1970.28,-266.27 1980.56,-264.79"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1981.22,-268.23 1990.62,-263.33 1980.22,-261.3 1981.22,-268.23"/>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;cudamemgetinfo -->
+<g id="proc~~prepare_probe~~CallsGraph_edge24" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;cudamemgetinfo</title>
+<path fill="none" stroke="#00ff66" d="M954.01,-365.97C998.54,-354.88 1066.68,-338.04 1126,-324 1143.17,-319.93 1161.83,-315.63 1178.98,-311.72"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1179.91,-315.1 1188.88,-309.47 1178.36,-308.27 1179.91,-315.1"/>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_edge28" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#00ff66" d="M1025.18,-365.97C1195.15,-348.8 1516.97,-316.21 1791,-288 1799.33,-287.14 1808.06,-286.24 1816.72,-285.34"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1817.25,-288.81 1826.83,-284.29 1816.52,-281.84 1817.25,-288.81"/>
+</g>
+<!-- cufftdestroy -->
+<g id="proc~~prepare_probe~~CallsGraph_node14" class="node">
+<title>cufftdestroy</title>
+<polygon fill="#777777" stroke="#777777" points="1749,-656 1673,-656 1673,-632 1749,-632 1749,-656"/>
+<text text-anchor="middle" x="1711" y="-641.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftdestroy</text>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;cufftdestroy -->
+<g id="proc~~prepare_probe~~CallsGraph_edge25" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;cufftdestroy</title>
+<path fill="none" stroke="#00ff66" d="M920.41,-390.27C954.09,-418.34 1041.55,-487.68 1126,-525 1313.57,-607.9 1560.75,-633.76 1662.81,-641.22"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1662.58,-644.71 1672.8,-641.92 1663.07,-637.73 1662.58,-644.71"/>
+</g>
+<!-- cufftxtfree -->
+<g id="proc~~prepare_probe~~CallsGraph_node15" class="node">
+<title>cufftxtfree</title>
+<polygon fill="#777777" stroke="#777777" points="1274.5,-432 1207.5,-432 1207.5,-408 1274.5,-408 1274.5,-432"/>
+<text text-anchor="middle" x="1241" y="-417.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftxtfree</text>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;cufftxtfree -->
+<g id="proc~~prepare_probe~~CallsGraph_edge26" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;cufftxtfree</title>
+<path fill="none" stroke="#00ff66" d="M1001.71,-390.04C1066.32,-398.16 1148.45,-408.49 1197.48,-414.65"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1197.06,-418.13 1207.42,-415.9 1197.94,-411.18 1197.06,-418.13"/>
+</g>
+<!-- cufftxtmalloc -->
+<g id="proc~~prepare_probe~~CallsGraph_node16" class="node">
+<title>cufftxtmalloc</title>
+<polygon fill="#777777" stroke="#777777" points="1282,-390 1200,-390 1200,-366 1282,-366 1282,-390"/>
+<text text-anchor="middle" x="1241" y="-375.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftxtmalloc</text>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;cufftxtmalloc -->
+<g id="proc~~prepare_probe~~CallsGraph_edge27" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;cufftxtmalloc</title>
+<path fill="none" stroke="#00ff66" d="M1060.29,-378C1106.92,-378 1154.87,-378 1189.5,-378"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1189.81,-381.5 1199.81,-378 1189.81,-374.5 1189.81,-381.5"/>
+</g>
+<!-- proc~create_fft_plan_pair -->
+<g id="proc~~prepare_probe~~CallsGraph_node24" class="node">
+<title>proc~create_fft_plan_pair</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node24"><a xlink:href="../proc/create_fft_plan_pair.html" xlink:title="m_cuda_poisson_fft::create_fft_plan_pair">
+<polygon fill="#d9534f" stroke="#d9534f" points="1355.5,-516 1126.5,-516 1126.5,-492 1355.5,-492 1355.5,-516"/>
+<text text-anchor="middle" x="1241" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft::create_fft_plan_pair</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;proc~create_fft_plan_pair -->
+<g id="proc~~prepare_probe~~CallsGraph_edge29" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;proc~create_fft_plan_pair</title>
+<path fill="none" stroke="#00ff66" d="M926.48,-390.05C964.49,-411.88 1049.11,-458.05 1126,-483 1133.62,-485.47 1141.63,-487.68 1149.72,-489.66"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1149.08,-493.1 1159.61,-491.94 1150.65,-486.28 1149.08,-493.1"/>
+</g>
+<!-- proc~cuda_fft_plan_setup -->
+<g id="proc~~prepare_probe~~CallsGraph_node25" class="node">
+<title>proc~cuda_fft_plan_setup</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node25"><a xlink:href="../proc/cuda_fft_plan_setup.html" xlink:title="m_cuda_poisson_fft::cuda_fft_plan_setup">
+<polygon fill="#d9534f" stroke="#d9534f" points="1356,-474 1126,-474 1126,-450 1356,-450 1356,-474"/>
+<text text-anchor="middle" x="1241" y="-459.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft::cuda_fft_plan_setup</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_workspace_bytes_query&#45;&gt;proc~cuda_fft_plan_setup -->
+<g id="proc~~prepare_probe~~CallsGraph_edge30" class="edge">
+<title>proc~fft_workspace_bytes_query&#45;&gt;proc~cuda_fft_plan_setup</title>
+<path fill="none" stroke="#00ff66" d="M943.86,-390.05C987.47,-403.65 1061.41,-425.84 1126,-441 1136.5,-443.46 1147.6,-445.82 1158.59,-448"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1158.14,-451.48 1168.63,-449.95 1159.48,-444.61 1158.14,-451.48"/>
+</g>
+<!-- proc~predicted_fft_heap_bytes&#45;&gt;proc~round_up_bytes -->
+<g id="proc~~prepare_probe~~CallsGraph_edge31" class="edge">
+<title>proc~predicted_fft_heap_bytes&#45;&gt;proc~round_up_bytes</title>
+<path fill="none" stroke="#0066ff" d="M1037.53,-172.52C1065.65,-170.92 1095.19,-169.24 1122.74,-167.67"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1123,-171.16 1132.79,-167.1 1122.61,-164.17 1123,-171.16"/>
+</g>
+<!-- proc~create_fft_plan_pair&#45;&gt;cufftdestroy -->
+<g id="proc~~prepare_probe~~CallsGraph_edge32" class="edge">
+<title>proc~create_fft_plan_pair&#45;&gt;cufftdestroy</title>
+<path fill="none" stroke="#ff00ff" d="M1282.31,-516.06C1368.73,-541.91 1571.46,-602.56 1663.31,-630.03"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="1662.31,-633.39 1672.89,-632.9 1664.32,-626.68 1662.31,-633.39"/>
+</g>
+<!-- proc~check_cufft -->
+<g id="proc~~prepare_probe~~CallsGraph_node26" class="node">
+<title>proc~check_cufft</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node26"><a xlink:href="../proc/check_cufft.html" xlink:title="m_cuda_errors::check_cufft">
+<polygon fill="#d9534f" stroke="#d9534f" points="1791,-370 1631,-370 1631,-346 1791,-346 1791,-370"/>
+<text text-anchor="middle" x="1711" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_errors::check_cufft</text>
+</a>
+</g>
+</g>
+<!-- proc~create_fft_plan_pair&#45;&gt;proc~check_cufft -->
+<g id="proc~~prepare_probe~~CallsGraph_edge33" class="edge">
+<title>proc~create_fft_plan_pair&#45;&gt;proc~check_cufft</title>
+<path fill="none" stroke="#ff00ff" d="M1317.86,-491.99C1330.68,-489.41 1343.79,-486.4 1356,-483 1481.87,-447.91 1506.59,-418.95 1631,-379 1637.54,-376.9 1644.42,-374.85 1651.3,-372.89"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="1652.61,-376.16 1661.31,-370.11 1650.74,-369.41 1652.61,-376.16"/>
+</g>
+<!-- proc~create_fft_plan -->
+<g id="proc~~prepare_probe~~CallsGraph_node27" class="node">
+<title>proc~create_fft_plan</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node27"><a xlink:href="../proc/create_fft_plan.html" xlink:title="m_cuda_poisson_fft::create_fft_plan">
+<polygon fill="#d9534f" stroke="#d9534f" points="1595,-516 1392,-516 1392,-492 1595,-492 1595,-516"/>
+<text text-anchor="middle" x="1493.5" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft::create_fft_plan</text>
+</a>
+</g>
+</g>
+<!-- proc~create_fft_plan_pair&#45;&gt;proc~create_fft_plan -->
+<g id="proc~~prepare_probe~~CallsGraph_edge34" class="edge">
+<title>proc~create_fft_plan_pair&#45;&gt;proc~create_fft_plan</title>
+<path fill="none" stroke="#ff00ff" d="M1355.52,-504C1364.18,-504 1372.9,-504 1381.54,-504"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="1381.63,-507.5 1391.63,-504 1381.63,-500.5 1381.63,-507.5"/>
+</g>
+<!-- proc~check_cufft&#45;&gt;proc~abort_run -->
+<g id="proc~~prepare_probe~~CallsGraph_edge36" class="edge">
+<title>proc~check_cufft&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ff0000" d="M1753.57,-345.99C1765.81,-342.01 1779.11,-337.24 1791,-332 1814.91,-321.46 1840.64,-306.79 1859.45,-295.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1861.39,-298.31 1868.08,-290.1 1857.73,-292.35 1861.39,-298.31"/>
+</g>
+<!-- proc~check_cufft&#45;&gt;interface~str -->
+<g id="proc~~prepare_probe~~CallsGraph_edge35" class="edge">
+<title>proc~check_cufft&#45;&gt;interface~str</title>
+<path fill="none" stroke="#ff0000" d="M1766.66,-370.05C1785.74,-374.21 1807.3,-378.87 1827,-383 1880.17,-394.16 1941.12,-406.43 1983.13,-414.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1982.63,-418.29 1993.13,-416.81 1984,-411.42 1982.63,-418.29"/>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;cufftdestroy -->
+<g id="proc~~prepare_probe~~CallsGraph_edge38" class="edge">
+<title>proc~create_fft_plan&#45;&gt;cufftdestroy</title>
+<path fill="none" stroke="#00ffff" d="M1524.28,-516.15C1545.72,-525.95 1574.39,-541.34 1595,-561 1616.68,-581.68 1607.38,-599.57 1631,-618 1640.33,-625.28 1651.79,-630.57 1663.05,-634.39"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1662.26,-637.8 1672.84,-637.38 1664.3,-631.11 1662.26,-637.8"/>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;interface~str -->
+<g id="proc~~prepare_probe~~CallsGraph_edge42" class="edge">
+<title>proc~create_fft_plan&#45;&gt;interface~str</title>
+<path fill="none" stroke="#00ffff" d="M1529.32,-516.05C1549.07,-523.41 1573.97,-533.59 1595,-545 1612.12,-554.29 1612.41,-564.18 1631,-570 1698.86,-591.25 1722.44,-588.87 1791,-570 1881.57,-545.08 1972.48,-476.68 2012.85,-443.52"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="2015.23,-446.09 2020.68,-437 2010.75,-440.71 2015.23,-446.09"/>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;proc~check_cufft -->
+<g id="proc~~prepare_probe~~CallsGraph_edge43" class="edge">
+<title>proc~create_fft_plan&#45;&gt;proc~check_cufft</title>
+<path fill="none" stroke="#00ffff" d="M1517.17,-491.96C1538.89,-479.66 1571.72,-459 1595,-435 1615.6,-413.76 1607.09,-396.42 1631,-379 1633.11,-377.46 1635.32,-376.04 1637.61,-374.72"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1639.4,-377.74 1646.78,-370.13 1636.27,-371.48 1639.4,-377.74"/>
+</g>
+<!-- cufftcreate -->
+<g id="proc~~prepare_probe~~CallsGraph_node28" class="node">
+<title>cufftcreate</title>
+<polygon fill="#777777" stroke="#777777" points="1746,-538 1676,-538 1676,-514 1746,-514 1746,-538"/>
+<text text-anchor="middle" x="1711" y="-523.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftcreate</text>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;cufftcreate -->
+<g id="proc~~prepare_probe~~CallsGraph_edge37" class="edge">
+<title>proc~create_fft_plan&#45;&gt;cufftcreate</title>
+<path fill="none" stroke="#00ffff" d="M1595.31,-514.29C1619.94,-516.81 1645.05,-519.37 1665.47,-521.45"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1665.39,-524.96 1675.7,-522.5 1666.1,-518 1665.39,-524.96"/>
+</g>
+<!-- cufftmakeplan3d -->
+<g id="proc~~prepare_probe~~CallsGraph_node29" class="node">
+<title>cufftmakeplan3d</title>
+<polygon fill="#777777" stroke="#777777" points="1762.5,-496 1659.5,-496 1659.5,-472 1762.5,-472 1762.5,-496"/>
+<text text-anchor="middle" x="1711" y="-481.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftmakeplan3d</text>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;cufftmakeplan3d -->
+<g id="proc~~prepare_probe~~CallsGraph_edge39" class="edge">
+<title>proc~create_fft_plan&#45;&gt;cufftmakeplan3d</title>
+<path fill="none" stroke="#00ffff" d="M1595.31,-494.64C1613.72,-492.94 1632.41,-491.2 1649.21,-489.64"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1649.77,-493.11 1659.4,-488.7 1649.12,-486.14 1649.77,-493.11"/>
+</g>
+<!-- cufftmpattachcomm -->
+<g id="proc~~prepare_probe~~CallsGraph_node30" class="node">
+<title>cufftmpattachcomm</title>
+<polygon fill="#777777" stroke="#777777" points="1771.5,-454 1650.5,-454 1650.5,-430 1771.5,-430 1771.5,-454"/>
+<text text-anchor="middle" x="1711" y="-439.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftmpattachcomm</text>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;cufftmpattachcomm -->
+<g id="proc~~prepare_probe~~CallsGraph_edge40" class="edge">
+<title>proc~create_fft_plan&#45;&gt;cufftmpattachcomm</title>
+<path fill="none" stroke="#00ffff" d="M1533.53,-491.91C1560.78,-483.57 1598.02,-472.33 1631,-463 1638.39,-460.91 1646.19,-458.76 1653.9,-456.68"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1654.81,-460.05 1663.56,-454.08 1653,-453.29 1654.81,-460.05"/>
+</g>
+<!-- cufftsetautoallocation -->
+<g id="proc~~prepare_probe~~CallsGraph_node31" class="node">
+<title>cufftsetautoallocation</title>
+<polygon fill="#777777" stroke="#777777" points="1775.5,-412 1646.5,-412 1646.5,-388 1775.5,-388 1775.5,-412"/>
+<text text-anchor="middle" x="1711" y="-397.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cufftsetautoallocation</text>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;cufftsetautoallocation -->
+<g id="proc~~prepare_probe~~CallsGraph_edge41" class="edge">
+<title>proc~create_fft_plan&#45;&gt;cufftsetautoallocation</title>
+<path fill="none" stroke="#00ffff" d="M1510.89,-491.87C1535.71,-474.03 1584.82,-440.69 1631,-421 1635.98,-418.88 1641.22,-416.92 1646.55,-415.13"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1647.7,-418.44 1656.18,-412.08 1645.59,-411.76 1647.7,-418.44"/>
+</g>
+<!-- proc~log_warn -->
+<g id="proc~~prepare_probe~~CallsGraph_node32" class="node">
+<title>proc~log_warn</title>
+<g id="a_proc~~prepare_probe~~CallsGraph_node32"><a xlink:href="../proc/log_warn.html" xlink:title="m_logger::log_warn">
+<polygon fill="#d9534f" stroke="#d9534f" points="1947,-374 1829,-374 1829,-350 1947,-350 1947,-374"/>
+<text text-anchor="middle" x="1888" y="-359.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::log_warn</text>
+</a>
+</g>
+</g>
+<!-- proc~create_fft_plan&#45;&gt;proc~log_warn -->
+<g id="proc~~prepare_probe~~CallsGraph_edge44" class="edge">
+<title>proc~create_fft_plan&#45;&gt;proc~log_warn</title>
+<path fill="none" stroke="#00ffff" d="M1523.7,-516.06C1550.93,-526.62 1592.94,-541.15 1631,-547 1701.28,-557.81 1730.23,-583.93 1791,-547 1850.2,-511.02 1874.55,-425.39 1883.06,-384.49"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1886.54,-384.93 1885.02,-374.45 1879.67,-383.59 1886.54,-384.93"/>
+</g>
+<!-- proc~log_warn&#45;&gt;interface~str -->
+<g id="proc~~prepare_probe~~CallsGraph_edge45" class="edge">
+<title>proc~log_warn&#45;&gt;interface~str</title>
+<path fill="none" stroke="#cc00ff" d="M1916.28,-374.03C1935.47,-382.47 1961.78,-393.99 1985,-404 1988.7,-405.6 1992.57,-407.25 1996.43,-408.9"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1995.37,-412.25 2005.95,-412.95 1998.12,-405.81 1995.37,-412.25"/>
+</g>
+<!-- proc~log_warn&#45;&gt;mpi_comm_rank -->
+<g id="proc~~prepare_probe~~CallsGraph_edge46" class="edge">
+<title>proc~log_warn&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#cc00ff" d="M1947.34,-370.42C1956.3,-371.71 1965.57,-373.05 1974.56,-374.35"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1974.18,-377.83 1984.57,-375.79 1975.18,-370.9 1974.18,-377.83"/>
+</g>
+<!-- proc~log_warn&#45;&gt;mpi_comm_size -->
+<g id="proc~~prepare_probe~~CallsGraph_edge47" class="edge">
+<title>proc~log_warn&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#cc00ff" d="M1947.34,-353.58C1957.08,-352.17 1967.18,-350.72 1976.9,-349.31"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1977.47,-352.77 1986.87,-347.87 1976.47,-345.84 1977.47,-352.77"/>
+</g>
+<!-- proc~log_warn&#45;&gt;mpi_finalized -->
+<g id="proc~~prepare_probe~~CallsGraph_edge48" class="edge">
+<title>proc~log_warn&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#cc00ff" d="M1916.28,-349.97C1935.47,-341.53 1961.78,-330.01 1985,-320 1988.7,-318.4 1992.57,-316.75 1996.43,-315.1"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1998.12,-318.19 2005.95,-311.05 1995.37,-311.75 1998.12,-318.19"/>
+</g>
+<!-- proc~log_warn&#45;&gt;mpi_initialized -->
+<g id="proc~~prepare_probe~~CallsGraph_edge49" class="edge">
+<title>proc~log_warn&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#cc00ff" d="M1900.43,-349.78C1917.49,-332.1 1951.23,-299.18 1985,-278 1987.57,-276.39 1990.28,-274.85 1993.06,-273.39"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1994.6,-276.53 2002.06,-269 1991.54,-270.24 1994.6,-276.53"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocprepare_probeCallsGraph = svgPanZoom('#procprepare_probeCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~prepare_probe~~CalledByGraph Pages: 1 -->
+<svg id="procprepare_probeCalledByGraph" width="572pt" height="32pt"
+ viewBox="0.00 0.00 572.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~prepare_probe~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~prepare_probe~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 568,-28 568,4 -4,4"/>
+<!-- proc~prepare_probe -->
+<g id="proc~~prepare_probe~~CalledByGraph_node1" class="node">
+<title>proc~prepare_probe</title>
+<polygon fill="none" stroke="black" points="564,-24 340,-24 340,0 564,0 564,-24"/>
+<text text-anchor="middle" x="452" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_memcheck_estimate::prepare_probe</text>
+</g>
+<!-- proc~report -->
+<g id="proc~~prepare_probe~~CalledByGraph_node2" class="node">
+<title>proc~report</title>
+<g id="a_proc~~prepare_probe~~CalledByGraph_node2"><a xlink:href="../proc/report.html" xlink:title="m_memcheck_report::report">
+<polygon fill="#d9534f" stroke="#d9534f" points="304,-24 139,-24 139,0 304,0 304,-24"/>
+<text text-anchor="middle" x="221.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_memcheck_report::report</text>
+</a>
+</g>
+</g>
+<!-- proc~report&#45;&gt;proc~prepare_probe -->
+<g id="proc~~prepare_probe~~CalledByGraph_edge1" class="edge">
+<title>proc~report&#45;&gt;proc~prepare_probe</title>
+<path fill="none" stroke="#ff0000" d="M304.03,-12C312.41,-12 321.05,-12 329.74,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="329.96,-15.5 339.96,-12 329.96,-8.5 329.96,-15.5"/>
+</g>
+<!-- program~x3d2_memcheck -->
+<g id="proc~~prepare_probe~~CalledByGraph_node3" class="node">
+<title>program~x3d2_memcheck</title>
+<g id="a_proc~~prepare_probe~~CalledByGraph_node3"><a xlink:href="../program/x3d2_memcheck.html" xlink:title="x3d2_memcheck">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="103,-24 0,-24 0,0 103,0 103,-24"/>
+<text text-anchor="middle" x="51.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">x3d2_memcheck</text>
+</a>
+</g>
+</g>
+<!-- program~x3d2_memcheck&#45;&gt;proc~report -->
+<g id="proc~~prepare_probe~~CalledByGraph_edge2" class="edge">
+<title>program~x3d2_memcheck&#45;&gt;proc~report</title>
+<path fill="none" stroke="#ff0000" d="M103.36,-12C111.41,-12 119.95,-12 128.6,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.78,-15.5 138.78,-12 128.78,-8.5 128.78,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

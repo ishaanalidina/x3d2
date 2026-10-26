@@ -1,0 +1,666 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>create_omp_poisson_fft &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>create_omp_poisson_fft
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">23 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/poisson_fft.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/poisson_fft.f90.html'>poisson_fft.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_omp_poisson_fft.html'>m_omp_poisson_fft</a></li>
+            <li class="breadcrumb-item active" aria-current="page">create_omp_poisson_fft</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine create_omp_poisson_fft(poisson_fft, mesh, xdirps, ydirps, zdirps, lowmem)  
+</h2>
+    
+
+    <p>Allocates the solver type of the mesh's boundary condition case and
+initialises it.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-poisson_fft"></span>
+              class(<a href='../type/poisson_fft_t.html'>poisson_fft_t</a>),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>poisson_fft</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mesh~14"></span>
+              type(<a href='../type/mesh_t.html'>mesh_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>mesh</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-xdirps~2"></span>
+              class(<a href='../type/dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xdirps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ydirps~2"></span>
+              class(<a href='../type/dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ydirps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zdirps~2"></span>
+              class(<a href='../type/dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zdirps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lowmem~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lowmem</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~create_omp_poisson_fft~~CallsGraph Pages: 1 -->
+<svg id="proccreate_omp_poisson_fftCallsGraph" width="611pt" height="284pt"
+ viewBox="0.00 0.00 611.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~create_omp_poisson_fft~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>proc~~create_omp_poisson_fft~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 607,-280 607,4 -4,4"/>
+<!-- proc~create_omp_poisson_fft -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node1" class="node">
+<title>proc~create_omp_poisson_fft</title>
+<polygon fill="none" stroke="black" points="247,-150 0,-150 0,-126 247,-126 247,-150"/>
+<text text-anchor="middle" x="123.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_omp_poisson_fft::create_omp_poisson_fft</text>
+</g>
+<!-- init -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node2" class="node">
+<title>init</title>
+<polygon fill="#777777" stroke="#777777" points="401.5,-192 347.5,-192 347.5,-168 401.5,-168 401.5,-192"/>
+<text text-anchor="middle" x="374.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">init</text>
+</g>
+<!-- proc~create_omp_poisson_fft&#45;&gt;init -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge1" class="edge">
+<title>proc~create_omp_poisson_fft&#45;&gt;init</title>
+<path fill="none" stroke="#ff0000" d="M195.85,-150.04C242.02,-157.82 300.2,-167.64 337.14,-173.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="336.98,-177.39 347.42,-175.6 338.14,-170.49 336.98,-177.39"/>
+</g>
+<!-- proc~abort_run -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node3" class="node">
+<title>proc~abort_run</title>
+<g id="a_proc~~create_omp_poisson_fft~~CallsGraph_node3"><a xlink:href="../proc/abort_run.html" xlink:title="m_logger::abort_run">
+<polygon fill="#d9534f" stroke="#d9534f" points="435.5,-150 313.5,-150 313.5,-126 435.5,-126 435.5,-150"/>
+<text text-anchor="middle" x="374.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::abort_run</text>
+</a>
+</g>
+</g>
+<!-- proc~create_omp_poisson_fft&#45;&gt;proc~abort_run -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge2" class="edge">
+<title>proc~create_omp_poisson_fft&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ff0000" d="M247.18,-138C266.47,-138 285.82,-138 303.37,-138"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="303.49,-141.5 313.49,-138 303.49,-134.5 303.49,-141.5"/>
+</g>
+<!-- proc~poisson_bc_code -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node4" class="node">
+<title>proc~poisson_bc_code</title>
+<g id="a_proc~~create_omp_poisson_fft~~CallsGraph_node4"><a xlink:href="../proc/poisson_bc_code.html" xlink:title="m_poisson_fft::poisson_bc_code">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="466,-108 283,-108 283,-84 466,-84 466,-108"/>
+<text text-anchor="middle" x="374.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_poisson_fft::poisson_bc_code</text>
+</a>
+</g>
+</g>
+<!-- proc~create_omp_poisson_fft&#45;&gt;proc~poisson_bc_code -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge3" class="edge">
+<title>proc~create_omp_poisson_fft&#45;&gt;proc~poisson_bc_code</title>
+<path fill="none" stroke="#ff0000" d="M195.85,-125.96C225.94,-120.89 261.12,-114.96 292.2,-109.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="292.86,-113.15 302.14,-108.04 291.69,-106.25 292.86,-113.15"/>
+</g>
+<!-- interface~str -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node5" class="node">
+<title>interface~str</title>
+<g id="a_proc~~create_omp_poisson_fft~~CallsGraph_node5"><a xlink:href="../interface/str.html" xlink:title="m_logger::str">
+<polygon fill="#a7506f" stroke="#a7506f" points="594.5,-276 510.5,-276 510.5,-252 594.5,-252 594.5,-276"/>
+<text text-anchor="middle" x="552.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::str</text>
+</a>
+</g>
+</g>
+<!-- proc~abort_run&#45;&gt;interface~str -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge4" class="edge">
+<title>proc~abort_run&#45;&gt;interface~str</title>
+<path fill="none" stroke="#00ff00" d="M435.69,-143.67C446.65,-146.9 457.34,-151.75 466,-159 497.15,-185.07 473.23,-214.33 502,-243 503.1,-244.09 504.26,-245.13 505.47,-246.12"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="503.85,-249.24 514.1,-251.92 507.75,-243.43 503.85,-249.24"/>
+</g>
+<!-- mpi_abort -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node6" class="node">
+<title>mpi_abort</title>
+<polygon fill="#777777" stroke="#777777" points="586,-234 519,-234 519,-210 586,-210 586,-234"/>
+<text text-anchor="middle" x="552.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_abort</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_abort -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge5" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_abort</title>
+<path fill="none" stroke="#00ff00" d="M435.54,-146.28C446.16,-149.29 456.76,-153.4 466,-159 487.02,-171.75 482.16,-186.48 502,-201 504.48,-202.82 507.14,-204.51 509.9,-206.09"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="508.42,-209.26 518.91,-210.72 511.62,-203.04 508.42,-209.26"/>
+</g>
+<!-- mpi_barrier -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node7" class="node">
+<title>mpi_barrier</title>
+<polygon fill="#777777" stroke="#777777" points="590,-192 515,-192 515,-168 590,-168 590,-192"/>
+<text text-anchor="middle" x="552.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_barrier</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_barrier -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge6" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_barrier</title>
+<path fill="none" stroke="#00ff00" d="M428.17,-150.1C440.58,-152.99 453.76,-156.08 466,-159 478.67,-162.03 492.38,-165.36 505.03,-168.47"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="504.36,-171.91 514.91,-170.9 506.04,-165.11 504.36,-171.91"/>
+</g>
+<!-- mpi_comm_rank -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node8" class="node">
+<title>mpi_comm_rank</title>
+<polygon fill="#777777" stroke="#777777" points="603,-150 502,-150 502,-126 603,-126 603,-150"/>
+<text text-anchor="middle" x="552.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_rank</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_rank -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge7" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#00ff00" d="M435.58,-138C453.73,-138 473.64,-138 491.77,-138"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="491.92,-141.5 501.92,-138 491.92,-134.5 491.92,-141.5"/>
+</g>
+<!-- mpi_comm_size -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node9" class="node">
+<title>mpi_comm_size</title>
+<polygon fill="#777777" stroke="#777777" points="601,-108 504,-108 504,-84 601,-84 601,-108"/>
+<text text-anchor="middle" x="552.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_size</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_size -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge8" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#00ff00" d="M428.17,-125.9C440.58,-123.01 453.76,-119.92 466,-117 474.95,-114.86 484.42,-112.57 493.68,-110.31"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="494.71,-113.66 503.59,-107.88 493.05,-106.86 494.71,-113.66"/>
+</g>
+<!-- mpi_finalized -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node10" class="node">
+<title>mpi_finalized</title>
+<polygon fill="#777777" stroke="#777777" points="594,-66 511,-66 511,-42 594,-42 594,-66"/>
+<text text-anchor="middle" x="552.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_finalized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_finalized -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge9" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#00ff00" d="M435.54,-129.72C446.16,-126.71 456.76,-122.6 466,-117 487.02,-104.25 482.16,-89.52 502,-75 504.04,-73.5 506.21,-72.09 508.45,-70.76"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="510.17,-73.81 517.35,-66.01 506.88,-67.63 510.17,-73.81"/>
+</g>
+<!-- mpi_initialized -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_node11" class="node">
+<title>mpi_initialized</title>
+<polygon fill="#777777" stroke="#777777" points="597,-24 508,-24 508,0 597,0 597,-24"/>
+<text text-anchor="middle" x="552.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_initialized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_initialized -->
+<g id="proc~~create_omp_poisson_fft~~CallsGraph_edge10" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#00ff00" d="M435.69,-132.33C446.65,-129.1 457.34,-124.25 466,-117 497.15,-90.93 473.23,-61.67 502,-33 503.1,-31.91 504.26,-30.87 505.47,-29.88"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="507.75,-32.57 514.1,-24.08 503.85,-26.76 507.75,-32.57"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~create_omp_poisson_fft~~CalledByGraph Pages: 1 -->
+<svg id="proccreate_omp_poisson_fftCalledByGraph" width="604pt" height="32pt"
+ viewBox="0.00 0.00 604.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~create_omp_poisson_fft~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~create_omp_poisson_fft~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 600,-28 600,4 -4,4"/>
+<!-- proc~create_omp_poisson_fft -->
+<g id="proc~~create_omp_poisson_fft~~CalledByGraph_node1" class="node">
+<title>proc~create_omp_poisson_fft</title>
+<polygon fill="none" stroke="black" points="596,-24 349,-24 349,0 596,0 596,-24"/>
+<text text-anchor="middle" x="472.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_omp_poisson_fft::create_omp_poisson_fft</text>
+</g>
+<!-- proc~init_omp_poisson_fft -->
+<g id="proc~~create_omp_poisson_fft~~CalledByGraph_node2" class="node">
+<title>proc~init_omp_poisson_fft</title>
+<g id="a_proc~~create_omp_poisson_fft~~CalledByGraph_node2"><a xlink:href="../proc/init_omp_poisson_fft.html" xlink:title="m_omp_backend::omp_backend_t%init_omp_poisson_fft">
+<polygon fill="#d9534f" stroke="#d9534f" points="313,-24 0,-24 0,0 313,0 313,-24"/>
+<text text-anchor="middle" x="156.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%init_omp_poisson_fft</text>
+</a>
+</g>
+</g>
+<!-- proc~init_omp_poisson_fft&#45;&gt;proc~create_omp_poisson_fft -->
+<g id="proc~~create_omp_poisson_fft~~CalledByGraph_edge1" class="edge">
+<title>proc~init_omp_poisson_fft&#45;&gt;proc~create_omp_poisson_fft</title>
+<path fill="none" stroke="#ff0000" d="M313.12,-12C321.67,-12 330.23,-12 338.69,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="338.96,-15.5 348.96,-12 338.96,-8.5 338.96,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

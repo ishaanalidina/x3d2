@@ -1,0 +1,784 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mesh_t &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mesh_t
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 66 statements,  0.5% of total for procedures.">3 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mesh.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mesh.f90.html'>mesh.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_mesh.html'>m_mesh</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mesh_t</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/mesh_t.html#moduleprocedure-mesh_init">mesh_init</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface mesh_t</h2>
+      
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Calls</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~mesh_t~~CallsGraph Pages: 1 -->
+<svg id="interfacemesh_tCallsGraph" width="641pt" height="215pt"
+ viewBox="0.00 0.00 641.00 215.15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~mesh_t~~CallsGraph" class="graph" transform="scale(0.62 0.62) rotate(0) translate(4 345.07)">
+<title>interface~~mesh_t~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-345.07 1036,-345.07 1036,4 -4,4"/>
+<!-- interface~mesh_t -->
+<g id="interface~~mesh_t~~CallsGraph_node1" class="node">
+<title>interface~mesh_t</title>
+<polygon fill="none" stroke="black" points="103,-171 0,-171 0,-147 103,-147 103,-171"/>
+<text text-anchor="middle" x="51.5" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_mesh::mesh_t</text>
+</g>
+<!-- proc~mesh_init -->
+<g id="interface~~mesh_t~~CallsGraph_node2" class="node">
+<title>proc~mesh_init</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node2"><a xlink:href="../proc/mesh_init.html" xlink:title="m_mesh::mesh_init">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="255,-171 139,-171 139,-147 255,-147 255,-171"/>
+<text text-anchor="middle" x="197" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::mesh_init</text>
+</a>
+</g>
+</g>
+<!-- interface~mesh_t&#45;&gt;proc~mesh_init -->
+<g id="interface~~mesh_t~~CallsGraph_edge1" class="edge">
+<title>interface~mesh_t&#45;&gt;proc~mesh_init</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M103.09,-159C111.24,-159 119.78,-159 128.26,-159"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.52,-162.5 138.52,-159 128.52,-155.5 128.52,-162.5"/>
+</g>
+<!-- mpi_comm_rank -->
+<g id="interface~~mesh_t~~CallsGraph_node3" class="node">
+<title>mpi_comm_rank</title>
+<polygon fill="#777777" stroke="#777777" points="1032,-314 931,-314 931,-290 1032,-290 1032,-314"/>
+<text text-anchor="middle" x="981.5" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_rank</text>
+</g>
+<!-- proc~mesh_init&#45;&gt;mpi_comm_rank -->
+<g id="interface~~mesh_t~~CallsGraph_edge2" class="edge">
+<title>proc~mesh_init&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#ff0000" d="M203.81,-171.31C216.01,-195.56 246.87,-249.06 291,-271 502.07,-375.94 795.9,-337.9 920.66,-314.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="921.61,-318.05 930.78,-312.74 920.3,-311.17 921.61,-318.05"/>
+</g>
+<!-- mpi_comm_size -->
+<g id="interface~~mesh_t~~CallsGraph_node4" class="node">
+<title>mpi_comm_size</title>
+<polygon fill="#777777" stroke="#777777" points="1030,-272 933,-272 933,-248 1030,-248 1030,-272"/>
+<text text-anchor="middle" x="981.5" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_size</text>
+</g>
+<!-- proc~mesh_init&#45;&gt;mpi_comm_size -->
+<g id="interface~~mesh_t~~CallsGraph_edge3" class="edge">
+<title>proc~mesh_init&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#ff0000" d="M206.63,-171.04C221.35,-190.46 253.41,-228 291,-243 404.9,-288.44 777.96,-272.05 922.53,-263.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="922.76,-267.17 932.54,-263.09 922.35,-260.18 922.76,-267.17"/>
+</g>
+<!-- proc~classify_boundaries -->
+<g id="interface~~mesh_t~~CallsGraph_node5" class="node">
+<title>proc~classify_boundaries</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node5"><a xlink:href="../proc/classify_boundaries.html" xlink:title="m_mesh::classify_boundaries">
+<polygon fill="#d9534f" stroke="#d9534f" points="501.5,-234 332.5,-234 332.5,-210 501.5,-210 501.5,-234"/>
+<text text-anchor="middle" x="417" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::classify_boundaries</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~classify_boundaries -->
+<g id="interface~~mesh_t~~CallsGraph_edge4" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~classify_boundaries</title>
+<path fill="none" stroke="#ff0000" d="M220.3,-171.04C238.75,-180.52 265.92,-193.37 291,-201 301.07,-204.06 311.75,-206.72 322.45,-209.01"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="321.77,-212.44 332.27,-211 323.17,-205.58 321.77,-212.44"/>
+</g>
+<!-- proc~decomposition_2decomp -->
+<g id="interface~~mesh_t~~CallsGraph_node6" class="node">
+<title>proc~decomposition_2decomp</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node6"><a xlink:href="../proc/decomposition_2decomp.html" xlink:title="m_decomp::decomposition_2decomp">
+<polygon fill="#d9534f" stroke="#d9534f" points="524,-192 310,-192 310,-168 524,-168 524,-192"/>
+<text text-anchor="middle" x="417" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_decomp::decomposition_2decomp</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~decomposition_2decomp -->
+<g id="interface~~mesh_t~~CallsGraph_edge5" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~decomposition_2decomp</title>
+<path fill="none" stroke="#ff0000" d="M255.28,-164.52C269.04,-165.84 284.24,-167.31 299.63,-168.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="299.47,-172.29 309.76,-169.77 300.14,-165.32 299.47,-172.29"/>
+</g>
+<!-- proc~decomposition_generic -->
+<g id="interface~~mesh_t~~CallsGraph_node7" class="node">
+<title>proc~decomposition_generic</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node7"><a xlink:href="../proc/decomposition_generic.html" xlink:title="m_mesh::decomposition_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="512,-108 322,-108 322,-84 512,-84 512,-108"/>
+<text text-anchor="middle" x="417" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::decomposition_generic</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~decomposition_generic -->
+<g id="interface~~mesh_t~~CallsGraph_edge6" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~decomposition_generic</title>
+<path fill="none" stroke="#ff0000" d="M220.3,-146.96C238.75,-137.48 265.92,-124.63 291,-117 299.34,-114.46 308.08,-112.21 316.92,-110.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="317.87,-113.59 326.91,-108.06 316.4,-106.74 317.87,-113.59"/>
+</g>
+<!-- proc~global_cell_dims -->
+<g id="interface~~mesh_t~~CallsGraph_node8" class="node">
+<title>proc~global_cell_dims</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node8"><a xlink:href="../proc/global_cell_dims.html" xlink:title="m_mesh::global_cell_dims">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="493.5,-66 340.5,-66 340.5,-42 493.5,-42 493.5,-66"/>
+<text text-anchor="middle" x="417" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::global_cell_dims</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~global_cell_dims -->
+<g id="interface~~mesh_t~~CallsGraph_edge7" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~global_cell_dims</title>
+<path fill="none" stroke="#ff0000" d="M207.38,-146.94C222.68,-128.2 254.96,-92.43 291,-75 303.27,-69.06 316.93,-64.77 330.58,-61.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="331.41,-65.07 340.5,-59.62 329.99,-58.22 331.41,-65.07"/>
+</g>
+<!-- proc~is_avail_2decomp -->
+<g id="interface~~mesh_t~~CallsGraph_node9" class="node">
+<title>proc~is_avail_2decomp</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node9"><a xlink:href="../proc/is_avail_2decomp.html" xlink:title="m_decomp::is_avail_2decomp">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="504,-24 330,-24 330,0 504,0 504,-24"/>
+<text text-anchor="middle" x="417" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_decomp::is_avail_2decomp</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~is_avail_2decomp -->
+<g id="interface~~mesh_t~~CallsGraph_edge8" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~is_avail_2decomp</title>
+<path fill="none" stroke="#ff0000" d="M203.09,-146.87C214.58,-121.14 245.13,-61.17 291,-33 299.88,-27.55 309.76,-23.39 319.95,-20.24"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="321.09,-23.56 329.8,-17.52 319.23,-16.81 321.09,-23.56"/>
+</g>
+<!-- proc~obtain_coordinates -->
+<g id="interface~~mesh_t~~CallsGraph_node10" class="node">
+<title>proc~obtain_coordinates</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node10"><a xlink:href="../proc/obtain_coordinates.html" xlink:title="m_mesh_content::geo_t%obtain_coordinates">
+<polygon fill="#d9534f" stroke="#d9534f" points="543,-150 291,-150 291,-126 543,-126 543,-150"/>
+<text text-anchor="middle" x="417" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh_content::geo_t%obtain_coordinates</text>
+</a>
+</g>
+</g>
+<!-- proc~mesh_init&#45;&gt;proc~obtain_coordinates -->
+<g id="interface~~mesh_t~~CallsGraph_edge9" class="edge">
+<title>proc~mesh_init&#45;&gt;proc~obtain_coordinates</title>
+<path fill="none" stroke="#ff0000" d="M255.28,-153.48C263.43,-152.7 272.1,-151.86 281,-151"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="281.53,-154.47 291.15,-150.03 280.86,-147.5 281.53,-154.47"/>
+</g>
+<!-- proc~abort_run -->
+<g id="interface~~mesh_t~~CallsGraph_node11" class="node">
+<title>proc~abort_run</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node11"><a xlink:href="../proc/abort_run.html" xlink:title="m_logger::abort_run">
+<polygon fill="#d9534f" stroke="#d9534f" points="798,-188 676,-188 676,-164 798,-164 798,-188"/>
+<text text-anchor="middle" x="737" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::abort_run</text>
+</a>
+</g>
+</g>
+<!-- proc~classify_boundaries&#45;&gt;proc~abort_run -->
+<g id="interface~~mesh_t~~CallsGraph_edge10" class="edge">
+<title>proc~classify_boundaries&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#7fff00" d="M493.31,-209.97C520.31,-205.75 551,-201.05 579,-197 607.36,-192.9 638.64,-188.66 665.77,-185.07"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="666.49,-188.51 675.94,-183.73 665.57,-181.57 666.49,-188.51"/>
+</g>
+<!-- proc~decomposition_2decomp&#45;&gt;proc~abort_run -->
+<g id="interface~~mesh_t~~CallsGraph_edge11" class="edge">
+<title>proc~decomposition_2decomp&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#00ff3f" d="M524.33,-178.66C570.87,-178.08 624.19,-177.41 665.68,-176.88"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="665.73,-180.38 675.69,-176.76 665.64,-173.38 665.73,-180.38"/>
+</g>
+<!-- proc~compute_rank_pos_from_global -->
+<g id="interface~~mesh_t~~CallsGraph_node12" class="node">
+<title>proc~compute_rank_pos_from_global</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node12"><a xlink:href="../proc/compute_rank_pos_from_global.html" xlink:title="m_mesh_content::par_t%compute_rank_pos_from_global">
+<polygon fill="#d9534f" stroke="#d9534f" points="895,-128 579,-128 579,-104 895,-104 895,-128"/>
+<text text-anchor="middle" x="737" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh_content::par_t%compute_rank_pos_from_global</text>
+</a>
+</g>
+</g>
+<!-- proc~decomposition_generic&#45;&gt;proc~compute_rank_pos_from_global -->
+<g id="interface~~mesh_t~~CallsGraph_edge12" class="edge">
+<title>proc~decomposition_generic&#45;&gt;proc~compute_rank_pos_from_global</title>
+<path fill="none" stroke="#00ffff" d="M512.12,-101.92C530.06,-103.05 549.32,-104.26 568.75,-105.48"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="568.72,-108.99 578.92,-106.12 569.16,-102 568.72,-108.99"/>
+</g>
+<!-- proc~copy_vert2cell_dims -->
+<g id="interface~~mesh_t~~CallsGraph_node13" class="node">
+<title>proc~copy_vert2cell_dims</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node13"><a xlink:href="../proc/copy_vert2cell_dims.html" xlink:title="m_mesh_content::grid_t%copy_vert2cell_dims">
+<polygon fill="#d9534f" stroke="#d9534f" points="866.5,-86 607.5,-86 607.5,-62 866.5,-62 866.5,-86"/>
+<text text-anchor="middle" x="737" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh_content::grid_t%copy_vert2cell_dims</text>
+</a>
+</g>
+</g>
+<!-- proc~decomposition_generic&#45;&gt;proc~copy_vert2cell_dims -->
+<g id="interface~~mesh_t~~CallsGraph_edge13" class="edge">
+<title>proc~decomposition_generic&#45;&gt;proc~copy_vert2cell_dims</title>
+<path fill="none" stroke="#00ffff" d="M512.12,-89.49C538.82,-87.64 568.48,-85.59 597.23,-83.6"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="597.62,-87.08 607.36,-82.9 597.14,-80.1 597.62,-87.08"/>
+</g>
+<!-- proc~log_info -->
+<g id="interface~~mesh_t~~CallsGraph_node14" class="node">
+<title>proc~log_info</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node14"><a xlink:href="../proc/log_info.html" xlink:title="m_logger::log_info">
+<polygon fill="#d9534f" stroke="#d9534f" points="793,-230 681,-230 681,-206 793,-206 793,-230"/>
+<text text-anchor="middle" x="737" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::log_info</text>
+</a>
+</g>
+</g>
+<!-- proc~decomposition_generic&#45;&gt;proc~log_info -->
+<g id="interface~~mesh_t~~CallsGraph_edge14" class="edge">
+<title>proc~decomposition_generic&#45;&gt;proc~log_info</title>
+<path fill="none" stroke="#00ffff" d="M512.05,-101.33C523.2,-104.9 533.85,-109.94 543,-117 573.87,-140.82 547.74,-173.7 579,-197 604.95,-216.34 640.23,-222.34 670.76,-223.17"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="670.89,-226.67 680.92,-223.27 670.95,-219.67 670.89,-226.67"/>
+</g>
+<!-- proc~obtain_coordinates&#45;&gt;proc~abort_run -->
+<g id="interface~~mesh_t~~CallsGraph_edge15" class="edge">
+<title>proc~obtain_coordinates&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ff00bf" d="M518.62,-150.02C566.46,-155.74 622.49,-162.44 665.68,-167.6"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="665.47,-171.1 675.81,-168.81 666.3,-164.15 665.47,-171.1"/>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_rank -->
+<g id="interface~~mesh_t~~CallsGraph_edge19" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#ff0000" d="M798.13,-170.54C829.85,-170.76 867.73,-176.3 895,-197 927.35,-221.56 902.23,-252.33 931,-281 932.1,-282.09 933.26,-283.13 934.47,-284.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="932.85,-287.24 943.1,-289.92 936.75,-281.43 932.85,-287.24"/>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_size -->
+<g id="interface~~mesh_t~~CallsGraph_edge20" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#ff0000" d="M798.16,-174.09C828.78,-175.51 865.64,-181.05 895,-197 916.6,-208.73 911.16,-224.48 931,-239 933.04,-240.5 935.21,-241.91 937.45,-243.24"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="935.88,-246.37 946.35,-247.99 939.17,-240.19 935.88,-246.37"/>
+</g>
+<!-- interface~str -->
+<g id="interface~~mesh_t~~CallsGraph_node15" class="node">
+<title>interface~str</title>
+<g id="a_interface~~mesh_t~~CallsGraph_node15"><a xlink:href="../interface/str.html" xlink:title="m_logger::str">
+<polygon fill="#a7506f" stroke="#a7506f" points="1023.5,-230 939.5,-230 939.5,-206 1023.5,-206 1023.5,-230"/>
+<text text-anchor="middle" x="981.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::str</text>
+</a>
+</g>
+</g>
+<!-- proc~abort_run&#45;&gt;interface~str -->
+<g id="interface~~mesh_t~~CallsGraph_edge16" class="edge">
+<title>proc~abort_run&#45;&gt;interface~str</title>
+<path fill="none" stroke="#ff0000" d="M798.26,-182.52C827.57,-186.08 863.25,-191 895,-197 906.27,-199.13 918.27,-201.82 929.62,-204.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="928.84,-207.96 939.38,-206.95 930.51,-201.16 928.84,-207.96"/>
+</g>
+<!-- mpi_abort -->
+<g id="interface~~mesh_t~~CallsGraph_node16" class="node">
+<title>mpi_abort</title>
+<polygon fill="#777777" stroke="#777777" points="1015,-104 948,-104 948,-80 1015,-80 1015,-104"/>
+<text text-anchor="middle" x="981.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_abort</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_abort -->
+<g id="interface~~mesh_t~~CallsGraph_edge17" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_abort</title>
+<path fill="none" stroke="#ff0000" d="M798.12,-166.12C828.05,-159.95 864.3,-150.55 895,-137 912.59,-129.23 914.08,-122.13 931,-113 934.05,-111.35 937.26,-109.75 940.51,-108.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="942.06,-111.34 949.71,-104.01 939.16,-104.96 942.06,-111.34"/>
+</g>
+<!-- mpi_barrier -->
+<g id="interface~~mesh_t~~CallsGraph_node17" class="node">
+<title>mpi_barrier</title>
+<polygon fill="#777777" stroke="#777777" points="1019,-62 944,-62 944,-38 1019,-38 1019,-62"/>
+<text text-anchor="middle" x="981.5" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_barrier</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_barrier -->
+<g id="interface~~mesh_t~~CallsGraph_edge18" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_barrier</title>
+<path fill="none" stroke="#ff0000" d="M798.19,-172.56C829.74,-168.1 867.43,-158.28 895,-137 921.45,-116.58 906.24,-93.44 931,-71 932.31,-69.81 933.69,-68.69 935.14,-67.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="937.29,-70.4 943.91,-62.13 933.57,-64.47 937.29,-70.4"/>
+</g>
+<!-- mpi_finalized -->
+<g id="interface~~mesh_t~~CallsGraph_node18" class="node">
+<title>mpi_finalized</title>
+<polygon fill="#777777" stroke="#777777" points="1023,-188 940,-188 940,-164 1023,-164 1023,-188"/>
+<text text-anchor="middle" x="981.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_finalized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_finalized -->
+<g id="interface~~mesh_t~~CallsGraph_edge21" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#ff0000" d="M798.26,-176C838.64,-176 891.24,-176 929.54,-176"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="929.95,-179.5 939.95,-176 929.95,-172.5 929.95,-179.5"/>
+</g>
+<!-- mpi_initialized -->
+<g id="interface~~mesh_t~~CallsGraph_node19" class="node">
+<title>mpi_initialized</title>
+<polygon fill="#777777" stroke="#777777" points="1026,-146 937,-146 937,-122 1026,-122 1026,-146"/>
+<text text-anchor="middle" x="981.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_initialized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_initialized -->
+<g id="interface~~mesh_t~~CallsGraph_edge22" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#ff0000" d="M798.26,-165.56C837.79,-158.72 889.01,-149.85 927.08,-143.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="927.7,-146.7 936.96,-141.54 926.51,-139.8 927.7,-146.7"/>
+</g>
+<!-- proc~log_info&#45;&gt;mpi_comm_rank -->
+<g id="interface~~mesh_t~~CallsGraph_edge24" class="edge">
+<title>proc~log_info&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#7f00ff" d="M772.74,-230.04C815.78,-244.94 889.16,-270.36 936.2,-286.66"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="935.23,-290.02 945.82,-289.99 937.52,-283.41 935.23,-290.02"/>
+</g>
+<!-- proc~log_info&#45;&gt;mpi_comm_size -->
+<g id="interface~~mesh_t~~CallsGraph_edge25" class="edge">
+<title>proc~log_info&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#7f00ff" d="M793.03,-227.53C831.72,-234.23 883.39,-243.18 922.69,-249.99"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="922.2,-253.46 932.66,-251.71 923.4,-246.56 922.2,-253.46"/>
+</g>
+<!-- proc~log_info&#45;&gt;interface~str -->
+<g id="interface~~mesh_t~~CallsGraph_edge23" class="edge">
+<title>proc~log_info&#45;&gt;interface~str</title>
+<path fill="none" stroke="#7f00ff" d="M793.03,-218C833.91,-218 889.27,-218 929.23,-218"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="929.29,-221.5 939.29,-218 929.29,-214.5 929.29,-221.5"/>
+</g>
+<!-- proc~log_info&#45;&gt;mpi_finalized -->
+<g id="interface~~mesh_t~~CallsGraph_edge26" class="edge">
+<title>proc~log_info&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#7f00ff" d="M793.09,-212.11C823.31,-208.5 861.36,-203.36 895,-197 906.38,-194.85 918.52,-192.13 929.97,-189.37"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="930.94,-192.73 939.82,-186.94 929.27,-185.94 930.94,-192.73"/>
+</g>
+<!-- proc~log_info&#45;&gt;mpi_initialized -->
+<g id="interface~~mesh_t~~CallsGraph_edge27" class="edge">
+<title>proc~log_info&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#7f00ff" d="M793.3,-220.1C824.82,-219.05 864.07,-213.8 895,-197 916.6,-185.27 911.16,-169.52 931,-155 933.04,-153.5 935.21,-152.09 937.45,-150.76"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="939.17,-153.81 946.35,-146.01 935.88,-147.63 939.17,-153.81"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var paninterfacemesh_tCallsGraph = svgPanZoom('#interfacemesh_tCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mesh_init"></span> <h3>public  function <a href='../proc/mesh_init.html'>mesh_init</a>(dims_global, nproc_dir, L_global, BC_x, BC_y, BC_z, stretching, beta, use_2decomp) result(mesh)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Completely initialise the mesh object.
+Upon initialisation the mesh object can be read-only and shouldn't be edited
+Takes as argument global information about the mesh like its length, number of cells and decomposition in each direction</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dims_global"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dims_global</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nproc_dir"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>nproc_dir</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-l_global"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>L_global</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bc_x"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>BC_x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bc_y"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>BC_y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bc_z"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>BC_z</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stretching"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>stretching</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_2decomp"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_2decomp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/mesh_t.html'>mesh_t</a>), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

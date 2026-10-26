@@ -1,0 +1,608 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>x_slice_weighted_sum_cuda &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>x_slice_weighted_sum_cuda
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">26 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/backend.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/backend.f90~3.html'>backend.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_cuda_backend.html'>m_cuda_backend</a></li>
+            <li class="breadcrumb-item active" aria-current="page">x_slice_weighted_sum_cuda</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine x_slice_weighted_sum_cuda(self, sum_val, f, i_slice, y_weights)  
+</h2>
+    
+
+    <p><a href="../proc/x_slice_weighted_sum_base.html">x_slice_weighted_sum_base</a></p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/cuda_backend_t.html'>cuda_backend_t</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~461"></span>
+              class(<a href='../type/cuda_backend_t.html'>cuda_backend_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sum_val~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sum_val</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~82"></span>
+              class(<a href='../type/field_t.html'>field_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i_slice~10"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i_slice</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y_weights~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y_weights</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~x_slice_weighted_sum_cuda~~CallsGraph Pages: 1 -->
+<svg id="procx_slice_weighted_sum_cudaCallsGraph" width="641pt" height="273pt"
+ viewBox="0.00 0.00 641.00 272.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph" class="graph" transform="scale(0.74 0.74) rotate(0) translate(4 364)">
+<title>proc~~x_slice_weighted_sum_cuda~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-364 861,-364 861,4 -4,4"/>
+<!-- proc~x_slice_weighted_sum_cuda -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node1" class="node">
+<title>proc~x_slice_weighted_sum_cuda</title>
+<polygon fill="none" stroke="black" points="358,-129 0,-129 0,-105 358,-105 358,-129"/>
+<text text-anchor="middle" x="179" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_cuda_backend::cuda_backend_t%x_slice_weighted_sum_cuda</text>
+</g>
+<!-- dim3 -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node2" class="node">
+<title>dim3</title>
+<polygon fill="#777777" stroke="#777777" points="555.5,-234 501.5,-234 501.5,-210 555.5,-210 555.5,-234"/>
+<text text-anchor="middle" x="528.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dim3</text>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;dim3 -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge1" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;dim3</title>
+<path fill="none" stroke="#ff0000" d="M205.41,-129.08C244.88,-147.35 323.7,-181.92 394,-201 426.28,-209.76 464.02,-215.28 491.11,-218.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="490.98,-221.95 501.31,-219.59 491.76,-215 490.98,-221.95"/>
+</g>
+<!-- proc~abort_run -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node3" class="node">
+<title>proc~abort_run</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node3"><a xlink:href="../proc/abort_run.html" xlink:title="m_logger::abort_run">
+<polygon fill="#d9534f" stroke="#d9534f" points="589.5,-192 467.5,-192 467.5,-168 589.5,-168 589.5,-192"/>
+<text text-anchor="middle" x="528.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::abort_run</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~abort_run -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge2" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ff0000" d="M238.02,-129C281,-137.74 341.06,-149.64 394,-159 414.46,-162.62 436.73,-166.24 457.12,-169.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="456.86,-172.94 467.28,-171.02 457.93,-166.02 456.86,-172.94"/>
+</g>
+<!-- proc~get_dims -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node4" class="node">
+<title>proc~get_dims</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node4"><a xlink:href="../proc/get_dims.html" xlink:title="m_mesh::mesh_t%get_dims">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="609,-150 448,-150 448,-126 609,-126 609,-150"/>
+<text text-anchor="middle" x="528.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::mesh_t%get_dims</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_dims -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge3" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_dims</title>
+<path fill="none" stroke="#ff0000" d="M358.08,-127.76C385.79,-129.44 413.35,-131.1 437.94,-132.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="437.74,-136.08 447.93,-133.19 438.16,-129.09 437.74,-136.08"/>
+</g>
+<!-- proc~get_padded_dims -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node5" class="node">
+<title>proc~get_padded_dims</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node5"><a xlink:href="../proc/get_padded_dims.html" xlink:title="m_allocator::allocator_t%get_padded_dims">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="650,-108 407,-108 407,-84 650,-84 650,-108"/>
+<text text-anchor="middle" x="528.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_allocator::allocator_t%get_padded_dims</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge4" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M358.08,-106.24C371.11,-105.45 384.11,-104.67 396.78,-103.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="397.1,-107.39 406.87,-103.29 396.67,-100.4 397.1,-107.39"/>
+</g>
+<!-- proc~resolve_field_t~2 -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node6" class="node">
+<title>proc~resolve_field_t~2</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node6"><a xlink:href="../proc/resolve_field_t~2.html" xlink:title="m_cuda_backend::resolve_field_t">
+<polygon fill="#d9534f" stroke="#d9534f" points="623,-66 434,-66 434,-42 623,-42 623,-66"/>
+<text text-anchor="middle" x="528.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::resolve_field_t</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~resolve_field_t~2 -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge5" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~resolve_field_t~2</title>
+<path fill="none" stroke="#ff0000" d="M238.02,-105C281,-96.26 341.06,-84.36 394,-75 408.17,-72.5 423.22,-69.99 437.91,-67.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="438.68,-71.04 448,-66 437.57,-64.12 438.68,-71.04"/>
+</g>
+<!-- proc~x_slice_weighted_sum_kernel -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node7" class="node">
+<title>proc~x_slice_weighted_sum_kernel</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node7"><a xlink:href="../proc/x_slice_weighted_sum_kernel.html" xlink:title="m_cuda_backend::x_slice_weighted_sum_kernel">
+<polygon fill="#d9534f" stroke="#d9534f" points="663,-24 394,-24 394,0 663,0 663,-24"/>
+<text text-anchor="middle" x="528.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::x_slice_weighted_sum_kernel</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~x_slice_weighted_sum_kernel -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge6" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~x_slice_weighted_sum_kernel</title>
+<path fill="none" stroke="#ff0000" d="M205.41,-104.92C244.88,-86.65 323.7,-52.08 394,-33 403.69,-30.37 413.88,-28.03 424.12,-25.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="424.79,-29.39 433.95,-24.06 423.46,-22.52 424.79,-29.39"/>
+</g>
+<!-- interface~str -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node9" class="node">
+<title>interface~str</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node9"><a xlink:href="../interface/str.html" xlink:title="m_logger::str">
+<polygon fill="#a7506f" stroke="#a7506f" points="820,-360 736,-360 736,-336 820,-336 820,-360"/>
+<text text-anchor="middle" x="778" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::str</text>
+</a>
+</g>
+</g>
+<!-- proc~abort_run&#45;&gt;interface~str -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge7" class="edge">
+<title>proc~abort_run&#45;&gt;interface~str</title>
+<path fill="none" stroke="#ffff00" d="M589.68,-175.91C615.06,-177.34 643.23,-183.51 663,-201 706.62,-239.59 657.5,-286.13 699,-327 706.34,-334.23 715.9,-339.04 725.79,-342.23"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="725.16,-345.68 735.73,-344.9 726.98,-338.92 725.16,-345.68"/>
+</g>
+<!-- mpi_abort -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node10" class="node">
+<title>mpi_abort</title>
+<polygon fill="#777777" stroke="#777777" points="811.5,-318 744.5,-318 744.5,-294 811.5,-294 811.5,-318"/>
+<text text-anchor="middle" x="778" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_abort</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_abort -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge8" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_abort</title>
+<path fill="none" stroke="#ffff00" d="M589.68,-177.19C614.61,-178.94 642.44,-185.01 663,-201 695.06,-225.93 668.32,-258.39 699,-285 708.86,-293.56 721.87,-298.67 734.43,-301.7"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="733.84,-305.16 744.34,-303.72 735.24,-298.3 733.84,-305.16"/>
+</g>
+<!-- mpi_barrier -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node11" class="node">
+<title>mpi_barrier</title>
+<polygon fill="#777777" stroke="#777777" points="815.5,-276 740.5,-276 740.5,-252 815.5,-252 815.5,-276"/>
+<text text-anchor="middle" x="778" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_barrier</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_barrier -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge9" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_barrier</title>
+<path fill="none" stroke="#ffff00" d="M589.58,-180.56C613.66,-182.98 640.87,-188.65 663,-201 684.47,-212.98 678.2,-229.89 699,-243 708.45,-248.96 719.56,-253.24 730.39,-256.31"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="729.65,-259.74 740.21,-258.81 731.38,-252.95 729.65,-259.74"/>
+</g>
+<!-- mpi_comm_rank -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node12" class="node">
+<title>mpi_comm_rank</title>
+<polygon fill="#777777" stroke="#777777" points="828.5,-234 727.5,-234 727.5,-210 828.5,-210 828.5,-234"/>
+<text text-anchor="middle" x="778" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_rank</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_rank -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge10" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#ffff00" d="M589.7,-189.13C612.66,-192.7 639.06,-196.91 663,-201 680.66,-204.02 699.83,-207.47 717.31,-210.7"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="716.92,-214.19 727.39,-212.57 718.19,-207.3 716.92,-214.19"/>
+</g>
+<!-- mpi_comm_size -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node13" class="node">
+<title>mpi_comm_size</title>
+<polygon fill="#777777" stroke="#777777" points="826.5,-192 729.5,-192 729.5,-168 826.5,-168 826.5,-192"/>
+<text text-anchor="middle" x="778" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_size</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_size -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge11" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#ffff00" d="M589.73,-180C629.13,-180 680.33,-180 719.23,-180"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="719.35,-183.5 729.35,-180 719.35,-176.5 719.35,-183.5"/>
+</g>
+<!-- mpi_finalized -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node14" class="node">
+<title>mpi_finalized</title>
+<polygon fill="#777777" stroke="#777777" points="819.5,-150 736.5,-150 736.5,-126 819.5,-126 819.5,-150"/>
+<text text-anchor="middle" x="778" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_finalized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_finalized -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge12" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#ffff00" d="M589.7,-170.87C612.66,-167.3 639.06,-163.09 663,-159 683.78,-155.45 706.64,-151.29 726.4,-147.62"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="727.23,-151.02 736.42,-145.74 725.95,-144.14 727.23,-151.02"/>
+</g>
+<!-- mpi_initialized -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node15" class="node">
+<title>mpi_initialized</title>
+<polygon fill="#777777" stroke="#777777" points="822.5,-108 733.5,-108 733.5,-84 822.5,-84 822.5,-108"/>
+<text text-anchor="middle" x="778" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_initialized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_initialized -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge13" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#ffff00" d="M589.58,-179.44C613.66,-177.02 640.87,-171.35 663,-159 684.47,-147.02 678.2,-130.11 699,-117 706.5,-112.27 715.05,-108.6 723.68,-105.75"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="724.8,-109.06 733.4,-102.86 722.81,-102.35 724.8,-109.06"/>
+</g>
+<!-- proc~get_dims_dataloc -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node16" class="node">
+<title>proc~get_dims_dataloc</title>
+<g id="a_proc~~x_slice_weighted_sum_cuda~~CallsGraph_node16"><a xlink:href="../proc/get_dims_dataloc.html" xlink:title="m_mesh::get_dims_dataloc">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="857,-66 699,-66 699,-42 857,-42 857,-66"/>
+<text text-anchor="middle" x="778" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_mesh::get_dims_dataloc</text>
+</a>
+</g>
+</g>
+<!-- proc~get_dims&#45;&gt;proc~get_dims_dataloc -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge14" class="edge">
+<title>proc~get_dims&#45;&gt;proc~get_dims_dataloc</title>
+<path fill="none" stroke="#00ff00" d="M609.15,-134.78C627.67,-131.56 646.71,-126.09 663,-117 684.47,-105.02 678.2,-88.11 699,-75 701.79,-73.24 704.72,-71.63 707.75,-70.15"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="709.29,-73.3 717.07,-66.11 706.5,-66.88 709.29,-73.3"/>
+</g>
+<!-- atomicadd -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_node8" class="node">
+<title>atomicadd</title>
+<polygon fill="#777777" stroke="#777777" points="813,-24 743,-24 743,0 813,0 813,-24"/>
+<text text-anchor="middle" x="778" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">atomicadd</text>
+</g>
+<!-- proc~x_slice_weighted_sum_kernel&#45;&gt;atomicadd -->
+<g id="proc~~x_slice_weighted_sum_cuda~~CallsGraph_edge15" class="edge">
+<title>proc~x_slice_weighted_sum_kernel&#45;&gt;atomicadd</title>
+<path fill="none" stroke="#ff00ff" d="M663.03,-12C688.19,-12 712.81,-12 732.69,-12"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="732.92,-15.5 742.92,-12 732.92,-8.5 732.92,-15.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocx_slice_weighted_sum_cudaCallsGraph = svgPanZoom('#procx_slice_weighted_sum_cudaCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

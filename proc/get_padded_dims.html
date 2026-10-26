@@ -1,0 +1,884 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_padded_dims &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_padded_dims
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.0% of total for procedures.">7 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/allocator.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/allocator.f90~3.html'>allocator.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_allocator.html'>m_allocator</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_padded_dims</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  function get_padded_dims(self, dir) result(dims)  
+</h2>
+    
+
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/allocator_t.html'>allocator_t</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~300"></span>
+              class(<a href='../type/allocator_t.html'>allocator_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dir~14"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dir</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-dims~58"></span>
+          integer, (3)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_padded_dims~~CalledByGraph Pages: 1 -->
+<svg id="procget_padded_dimsCalledByGraph" width="641pt" height="522pt"
+ viewBox="0.00 0.00 641.00 521.74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_padded_dims~~CalledByGraph" class="graph" transform="scale(0.51 0.51) rotate(0) translate(4 1011)">
+<title>proc~~get_padded_dims~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1011 1243,-1011 1243,4 -4,4"/>
+<!-- proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node1" class="node">
+<title>proc~get_padded_dims</title>
+<polygon fill="none" stroke="black" points="1239,-633 996,-633 996,-609 1239,-609 1239,-633"/>
+<text text-anchor="middle" x="1117.5" y="-618.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_allocator::allocator_t%get_padded_dims</text>
+</g>
+<!-- none~apply_sgs_stress -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node2" class="node">
+<title>none~apply_sgs_stress</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node2"><a xlink:href="../type/les_t.html#boundprocedure-apply_sgs_stress" xlink:title="m_les::les_t%apply_sgs_stress">
+<polygon fill="#a7506f" stroke="#a7506f" points="867,-986 695,-986 695,-962 867,-962 867,-986"/>
+<text text-anchor="middle" x="781" y="-971.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_les::les_t%apply_sgs_stress</text>
+</a>
+</g>
+</g>
+<!-- none~apply_sgs_stress&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge1" class="edge">
+<title>none~apply_sgs_stress&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M867.17,-977.83C898.91,-975.31 933.59,-967.44 960,-948 1065.44,-870.36 1102.86,-702.94 1113.18,-642.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1116.64,-643.47 1114.8,-633.04 1109.73,-642.34 1116.64,-643.47"/>
+</g>
+<!-- proc~export_field_to_device_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node3" class="node">
+<title>proc~export_field_to_device_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node3"><a xlink:href="../proc/export_field_to_device_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%export_field_to_device_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="560.5,-925 201.5,-925 201.5,-901 560.5,-901 560.5,-925"/>
+<text text-anchor="middle" x="381" y="-910.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%export_field_to_device_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~export_field_to_device_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge2" class="edge">
+<title>proc~export_field_to_device_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M477.87,-925.03C620.82,-941.02 881.45,-962.17 960,-915 1062.22,-853.61 1101.31,-700.36 1112.64,-643.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1116.08,-643.72 1114.5,-633.24 1109.2,-642.42 1116.08,-643.72"/>
+</g>
+<!-- proc~reorder_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node9" class="node">
+<title>proc~reorder_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node9"><a xlink:href="../proc/reorder_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%reorder_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="921,-906 641,-906 641,-882 921,-882 921,-906"/>
+<text text-anchor="middle" x="781" y="-891.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%reorder_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~export_field_to_device_cuda&#45;&gt;proc~reorder_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge20" class="edge">
+<title>proc~export_field_to_device_cuda&#45;&gt;proc~reorder_cuda</title>
+<path fill="none" stroke="#00ff55" d="M560.63,-904.47C584.03,-903.36 607.81,-902.22 630.66,-901.13"/>
+<polygon fill="#00ff55" stroke="#00ff55" points="630.91,-904.62 640.74,-900.65 630.58,-897.63 630.91,-904.62"/>
+</g>
+<!-- proc~field_labelled_axpy_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node4" class="node">
+<title>proc~field_labelled_axpy_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node4"><a xlink:href="../proc/field_labelled_axpy_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_labelled_axpy_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="952.5,-864 609.5,-864 609.5,-840 952.5,-840 952.5,-864"/>
+<text text-anchor="middle" x="781" y="-849.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_labelled_axpy_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_labelled_axpy_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge3" class="edge">
+<title>proc~field_labelled_axpy_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M941.86,-839.84C948.13,-837.28 954.21,-834.35 960,-831 1037.43,-786.26 1088.26,-686.31 1107.66,-642.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1110.88,-643.77 1111.62,-633.2 1104.45,-641 1110.88,-643.77"/>
+</g>
+<!-- proc~field_labelled_sums_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node5" class="node">
+<title>proc~field_labelled_sums_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node5"><a xlink:href="../proc/field_labelled_sums_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_labelled_sums_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="953.5,-822 608.5,-822 608.5,-798 953.5,-798 953.5,-822"/>
+<text text-anchor="middle" x="781" y="-807.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_labelled_sums_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_labelled_sums_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge4" class="edge">
+<title>proc~field_labelled_sums_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M938.74,-798C946.07,-795.43 953.2,-792.45 960,-789 1027.56,-754.76 1081.05,-678.79 1104.13,-641.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1107.34,-643.36 1109.58,-633.01 1101.37,-639.71 1107.34,-643.36"/>
+</g>
+<!-- proc~field_max_mean_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node6" class="node">
+<title>proc~field_max_mean_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node6"><a xlink:href="../proc/field_max_mean_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_max_mean_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="945,-780 617,-780 617,-756 945,-756 945,-780"/>
+<text text-anchor="middle" x="781" y="-765.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_max_mean_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_max_mean_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge5" class="edge">
+<title>proc~field_max_mean_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M934.04,-755.99C942.96,-753.47 951.68,-750.49 960,-747 1018.2,-722.55 1072.33,-669.7 1099.05,-640.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1101.71,-643.11 1105.85,-633.35 1096.53,-638.4 1101.71,-643.11"/>
+</g>
+<!-- proc~field_max_mean_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node7" class="node">
+<title>proc~field_max_mean_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node7"><a xlink:href="../proc/field_max_mean_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_max_mean_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="942,-738 620,-738 620,-714 942,-714 942,-738"/>
+<text text-anchor="middle" x="781" y="-723.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_max_mean_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_max_mean_omp&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge6" class="edge">
+<title>proc~field_max_mean_omp&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M924.86,-713.98C936.87,-711.51 948.72,-708.55 960,-705 1009.05,-689.56 1060.6,-658.59 1090.58,-638.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1092.79,-641.61 1099.17,-633.15 1088.91,-635.79 1092.79,-641.61"/>
+</g>
+<!-- proc~field_volume_integral_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node8" class="node">
+<title>proc~field_volume_integral_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node8"><a xlink:href="../proc/field_volume_integral_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%field_volume_integral_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="958.5,-696 603.5,-696 603.5,-672 958.5,-672 958.5,-696"/>
+<text text-anchor="middle" x="781" y="-681.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%field_volume_integral_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~field_volume_integral_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge7" class="edge">
+<title>proc~field_volume_integral_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M903.96,-671.99C922.8,-669.45 941.97,-666.46 960,-663 996.77,-655.94 1037.61,-644.86 1068.35,-635.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1069.36,-639.21 1077.95,-633.02 1067.37,-632.5 1069.36,-639.21"/>
+</g>
+<!-- proc~reorder_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge8" class="edge">
+<title>proc~reorder_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M921.35,-890.03C935.02,-886.03 948.18,-880.51 960,-873 1047.46,-817.4 1094.12,-693.5 1110.09,-643.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1113.53,-643.75 1113.11,-633.16 1106.83,-641.7 1113.53,-643.75"/>
+</g>
+<!-- proc~reorder_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node10" class="node">
+<title>proc~reorder_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node10"><a xlink:href="../proc/reorder_omp.html" xlink:title="m_omp_backend::omp_backend_t%reorder_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="918,-654 644,-654 644,-630 918,-630 918,-654"/>
+<text text-anchor="middle" x="781" y="-639.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%reorder_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~reorder_omp&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge9" class="edge">
+<title>proc~reorder_omp&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M918.05,-633.46C940.41,-632.06 963.53,-630.6 985.75,-629.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="986.12,-632.69 995.89,-628.57 985.69,-625.71 986.12,-632.69"/>
+</g>
+<!-- proc~scalar_product_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node11" class="node">
+<title>proc~scalar_product_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node11"><a xlink:href="../proc/scalar_product_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%scalar_product_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="940.5,-612 621.5,-612 621.5,-588 940.5,-588 940.5,-612"/>
+<text text-anchor="middle" x="781" y="-597.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%scalar_product_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~scalar_product_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge10" class="edge">
+<title>proc~scalar_product_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M940.92,-609.98C955.85,-610.91 970.87,-611.86 985.5,-612.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="985.36,-616.27 995.56,-613.41 985.8,-609.29 985.36,-616.27"/>
+</g>
+<!-- proc~slice_max_sum_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node12" class="node">
+<title>proc~slice_max_sum_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node12"><a xlink:href="../proc/slice_max_sum_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%slice_max_sum_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="941.5,-570 620.5,-570 620.5,-546 941.5,-546 941.5,-570"/>
+<text text-anchor="middle" x="781" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%slice_max_sum_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~slice_max_sum_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge11" class="edge">
+<title>proc~slice_max_sum_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M903.96,-570.01C922.8,-572.55 941.97,-575.54 960,-579 996.77,-586.06 1037.61,-597.14 1068.35,-606.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1067.37,-609.5 1077.95,-608.98 1069.36,-602.79 1067.37,-609.5"/>
+</g>
+<!-- proc~slice_max_sum_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node13" class="node">
+<title>proc~slice_max_sum_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node13"><a xlink:href="../proc/slice_max_sum_omp.html" xlink:title="m_omp_backend::omp_backend_t%slice_max_sum_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="938,-528 624,-528 624,-504 938,-504 938,-528"/>
+<text text-anchor="middle" x="781" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%slice_max_sum_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~slice_max_sum_omp&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge12" class="edge">
+<title>proc~slice_max_sum_omp&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M924.86,-528.02C936.87,-530.49 948.72,-533.45 960,-537 1009.05,-552.44 1060.6,-583.41 1090.58,-603.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1088.91,-606.21 1099.17,-608.85 1092.79,-600.39 1088.91,-606.21"/>
+</g>
+<!-- proc~sum_intox_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node14" class="node">
+<title>proc~sum_intox_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node14"><a xlink:href="../proc/sum_intox_omp.html" xlink:title="m_omp_backend::sum_intox_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="877.5,-486 684.5,-486 684.5,-462 877.5,-462 877.5,-486"/>
+<text text-anchor="middle" x="781" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::sum_intox_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~sum_intox_omp&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge13" class="edge">
+<title>proc~sum_intox_omp&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M877.82,-475.46C905.17,-478.47 934.47,-484.28 960,-495 1018.2,-519.45 1072.33,-572.3 1099.05,-601.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1096.53,-603.6 1105.85,-608.65 1101.71,-598.89 1096.53,-603.6"/>
+</g>
+<!-- proc~sum_yintox_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node15" class="node">
+<title>proc~sum_yintox_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node15"><a xlink:href="../proc/sum_yintox_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%sum_yintox_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="931,-444 631,-444 631,-420 931,-420 931,-444"/>
+<text text-anchor="middle" x="781" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%sum_yintox_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~sum_yintox_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge14" class="edge">
+<title>proc~sum_yintox_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M931.04,-441.47C941.09,-444.56 950.84,-448.36 960,-453 1027.56,-487.24 1081.05,-563.21 1104.13,-600.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1101.37,-602.29 1109.58,-608.99 1107.34,-598.64 1101.37,-602.29"/>
+</g>
+<!-- proc~sum_zintox_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node16" class="node">
+<title>proc~sum_zintox_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node16"><a xlink:href="../proc/sum_zintox_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%sum_zintox_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="930.5,-402 631.5,-402 631.5,-378 930.5,-378 930.5,-402"/>
+<text text-anchor="middle" x="781" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%sum_zintox_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~sum_zintox_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge15" class="edge">
+<title>proc~sum_zintox_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M930.75,-398.05C940.97,-401.45 950.84,-405.71 960,-411 1037.43,-455.74 1088.26,-555.69 1107.66,-599.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1104.45,-601 1111.62,-608.8 1110.88,-598.23 1104.45,-601"/>
+</g>
+<!-- proc~vector_norm_squared_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node17" class="node">
+<title>proc~vector_norm_squared_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node17"><a xlink:href="../proc/vector_norm_squared_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%vector_norm_squared_cuda">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="959,-360 603,-360 603,-336 959,-336 959,-360"/>
+<text text-anchor="middle" x="781" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%vector_norm_squared_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_norm_squared_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge16" class="edge">
+<title>proc~vector_norm_squared_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M943.52,-360.12C949.23,-362.72 954.75,-365.66 960,-369 1047.46,-424.6 1094.12,-548.5 1110.09,-598.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1106.83,-600.3 1113.11,-608.84 1113.53,-598.25 1106.83,-600.3"/>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node18" class="node">
+<title>proc~x_slice_weighted_sum_cuda</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node18"><a xlink:href="../proc/x_slice_weighted_sum_cuda.html" xlink:title="m_cuda_backend::cuda_backend_t%x_slice_weighted_sum_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="960,-318 602,-318 602,-294 960,-294 960,-318"/>
+<text text-anchor="middle" x="781" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_backend::cuda_backend_t%x_slice_weighted_sum_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge17" class="edge">
+<title>proc~x_slice_weighted_sum_cuda&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M944.65,-318.09C949.98,-320.71 955.12,-323.66 960,-327 1058.01,-393.99 1099.47,-542.63 1112.05,-598.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1108.67,-599.79 1114.19,-608.83 1115.51,-598.32 1108.67,-599.79"/>
+</g>
+<!-- proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node19" class="node">
+<title>proc~y_group_stride</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node19"><a xlink:href="../proc/y_group_stride.html" xlink:title="m_omp_backend::y_group_stride">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="875,-255 687,-255 687,-231 875,-231 875,-255"/>
+<text text-anchor="middle" x="781" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::y_group_stride</text>
+</a>
+</g>
+</g>
+<!-- proc~y_group_stride&#45;&gt;proc~get_padded_dims -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge18" class="edge">
+<title>proc~y_group_stride&#45;&gt;proc~get_padded_dims</title>
+<path fill="none" stroke="#ff0000" d="M875.06,-248.98C904.78,-254.82 936.12,-265.55 960,-285 1063.82,-369.53 1102.26,-538.59 1113.01,-598.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1109.58,-599.64 1114.71,-608.91 1116.48,-598.47 1109.58,-599.64"/>
+</g>
+<!-- proc~apply_les -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node20" class="node">
+<title>proc~apply_les</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node20"><a xlink:href="../proc/apply_les.html" xlink:title="m_solver::solver_t%apply_les">
+<polygon fill="#d9534f" stroke="#d9534f" points="465.5,-986 296.5,-986 296.5,-962 465.5,-962 465.5,-986"/>
+<text text-anchor="middle" x="381" y="-971.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_solver::solver_t%apply_les</text>
+</a>
+</g>
+</g>
+<!-- proc~apply_les&#45;&gt;none~apply_sgs_stress -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge19" class="edge">
+<title>proc~apply_les&#45;&gt;none~apply_sgs_stress</title>
+<path fill="none" stroke="#ff0000" d="M465.92,-974C529.91,-974 618.1,-974 684.74,-974"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="684.82,-977.5 694.82,-974 684.82,-970.5 684.82,-977.5"/>
+</g>
+<!-- proc~field_add_const_x_face_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node21" class="node">
+<title>proc~field_add_const_x_face_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node21"><a xlink:href="../proc/field_add_const_x_face_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_add_const_x_face_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="559,-444 203,-444 203,-420 559,-420 559,-444"/>
+<text text-anchor="middle" x="381" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_add_const_x_face_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_add_const_x_face_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge23" class="edge">
+<title>proc~field_add_const_x_face_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M553.99,-419.75C558.18,-417.13 562.2,-414.22 566,-411 610.43,-373.34 559.87,-325.21 602,-285 622.25,-265.67 649.67,-254.67 676.91,-248.56"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="677.83,-251.95 686.93,-246.53 676.43,-245.09 677.83,-251.95"/>
+</g>
+<!-- proc~field_add_face_from_field_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node22" class="node">
+<title>proc~field_add_face_from_field_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node22"><a xlink:href="../proc/field_add_face_from_field_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_add_face_from_field_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="566,-402 196,-402 196,-378 566,-378 566,-402"/>
+<text text-anchor="middle" x="381" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_add_face_from_field_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_add_face_from_field_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge24" class="edge">
+<title>proc~field_add_face_from_field_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M552.21,-377.8C557,-375.19 561.62,-372.26 566,-369 598.58,-344.75 570.9,-311.13 602,-285 623,-267.35 650.1,-256.83 676.79,-250.64"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="677.54,-254.06 686.59,-248.55 676.08,-247.21 677.54,-254.06"/>
+</g>
+<!-- proc~field_labelled_axpy_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node23" class="node">
+<title>proc~field_labelled_axpy_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node23"><a xlink:href="../proc/field_labelled_axpy_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_labelled_axpy_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="549,-360 213,-360 213,-336 549,-336 549,-360"/>
+<text text-anchor="middle" x="381" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_labelled_axpy_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_labelled_axpy_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge25" class="edge">
+<title>proc~field_labelled_axpy_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M546.04,-335.92C552.92,-333.35 559.61,-330.39 566,-327 587.72,-315.47 581,-297.79 602,-285 624.6,-271.24 651.36,-261.98 677.17,-255.76"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="678.02,-259.16 687,-253.52 676.47,-252.33 678.02,-259.16"/>
+</g>
+<!-- proc~field_labelled_sums_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node24" class="node">
+<title>proc~field_labelled_sums_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node24"><a xlink:href="../proc/field_labelled_sums_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_labelled_sums_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="550,-318 212,-318 212,-294 550,-294 550,-318"/>
+<text text-anchor="middle" x="381" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_labelled_sums_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_labelled_sums_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge26" class="edge">
+<title>proc~field_labelled_sums_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M499.98,-293.96C521.96,-291.31 544.71,-288.3 566,-285 616.4,-277.19 673.01,-265.97 715.34,-257.09"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="716.17,-260.49 725.23,-255.01 714.73,-253.65 716.17,-260.49"/>
+</g>
+<!-- proc~field_plane_sums_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node25" class="node">
+<title>proc~field_plane_sums_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node25"><a xlink:href="../proc/field_plane_sums_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_plane_sums_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="543.5,-276 218.5,-276 218.5,-252 543.5,-252 543.5,-276"/>
+<text text-anchor="middle" x="381" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_plane_sums_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_plane_sums_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge27" class="edge">
+<title>proc~field_plane_sums_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M543.59,-255.47C588.56,-253.1 636.17,-250.59 676.79,-248.45"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="677.15,-251.93 686.95,-247.91 676.78,-244.94 677.15,-251.93"/>
+</g>
+<!-- proc~field_set_abl_wall_stress_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node26" class="node">
+<title>proc~field_set_abl_wall_stress_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node26"><a xlink:href="../proc/field_set_abl_wall_stress_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_set_abl_wall_stress_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="561.5,-234 200.5,-234 200.5,-210 561.5,-210 561.5,-234"/>
+<text text-anchor="middle" x="381" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_set_abl_wall_stress_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_set_abl_wall_stress_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge28" class="edge">
+<title>proc~field_set_abl_wall_stress_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M561.79,-231.49C601.16,-233.56 641.55,-235.69 676.7,-237.55"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="676.79,-241.06 686.96,-238.09 677.15,-234.07 676.79,-241.06"/>
+</g>
+<!-- proc~field_set_face_from_field_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node27" class="node">
+<title>proc~field_set_face_from_field_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node27"><a xlink:href="../proc/field_set_face_from_field_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_set_face_from_field_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="563.5,-192 198.5,-192 198.5,-168 563.5,-168 563.5,-192"/>
+<text text-anchor="middle" x="381" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_set_face_from_field_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_set_face_from_field_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge29" class="edge">
+<title>proc~field_set_face_from_field_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M499.98,-192.04C521.96,-194.69 544.71,-197.7 566,-201 616.4,-208.81 673.01,-220.03 715.34,-228.91"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="714.73,-232.35 725.23,-230.99 716.17,-225.51 714.73,-232.35"/>
+</g>
+<!-- proc~field_set_face_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node28" class="node">
+<title>proc~field_set_face_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node28"><a xlink:href="../proc/field_set_face_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_set_face_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="534.5,-150 227.5,-150 227.5,-126 534.5,-126 534.5,-150"/>
+<text text-anchor="middle" x="381" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_set_face_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_set_face_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge30" class="edge">
+<title>proc~field_set_face_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M521.34,-150C536.51,-152.46 551.65,-155.43 566,-159 631.94,-175.4 704.81,-207.14 746.24,-226.56"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="744.8,-229.75 755.33,-230.86 747.79,-223.42 744.8,-229.75"/>
+</g>
+<!-- proc~field_set_x_inlet_plane_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node29" class="node">
+<title>proc~field_set_x_inlet_plane_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node29"><a xlink:href="../proc/field_set_x_inlet_plane_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_set_x_inlet_plane_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="557.5,-108 204.5,-108 204.5,-84 557.5,-84 557.5,-108"/>
+<text text-anchor="middle" x="381" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_set_x_inlet_plane_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_set_x_inlet_plane_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge31" class="edge">
+<title>proc~field_set_x_inlet_plane_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M533.25,-108.05C544.46,-110.53 555.48,-113.48 566,-117 641.14,-142.14 718.67,-196.11 756.45,-224.57"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="754.67,-227.62 764.74,-230.9 758.91,-222.05 754.67,-227.62"/>
+</g>
+<!-- proc~field_set_y_plane_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node30" class="node">
+<title>proc~field_set_y_plane_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node30"><a xlink:href="../proc/field_set_y_plane_omp.html" xlink:title="m_omp_backend::omp_backend_t%field_set_y_plane_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="543.5,-66 218.5,-66 218.5,-42 543.5,-42 543.5,-66"/>
+<text text-anchor="middle" x="381" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%field_set_y_plane_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~field_set_y_plane_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge32" class="edge">
+<title>proc~field_set_y_plane_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M539.58,-66.03C548.65,-68.55 557.52,-71.52 566,-75 650.09,-109.52 728.69,-187.08 762.53,-223.46"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="760.08,-225.97 769.42,-230.97 765.24,-221.24 760.08,-225.97"/>
+</g>
+<!-- proc~sum_yintox_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node31" class="node">
+<title>proc~sum_yintox_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node31"><a xlink:href="../proc/sum_yintox_omp.html" xlink:title="m_omp_backend::omp_backend_t%sum_yintox_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="527.5,-528 234.5,-528 234.5,-504 527.5,-504 527.5,-528"/>
+<text text-anchor="middle" x="381" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%sum_yintox_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~sum_yintox_omp&#45;&gt;proc~sum_intox_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge21" class="edge">
+<title>proc~sum_yintox_omp&#45;&gt;proc~sum_intox_omp</title>
+<path fill="none" stroke="#0000ff" d="M495.78,-503.99C551.91,-498.07 619.18,-490.97 674.18,-485.17"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="674.73,-488.63 684.3,-484.1 673.99,-481.67 674.73,-488.63"/>
+</g>
+<!-- proc~sum_zintox_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node32" class="node">
+<title>proc~sum_zintox_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node32"><a xlink:href="../proc/sum_zintox_omp.html" xlink:title="m_omp_backend::omp_backend_t%sum_zintox_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="527,-486 235,-486 235,-462 527,-462 527,-486"/>
+<text text-anchor="middle" x="381" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%sum_zintox_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~sum_zintox_omp&#45;&gt;proc~sum_intox_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge22" class="edge">
+<title>proc~sum_zintox_omp&#45;&gt;proc~sum_intox_omp</title>
+<path fill="none" stroke="#0000ff" d="M527.09,-474C575.84,-474 629.25,-474 674.37,-474"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="674.47,-477.5 684.47,-474 674.47,-470.5 674.47,-477.5"/>
+</g>
+<!-- proc~x_slice_weighted_sum_omp -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node33" class="node">
+<title>proc~x_slice_weighted_sum_omp</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node33"><a xlink:href="../proc/x_slice_weighted_sum_omp.html" xlink:title="m_omp_backend::omp_backend_t%x_slice_weighted_sum_omp">
+<polygon fill="#d9534f" stroke="#d9534f" points="556.5,-24 205.5,-24 205.5,0 556.5,0 556.5,-24"/>
+<text text-anchor="middle" x="381" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_omp_backend::omp_backend_t%x_slice_weighted_sum_omp</text>
+</a>
+</g>
+</g>
+<!-- proc~x_slice_weighted_sum_omp&#45;&gt;proc~y_group_stride -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge33" class="edge">
+<title>proc~x_slice_weighted_sum_omp&#45;&gt;proc~y_group_stride</title>
+<path fill="none" stroke="#ff0055" d="M543.82,-24.14C551.45,-26.68 558.89,-29.61 566,-33 659.22,-77.43 736.48,-179.12 766.53,-222.63"/>
+<polygon fill="#ff0055" stroke="#ff0055" points="763.7,-224.69 772.21,-230.99 769.48,-220.76 763.7,-224.69"/>
+</g>
+<!-- proc~transeq_default -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node34" class="node">
+<title>proc~transeq_default</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node34"><a xlink:href="../proc/transeq_default.html" xlink:title="m_solver::transeq_default">
+<polygon fill="#d9534f" stroke="#d9534f" points="155.5,-1007 4.5,-1007 4.5,-983 155.5,-983 155.5,-1007"/>
+<text text-anchor="middle" x="80" y="-992.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_solver::transeq_default</text>
+</a>
+</g>
+</g>
+<!-- proc~transeq_default&#45;&gt;proc~apply_les -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge34" class="edge">
+<title>proc~transeq_default&#45;&gt;proc~apply_les</title>
+<path fill="none" stroke="#ff0000" d="M155.68,-989.75C195.23,-986.98 244.2,-983.54 286.28,-980.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="286.53,-984.07 296.26,-979.88 286.04,-977.09 286.53,-984.07"/>
+</g>
+<!-- proc~transeq_lowmem -->
+<g id="proc~~get_padded_dims~~CalledByGraph_node35" class="node">
+<title>proc~transeq_lowmem</title>
+<g id="a_proc~~get_padded_dims~~CalledByGraph_node35"><a xlink:href="../proc/transeq_lowmem.html" xlink:title="m_solver::transeq_lowmem">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-965 0,-965 0,-941 160,-941 160,-965"/>
+<text text-anchor="middle" x="80" y="-950.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_solver::transeq_lowmem</text>
+</a>
+</g>
+</g>
+<!-- proc~transeq_lowmem&#45;&gt;proc~apply_les -->
+<g id="proc~~get_padded_dims~~CalledByGraph_edge35" class="edge">
+<title>proc~transeq_lowmem&#45;&gt;proc~apply_les</title>
+<path fill="none" stroke="#ff0000" d="M160.34,-958.57C199.02,-961.29 245.8,-964.57 286.23,-967.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="286.14,-970.92 296.36,-968.13 286.63,-963.93 286.14,-970.92"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocget_padded_dimsCalledByGraph = svgPanZoom('#procget_padded_dimsCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

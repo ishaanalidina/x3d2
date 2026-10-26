@@ -1,0 +1,2997 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>poisson_fft_t &ndash; x3d2 </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>poisson_fft_t
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 2.3% of total for derived types.</p>Including implementation: 464 statements,  2.5% of total for derived types.">29 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/poisson_fft.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/poisson_fft.f90~2.html'>poisson_fft.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_poisson_fft.html'>m_poisson_fft</a></li>
+            <li class="breadcrumb-item active" aria-current="page">poisson_fft_t</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-mesh~22">mesh</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nx_glob">nx_glob</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ny_glob">ny_glob</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nz_glob">nz_glob</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nx_loc">nx_loc</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ny_loc">ny_loc</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nz_loc">nz_loc</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nx_perm">nx_perm</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ny_perm">ny_perm</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nz_perm">nz_perm</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nx_spec">nx_spec</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ny_spec">ny_spec</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-nz_spec">nz_spec</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-sp_st">sp_st</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-waves">waves</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ax">ax</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-bx">bx</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ay">ay</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-by">by</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-az">az</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-bz">bz</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-kx">kx</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ky">ky</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-kz">kz</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-exs">exs</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-eys">eys</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-ezs">ezs</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-k2x">k2x</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-k2y">k2y</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-k2z">k2z</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_x_re">trans_x_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_x_im">trans_x_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_y_re">trans_y_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_y_im">trans_y_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_z_re">trans_z_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-trans_z_im">trans_z_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-periodic_x">periodic_x</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-periodic_y">periodic_y</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-periodic_z">periodic_z</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-stretched_y">stretched_y</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-stretched_y_sym">stretched_y_sym</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-bc_code~2">bc_code</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_odd_re">a_odd_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_odd_im">a_odd_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_even_re">a_even_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_even_im">a_even_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_re">a_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-a_im">a_im</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#variable-lowmem~4">lowmem</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-fft_forward~4">fft_forward</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-fft_backward~4">fft_backward</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-fft_postprocess~5">fft_postprocess</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-enforce_periodicity~4">enforce_periodicity</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-undo_periodicity~4">undo_periodicity</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-base_init">base_init</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-solve_poisson~2">solve_poisson</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-stretching_matrix">stretching_matrix</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-waves_set">waves_set</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-get_km">get_km</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-get_km_re">get_km_re</a>
+            <a class="list-group-item" href="../type/poisson_fft_t.html#boundprocedure-get_km_im">get_km_im</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public, abstract :: poisson_fft_t</h2>
+    <p>FFT based Poisson solver
+Each backend extends this type once per boundary condition case
+(000, 010, 100, 110), and each case type supplies its own transforms,
+spectral postprocess and periodicity reorder.</p>
+<br>      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherits</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~poisson_fft_t~~InheritsGraph Pages: 1 -->
+<svg id="typepoisson_fft_tInheritsGraph" width="313pt" height="116pt"
+ viewBox="0.00 0.00 313.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~poisson_fft_t~~InheritsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>type~~poisson_fft_t~~InheritsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 309,-112 309,4 -4,4"/>
+<!-- type~poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_node1" class="node">
+<title>type~poisson_fft_t</title>
+<polygon fill="none" stroke="black" points="305,-66 226,-66 226,-42 305,-42 305,-66"/>
+<text text-anchor="middle" x="265.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">poisson_fft_t</text>
+</g>
+<!-- type~mesh_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_node2" class="node">
+<title>type~mesh_t</title>
+<g id="a_type~~poisson_fft_t~~InheritsGraph_node2"><a xlink:href="../type/mesh_t.html" xlink:title="mesh_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="163,-66 109,-66 109,-42 163,-42 163,-66"/>
+<text text-anchor="middle" x="136" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mesh_t</text>
+</a>
+</g>
+</g>
+<!-- type~poisson_fft_t&#45;&gt;type~mesh_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_edge1" class="edge">
+<title>type~poisson_fft_t&#45;&gt;type~mesh_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M225.9,-54C209.31,-54 190,-54 173.63,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="173.36,-50.5 163.36,-54 173.36,-57.5 173.36,-50.5"/>
+<text text-anchor="middle" x="194.5" y="-56.4" font-family="Helvetica,sans-Serif" font-size="9.50">mesh</text>
+</g>
+<!-- type~geo_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_node3" class="node">
+<title>type~geo_t</title>
+<g id="a_type~~poisson_fft_t~~InheritsGraph_node3"><a xlink:href="../type/geo_t.html" xlink:title="geo_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-108 0,-108 0,-84 54,-84 54,-108"/>
+<text text-anchor="middle" x="27" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geo_t</text>
+</a>
+</g>
+</g>
+<!-- type~mesh_t&#45;&gt;type~geo_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_edge2" class="edge">
+<title>type~mesh_t&#45;&gt;type~geo_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M108.82,-64.27C95.22,-69.61 78.4,-76.22 63.63,-82.01"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="62.31,-78.77 54.28,-85.69 64.86,-85.29 62.31,-78.77"/>
+<text text-anchor="middle" x="81.5" y="-79.4" font-family="Helvetica,sans-Serif" font-size="9.50">geo</text>
+</g>
+<!-- type~grid_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_node4" class="node">
+<title>type~grid_t</title>
+<g id="a_type~~poisson_fft_t~~InheritsGraph_node4"><a xlink:href="../type/grid_t.html" xlink:title="grid_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_t</text>
+</a>
+</g>
+</g>
+<!-- type~mesh_t&#45;&gt;type~grid_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_edge3" class="edge">
+<title>type~mesh_t&#45;&gt;type~grid_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M108.82,-54C95.48,-54 79.04,-54 64.48,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.28,-50.5 54.28,-54 64.28,-57.5 64.28,-50.5"/>
+<text text-anchor="middle" x="81.5" y="-56.4" font-family="Helvetica,sans-Serif" font-size="9.50">grid</text>
+</g>
+<!-- type~par_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_node5" class="node">
+<title>type~par_t</title>
+<g id="a_type~~poisson_fft_t~~InheritsGraph_node5"><a xlink:href="../type/par_t.html" xlink:title="par_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">par_t</text>
+</a>
+</g>
+</g>
+<!-- type~mesh_t&#45;&gt;type~par_t -->
+<g id="type~~poisson_fft_t~~InheritsGraph_edge4" class="edge">
+<title>type~mesh_t&#45;&gt;type~par_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M108.82,-43.73C95.22,-38.39 78.4,-31.78 63.63,-25.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.86,-22.71 54.28,-22.31 62.31,-29.23 64.86,-22.71"/>
+<text text-anchor="middle" x="81.5" y="-37.4" font-family="Helvetica,sans-Serif" font-size="9.50">par</text>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherited by</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~poisson_fft_t~~InheritedByGraph Pages: 1 -->
+<svg id="typepoisson_fft_tInheritedByGraph" width="641pt" height="476pt"
+ viewBox="0.00 0.00 641.00 476.03" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~poisson_fft_t~~InheritedByGraph" class="graph" transform="scale(0.56 0.56) rotate(0) translate(4 853)">
+<title>type~~poisson_fft_t~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-853 1150,-853 1150,4 -4,4"/>
+<!-- type~poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node1" class="node">
+<title>type~poisson_fft_t</title>
+<polygon fill="none" stroke="black" points="79,-292 0,-292 0,-268 79,-268 79,-292"/>
+<text text-anchor="middle" x="39.5" y="-277.6" font-family="Helvetica,sans-Serif" font-size="10.50">poisson_fft_t</text>
+</g>
+<!-- type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node2" class="node">
+<title>type~base_backend_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node2"><a xlink:href="../type/base_backend_t.html" xlink:title="base_backend_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="272,-574 174,-574 174,-550 272,-550 272,-574"/>
+<text text-anchor="middle" x="223" y="-559.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_backend_t</text>
+</a>
+</g>
+</g>
+<!-- type~base_backend_t&#45;&gt;type~poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge1" class="edge">
+<title>type~base_backend_t&#45;&gt;type~poisson_fft_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M214.2,-549.88C186.04,-506.13 89.42,-356 53.81,-300.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="56.63,-298.59 48.27,-292.07 50.74,-302.38 56.63,-298.59"/>
+<text text-anchor="middle" x="123.5" y="-448.4" font-family="Helvetica,sans-Serif" font-size="9.50">poisson_fft</text>
+</g>
+<!-- type~cuda_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node3" class="node">
+<title>type~cuda_poisson_fft_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node3"><a xlink:href="../type/cuda_poisson_fft_t.html" xlink:title="cuda_poisson_fft_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="278,-276 168,-276 168,-252 278,-252 278,-276"/>
+<text text-anchor="middle" x="223" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_poisson_fft_t</text>
+</a>
+</g>
+</g>
+<!-- type~cuda_poisson_fft_t&#45;&gt;type~poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge3" class="edge">
+<title>type~cuda_poisson_fft_t&#45;&gt;type~poisson_fft_t</title>
+<path fill="none" stroke="#ff0000" d="M167.79,-257.63C153.39,-257.65 138.08,-259.24 124.5,-264"/>
+</g>
+<!-- type~omp_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node4" class="node">
+<title>type~omp_poisson_fft_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node4"><a xlink:href="../type/omp_poisson_fft_t.html" xlink:title="omp_poisson_fft_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="277,-171 169,-171 169,-147 277,-147 277,-171"/>
+<text text-anchor="middle" x="223" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_poisson_fft_t</text>
+</a>
+</g>
+</g>
+<!-- type~omp_poisson_fft_t&#45;&gt;type~poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge2" class="edge">
+<title>type~omp_poisson_fft_t&#45;&gt;type~poisson_fft_t</title>
+<path fill="none" stroke="#ff0000" d="M215.83,-171.31C202.89,-195.44 170.28,-247.97 124.5,-264"/>
+<path fill="none" stroke="#ff0000" d="M122.5,-264C111.91,-267.71 100.24,-270.63 89.11,-272.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="88.24,-269.52 79.07,-274.83 89.55,-276.39 88.24,-269.52"/>
+</g>
+<!-- type~abl_diagnostics_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node5" class="node">
+<title>type~abl_diagnostics_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node5"><a xlink:href="../type/abl_diagnostics_t.html" xlink:title="abl_diagnostics_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="823.5,-828 720.5,-828 720.5,-804 823.5,-804 823.5,-828"/>
+<text text-anchor="middle" x="772" y="-813.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abl_diagnostics_t</text>
+</a>
+</g>
+</g>
+<!-- type~abl_diagnostics_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge12" class="edge">
+<title>type~abl_diagnostics_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M720.17,-826.36C638.5,-840.38 475.08,-857.44 355,-799 331.9,-787.76 338.57,-769.71 317.5,-755"/>
+<text text-anchor="middle" x="532" y="-841.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~abl_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node6" class="node">
+<title>type~abl_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node6"><a xlink:href="../type/abl_t.html" xlink:title="abl_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="559,-790 505,-790 505,-766 559,-766 559,-790"/>
+<text text-anchor="middle" x="532" y="-775.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abl_t</text>
+</a>
+</g>
+</g>
+<!-- type~abl_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge11" class="edge">
+<title>type~abl_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M504.67,-782.08C461.87,-787.3 376.1,-791.72 317.5,-755"/>
+<text text-anchor="middle" x="414.5" y="-787.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~adm_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node7" class="node">
+<title>type~adm_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node7"><a xlink:href="../type/adm_t.html" xlink:title="adm_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="441.5,-532 387.5,-532 387.5,-508 441.5,-508 441.5,-532"/>
+<text text-anchor="middle" x="414.5" y="-517.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">adm_t</text>
+</a>
+</g>
+</g>
+<!-- type~adm_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge4" class="edge">
+<title>type~adm_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M387.15,-525.84C360.12,-531.83 317.2,-541.34 282.16,-549.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="281.04,-545.77 272.03,-551.35 282.55,-552.61 281.04,-545.77"/>
+<text text-anchor="middle" x="316.5" y="-547.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~backend_setup_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node8" class="node">
+<title>type~backend_setup_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node8"><a xlink:href="../type/backend_setup_t.html" xlink:title="backend_setup_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="692,-424 590,-424 590,-400 692,-400 692,-424"/>
+<text text-anchor="middle" x="641" y="-409.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">backend_setup_t</text>
+</a>
+</g>
+</g>
+<!-- type~backend_setup_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge10" class="edge">
+<title>type~backend_setup_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M612.3,-424.05C600.12,-428.96 585.54,-434.33 572,-438 565.08,-439.87 323.15,-475.6 317.5,-480"/>
+<text text-anchor="middle" x="414.5" y="-474.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~cuda_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node9" class="node">
+<title>type~cuda_backend_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node9"><a xlink:href="../type/cuda_backend_t.html" xlink:title="cuda_backend_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="464,-444 365,-444 365,-420 464,-420 464,-444"/>
+<text text-anchor="middle" x="414.5" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_backend_t</text>
+</a>
+</g>
+</g>
+<!-- type~backend_setup_t&#45;&gt;type~cuda_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge26" class="edge">
+<title>type~backend_setup_t&#45;&gt;type~cuda_backend_t</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M589.9,-416.46C555.79,-419.5 510.5,-423.54 474.62,-426.73"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="473.94,-423.28 464.29,-427.65 474.56,-430.25 473.94,-423.28"/>
+<text text-anchor="middle" x="532" y="-426.4" font-family="Helvetica,sans-Serif" font-size="9.50">cuda_backend</text>
+</g>
+<!-- type~omp_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node16" class="node">
+<title>type~omp_backend_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node16"><a xlink:href="../type/omp_backend_t.html" xlink:title="omp_backend_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="463,-402 366,-402 366,-378 463,-378 463,-402"/>
+<text text-anchor="middle" x="414.5" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_backend_t</text>
+</a>
+</g>
+</g>
+<!-- type~backend_setup_t&#45;&gt;type~omp_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge29" class="edge">
+<title>type~backend_setup_t&#45;&gt;type~omp_backend_t</title>
+<path fill="none" stroke="#00b2ff" stroke-dasharray="5,2" d="M589.88,-405.94C583.86,-405.26 577.79,-404.6 572,-404 539.35,-400.62 502.83,-397.32 473.28,-394.78"/>
+<polygon fill="#00b2ff" stroke="#00b2ff" points="473.39,-391.28 463.13,-393.91 472.8,-398.25 473.39,-391.28"/>
+<text text-anchor="middle" x="532" y="-406.4" font-family="Helvetica,sans-Serif" font-size="9.50">omp_backend</text>
+</g>
+<!-- type~omptgt_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node21" class="node">
+<title>type~omptgt_backend_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node21"><a xlink:href="../type/omptgt_backend_t.html" xlink:title="omptgt_backend_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="470,-360 359,-360 359,-336 470,-336 470,-360"/>
+<text text-anchor="middle" x="414.5" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omptgt_backend_t</text>
+</a>
+</g>
+</g>
+<!-- type~backend_setup_t&#45;&gt;type~omptgt_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge30" class="edge">
+<title>type~backend_setup_t&#45;&gt;type~omptgt_backend_t</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M615.92,-399.95C603.11,-393.91 586.97,-386.87 572,-382 542.32,-372.34 508.57,-364.61 480.04,-358.98"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="480.66,-355.54 470.18,-357.08 479.33,-362.41 480.66,-355.54"/>
+<text text-anchor="middle" x="532" y="-384.4" font-family="Helvetica,sans-Serif" font-size="9.50">omptgt_backend</text>
+</g>
+<!-- type~cuda_backend_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge14" class="edge">
+<title>type~cuda_backend_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" d="M381.85,-444.05C362.2,-452.41 337.05,-464.77 317.5,-480"/>
+</g>
+<!-- type~cuda_poisson_000_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node10" class="node">
+<title>type~cuda_poisson_000_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node10"><a xlink:href="../type/cuda_poisson_000_t.html" xlink:title="cuda_poisson_000_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="474,-318 355,-318 355,-294 474,-294 474,-318"/>
+<text text-anchor="middle" x="414.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_poisson_000_t</text>
+</a>
+</g>
+</g>
+<!-- type~cuda_poisson_000_t&#45;&gt;type~cuda_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge18" class="edge">
+<title>type~cuda_poisson_000_t&#45;&gt;type~cuda_poisson_fft_t</title>
+<path fill="none" stroke="#00ff00" d="M376.93,-293.93C369.58,-291.21 361.97,-288.18 355,-285 337.62,-277.08 336.5,-261.99 317.5,-264"/>
+</g>
+<!-- type~cuda_poisson_010_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node11" class="node">
+<title>type~cuda_poisson_010_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node11"><a xlink:href="../type/cuda_poisson_010_t.html" xlink:title="cuda_poisson_010_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="474,-276 355,-276 355,-252 474,-252 474,-276"/>
+<text text-anchor="middle" x="414.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_poisson_010_t</text>
+</a>
+</g>
+</g>
+<!-- type~cuda_poisson_010_t&#45;&gt;type~cuda_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge19" class="edge">
+<title>type~cuda_poisson_010_t&#45;&gt;type~cuda_poisson_fft_t</title>
+<path fill="none" stroke="#00ff00" d="M354.76,-262.04C342.43,-262.18 329.52,-262.73 317.5,-264"/>
+</g>
+<!-- type~cuda_poisson_100_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node12" class="node">
+<title>type~cuda_poisson_100_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node12"><a xlink:href="../type/cuda_poisson_100_t.html" xlink:title="cuda_poisson_100_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="474,-234 355,-234 355,-210 474,-210 474,-234"/>
+<text text-anchor="middle" x="414.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_poisson_100_t</text>
+</a>
+</g>
+</g>
+<!-- type~cuda_poisson_100_t&#45;&gt;type~cuda_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge17" class="edge">
+<title>type~cuda_poisson_100_t&#45;&gt;type~cuda_poisson_fft_t</title>
+<path fill="none" stroke="#00ff00" d="M376.93,-234.07C369.58,-236.79 361.97,-239.82 355,-243 337.62,-250.92 336.5,-261.99 317.5,-264"/>
+</g>
+<!-- type~cuda_poisson_110_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node13" class="node">
+<title>type~cuda_poisson_110_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node13"><a xlink:href="../type/cuda_poisson_110_t.html" xlink:title="cuda_poisson_110_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="474,-192 355,-192 355,-168 474,-168 474,-192"/>
+<text text-anchor="middle" x="414.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cuda_poisson_110_t</text>
+</a>
+</g>
+</g>
+<!-- type~cuda_poisson_110_t&#45;&gt;type~cuda_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge16" class="edge">
+<title>type~cuda_poisson_110_t&#45;&gt;type~cuda_poisson_fft_t</title>
+<path fill="none" stroke="#00ff00" d="M369.21,-192.1C364.12,-194.56 359.25,-197.5 355,-201 329.85,-221.72 349.9,-260.57 317.5,-264"/>
+<path fill="none" stroke="#00ff00" d="M315.5,-264C306.78,-264.92 297.56,-265.45 288.47,-265.71"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="288.22,-262.21 278.29,-265.89 288.35,-269.21 288.22,-262.21"/>
+</g>
+<!-- type~ibm_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node14" class="node">
+<title>type~ibm_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node14"><a xlink:href="../type/ibm_t.html" xlink:title="ibm_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="441.5,-658 387.5,-658 387.5,-634 441.5,-634 441.5,-658"/>
+<text text-anchor="middle" x="414.5" y="-643.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ibm_t</text>
+</a>
+</g>
+</g>
+<!-- type~ibm_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge9" class="edge">
+<title>type~ibm_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M387.47,-637.01C377.29,-633.4 365.55,-629.13 355,-625 328.48,-614.63 321.73,-612.21 296,-600 282.37,-593.53 267.58,-585.84 254.97,-579.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="256.27,-575.81 245.81,-574.13 252.94,-581.97 256.27,-575.81"/>
+<text text-anchor="middle" x="316.5" y="-619.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~inflow_plane_writer_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node15" class="node">
+<title>type~inflow_plane_writer_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node15"><a xlink:href="../type/inflow_plane_writer_t.html" xlink:title="inflow_plane_writer_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="834,-744 710,-744 710,-720 834,-720 834,-744"/>
+<text text-anchor="middle" x="772" y="-729.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inflow_plane_writer_t</text>
+</a>
+</g>
+</g>
+<!-- type~inflow_plane_writer_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge5" class="edge">
+<title>type~inflow_plane_writer_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M709.69,-735.34C586.31,-742.04 319.52,-756.34 317.5,-755"/>
+<text text-anchor="middle" x="532" y="-748.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~omp_backend_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge13" class="edge">
+<title>type~omp_backend_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" d="M368.78,-402.09C363.82,-404.55 359.1,-407.49 355,-411 328.5,-433.72 345.04,-458.56 317.5,-480"/>
+</g>
+<!-- type~omp_poisson_000_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node17" class="node">
+<title>type~omp_poisson_000_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node17"><a xlink:href="../type/omp_poisson_000_t.html" xlink:title="omp_poisson_000_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="473,-150 356,-150 356,-126 473,-126 473,-150"/>
+<text text-anchor="middle" x="414.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_poisson_000_t</text>
+</a>
+</g>
+</g>
+<!-- type~omp_poisson_000_t&#45;&gt;type~omp_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge23" class="edge">
+<title>type~omp_poisson_000_t&#45;&gt;type~omp_poisson_fft_t</title>
+<path fill="none" stroke="#0000ff" d="M376.93,-125.93C369.58,-123.21 361.97,-120.18 355,-117 337.62,-109.08 335.08,-88.53 317.5,-96"/>
+</g>
+<!-- type~omp_poisson_010_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node18" class="node">
+<title>type~omp_poisson_010_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node18"><a xlink:href="../type/omp_poisson_010_t.html" xlink:title="omp_poisson_010_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="473,-108 356,-108 356,-84 473,-84 473,-108"/>
+<text text-anchor="middle" x="414.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_poisson_010_t</text>
+</a>
+</g>
+</g>
+<!-- type~omp_poisson_010_t&#45;&gt;type~omp_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge20" class="edge">
+<title>type~omp_poisson_010_t&#45;&gt;type~omp_poisson_fft_t</title>
+<path fill="none" stroke="#0000ff" d="M355.91,-88.63C342.87,-88.95 329.39,-90.95 317.5,-96"/>
+</g>
+<!-- type~omp_poisson_100_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node19" class="node">
+<title>type~omp_poisson_100_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node19"><a xlink:href="../type/omp_poisson_100_t.html" xlink:title="omp_poisson_100_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="473,-66 356,-66 356,-42 473,-42 473,-66"/>
+<text text-anchor="middle" x="414.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_poisson_100_t</text>
+</a>
+</g>
+</g>
+<!-- type~omp_poisson_100_t&#45;&gt;type~omp_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge22" class="edge">
+<title>type~omp_poisson_100_t&#45;&gt;type~omp_poisson_fft_t</title>
+<path fill="none" stroke="#0000ff" d="M376.93,-66.07C369.58,-68.79 361.97,-71.82 355,-75 337.62,-82.92 335.08,-88.53 317.5,-96"/>
+</g>
+<!-- type~omp_poisson_110_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node20" class="node">
+<title>type~omp_poisson_110_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node20"><a xlink:href="../type/omp_poisson_110_t.html" xlink:title="omp_poisson_110_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="473,-24 356,-24 356,0 473,0 473,-24"/>
+<text text-anchor="middle" x="414.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_poisson_110_t</text>
+</a>
+</g>
+</g>
+<!-- type~omp_poisson_110_t&#45;&gt;type~omp_poisson_fft_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge21" class="edge">
+<title>type~omp_poisson_110_t&#45;&gt;type~omp_poisson_fft_t</title>
+<path fill="none" stroke="#0000ff" d="M369.21,-24.1C364.12,-26.56 359.25,-29.5 355,-33 329.85,-53.72 347.49,-83.25 317.5,-96"/>
+<path fill="none" stroke="#0000ff" d="M315.5,-96C289.57,-107.02 263.44,-125.98 245.78,-140.23"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="243.31,-137.73 237.82,-146.79 247.77,-143.13 243.31,-137.73"/>
+</g>
+<!-- type~omptgt_backend_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge15" class="edge">
+<title>type~omptgt_backend_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" d="M367.01,-360.06C362.59,-362.51 358.48,-365.46 355,-369 318.53,-406.17 358.59,-448.01 317.5,-480"/>
+<path fill="none" stroke="#ff0000" d="M315.5,-480C289.81,-500 262.23,-525.3 244.14,-542.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="241.35,-540.3 236.54,-549.74 246.19,-545.36 241.35,-540.3"/>
+</g>
+<!-- type~solver_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node22" class="node">
+<title>type~solver_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node22"><a xlink:href="../type/solver_t.html" xlink:title="solver_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="668,-658 614,-658 614,-634 668,-634 668,-658"/>
+<text text-anchor="middle" x="641" y="-643.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solver_t</text>
+</a>
+</g>
+</g>
+<!-- type~solver_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge6" class="edge">
+<title>type~solver_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M613.79,-651.46C544.35,-665.95 360.58,-704.54 355,-708 332.3,-722.1 340.02,-769.39 317.5,-755"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M315.5,-755C255.82,-715.34 234.11,-625.59 227.04,-583.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="230.49,-583.37 225.48,-574.03 223.58,-584.45 230.49,-583.37"/>
+<text text-anchor="middle" x="414.5" y="-710.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~solver_t&#45;&gt;type~ibm_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge27" class="edge">
+<title>type~solver_t&#45;&gt;type~ibm_t</title>
+<path fill="none" stroke="#00ffb2" stroke-dasharray="5,2" d="M613.81,-646C573.76,-646 497.19,-646 451.8,-646"/>
+<polygon fill="#00ffb2" stroke="#00ffb2" points="451.53,-642.5 441.53,-646 451.53,-649.5 451.53,-642.5"/>
+<text text-anchor="middle" x="532" y="-648.4" font-family="Helvetica,sans-Serif" font-size="9.50">ibm</text>
+</g>
+<!-- type~time_intg_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node23" class="node">
+<title>type~time_intg_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node23"><a xlink:href="../type/time_intg_t.html" xlink:title="time_intg_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="450,-616 379,-616 379,-592 450,-592 450,-616"/>
+<text text-anchor="middle" x="414.5" y="-601.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_intg_t</text>
+</a>
+</g>
+</g>
+<!-- type~solver_t&#45;&gt;type~time_intg_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge32" class="edge">
+<title>type~solver_t&#45;&gt;type~time_intg_t</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M613.88,-640.46C601.24,-637.82 585.85,-634.66 572,-632 534.38,-624.76 491.54,-617.14 460.21,-611.68"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="460.5,-608.18 450.05,-609.92 459.3,-615.08 460.5,-608.18"/>
+<text text-anchor="middle" x="532" y="-634.4" font-family="Helvetica,sans-Serif" font-size="9.50">time_integrator</text>
+</g>
+<!-- type~vector_calculus_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node24" class="node">
+<title>type~vector_calculus_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node24"><a xlink:href="../type/vector_calculus_t.html" xlink:title="vector_calculus_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="466.5,-574 362.5,-574 362.5,-550 466.5,-550 466.5,-574"/>
+<text text-anchor="middle" x="414.5" y="-559.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_calculus_t</text>
+</a>
+</g>
+</g>
+<!-- type~solver_t&#45;&gt;type~vector_calculus_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge33" class="edge">
+<title>type~solver_t&#45;&gt;type~vector_calculus_t</title>
+<path fill="none" stroke="#ff004c" stroke-dasharray="5,2" d="M624.03,-633.9C610.72,-624.33 590.96,-611.24 572,-603 541.57,-589.77 505.89,-580.02 476.3,-573.35"/>
+<polygon fill="#ff004c" stroke="#ff004c" points="477.02,-569.93 466.51,-571.21 475.53,-576.77 477.02,-569.93"/>
+<text text-anchor="middle" x="532" y="-605.4" font-family="Helvetica,sans-Serif" font-size="9.50">vector_calculus</text>
+</g>
+<!-- type~time_intg_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge7" class="edge">
+<title>type~time_intg_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M378.74,-596.3C351.75,-590.31 313.71,-581.88 282.11,-574.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.61,-571.41 272.09,-572.66 281.1,-578.24 282.61,-571.41"/>
+<text text-anchor="middle" x="316.5" y="-588.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~vector_calculus_t&#45;&gt;type~base_backend_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge8" class="edge">
+<title>type~vector_calculus_t&#45;&gt;type~base_backend_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M362.22,-562C337.56,-562 307.88,-562 282.35,-562"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.06,-558.5 272.06,-562 282.06,-565.5 282.06,-558.5"/>
+<text text-anchor="middle" x="316.5" y="-564.4" font-family="Helvetica,sans-Serif" font-size="9.50">backend</text>
+</g>
+<!-- type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node25" class="node">
+<title>type~base_case_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node25"><a xlink:href="../type/base_case_t.html" xlink:title="base_case_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="929,-662 852,-662 852,-638 929,-638 929,-662"/>
+<text text-anchor="middle" x="890.5" y="-647.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_case_t</text>
+</a>
+</g>
+</g>
+<!-- type~base_case_t&#45;&gt;type~solver_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge31" class="edge">
+<title>type~base_case_t&#45;&gt;type~solver_t</title>
+<path fill="none" stroke="#ff00e5" stroke-dasharray="5,2" d="M851.91,-649.39C804.86,-648.63 724.84,-647.34 678.37,-646.59"/>
+<polygon fill="#ff00e5" stroke="#ff00e5" points="678.21,-643.08 668.15,-646.42 678.09,-650.08 678.21,-643.08"/>
+<text text-anchor="middle" x="772" y="-651.4" font-family="Helvetica,sans-Serif" font-size="9.50">solver</text>
+</g>
+<!-- type~case_abl_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node26" class="node">
+<title>type~case_abl_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node26"><a xlink:href="../type/case_abl_t.html" xlink:title="case_abl_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1120,-789 1052,-789 1052,-765 1120,-765 1120,-789"/>
+<text text-anchor="middle" x="1086" y="-774.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_abl_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_abl_t&#45;&gt;type~abl_diagnostics_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge24" class="edge">
+<title>type~case_abl_t&#45;&gt;type~abl_diagnostics_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1051.76,-784.16C1038.23,-786.89 1022.42,-789.86 1008,-792 949.04,-800.74 881.28,-807.29 833.72,-811.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="833.26,-807.85 823.59,-812.17 833.85,-814.82 833.26,-807.85"/>
+<text text-anchor="middle" x="977.5" y="-801.4" font-family="Helvetica,sans-Serif" font-size="9.50">diagnostics</text>
+</g>
+<!-- type~case_abl_t&#45;&gt;type~abl_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge25" class="edge">
+<title>type~case_abl_t&#45;&gt;type~abl_t</title>
+<path fill="none" stroke="#ff4c00" stroke-dasharray="5,2" d="M1051.71,-777.06C954.23,-777.24 669.93,-777.75 569.03,-777.93"/>
+<polygon fill="#ff4c00" stroke="#ff4c00" points="569.02,-774.43 559.03,-777.95 569.03,-781.43 569.02,-774.43"/>
+<text text-anchor="middle" x="890.5" y="-779.4" font-family="Helvetica,sans-Serif" font-size="9.50">abl</text>
+</g>
+<!-- type~case_abl_t&#45;&gt;type~inflow_plane_writer_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge28" class="edge">
+<title>type~case_abl_t&#45;&gt;type~inflow_plane_writer_t</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1051.62,-765.47C1038.21,-761.25 1022.52,-756.82 1008,-754 953.66,-743.45 891.23,-737.91 844.38,-735.03"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="844.52,-731.53 834.33,-734.43 844.11,-738.52 844.52,-731.53"/>
+<text text-anchor="middle" x="977.5" y="-756.4" font-family="Helvetica,sans-Serif" font-size="9.50">inflow_writer</text>
+</g>
+<!-- type~case_abl_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge34" class="edge">
+<title>type~case_abl_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1051.92,-770.66C1042.61,-767.53 1033.1,-762.89 1026,-756 989.22,-720.35 1029.46,-656.18 978.5,-651"/>
+</g>
+<!-- type~case_channel_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node27" class="node">
+<title>type~case_channel_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node27"><a xlink:href="../type/case_channel_t.html" xlink:title="case_channel_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1133,-747 1039,-747 1039,-723 1133,-723 1133,-747"/>
+<text text-anchor="middle" x="1086" y="-732.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_channel_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_channel_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge35" class="edge">
+<title>type~case_channel_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1041.61,-722.9C1036.09,-720.42 1030.73,-717.47 1026,-714 997.73,-693.25 1013.39,-654.55 978.5,-651"/>
+</g>
+<!-- type~case_cylinder_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node28" class="node">
+<title>type~case_cylinder_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node28"><a xlink:href="../type/case_cylinder_t.html" xlink:title="case_cylinder_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1133,-705 1039,-705 1039,-681 1133,-681 1133,-705"/>
+<text text-anchor="middle" x="1086" y="-690.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_cylinder_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_cylinder_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge38" class="edge">
+<title>type~case_cylinder_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1049.9,-680.99C1041.99,-678.15 1033.68,-675.06 1026,-672 1004.56,-663.46 1001.46,-653.34 978.5,-651"/>
+</g>
+<!-- type~case_generic_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node29" class="node">
+<title>type~case_generic_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node29"><a xlink:href="../type/case_generic_t.html" xlink:title="case_generic_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1132,-663 1040,-663 1040,-639 1132,-639 1132,-663"/>
+<text text-anchor="middle" x="1086" y="-648.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_generic_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_generic_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge36" class="edge">
+<title>type~case_generic_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1039.81,-653.02C1020.83,-653.34 998.55,-653.04 978.5,-651"/>
+</g>
+<!-- type~case_tgv_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node30" class="node">
+<title>type~case_tgv_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node30"><a xlink:href="../type/case_tgv_t.html" xlink:title="case_tgv_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1120,-621 1052,-621 1052,-597 1120,-597 1120,-621"/>
+<text text-anchor="middle" x="1086" y="-606.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_tgv_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_tgv_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge37" class="edge">
+<title>type~case_tgv_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1051.76,-620.34C1043.31,-623.36 1034.28,-626.7 1026,-630 1004.56,-638.54 1001.46,-653.34 978.5,-651"/>
+</g>
+<!-- type~case_wind_turbine_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_node31" class="node">
+<title>type~case_wind_turbine_t</title>
+<g id="a_type~~poisson_fft_t~~InheritedByGraph_node31"><a xlink:href="../type/case_wind_turbine_t.html" xlink:title="case_wind_turbine_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="1146,-579 1026,-579 1026,-555 1146,-555 1146,-579"/>
+<text text-anchor="middle" x="1086" y="-564.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">case_wind_turbine_t</text>
+</a>
+</g>
+</g>
+<!-- type~case_wind_turbine_t&#45;&gt;type~base_case_t -->
+<g id="type~~poisson_fft_t~~InheritedByGraph_edge39" class="edge">
+<title>type~case_wind_turbine_t&#45;&gt;type~base_case_t</title>
+<path fill="none" stroke="#ff0000" d="M1041.61,-579.1C1036.09,-581.58 1030.73,-584.53 1026,-588 997.73,-608.75 1013.39,-654.55 978.5,-651"/>
+<path fill="none" stroke="#ff0000" d="M976.5,-651C964.58,-649.79 951.66,-649.24 939.59,-649.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="939.26,-645.56 929.24,-649 939.22,-652.56 939.26,-645.56"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pantypepoisson_fft_tInheritedByGraph = svgPanZoom('#typepoisson_fft_tInheritedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mesh~22"></span>
+              type(<a href='mesh_t.html'>mesh_t</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>mesh</strong></td>
+<td>=&gt; </td>
+                <td>null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nx_glob"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nx_glob</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Global dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ny_glob"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ny_glob</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Global dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nz_glob"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nz_glob</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Global dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nx_loc"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nx_loc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ny_loc"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ny_loc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nz_loc"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nz_loc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nx_perm"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nx_perm</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ny_perm"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ny_perm</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nz_perm"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nz_perm</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nx_spec"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nx_spec</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs in spectral space</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ny_spec"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ny_spec</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs in spectral space</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nz_spec"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nz_spec</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local dimensions in the permuted slabs in spectral space</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sp_st"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sp_st</strong>(3)</td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Offset per spectral dimension (dim1, dim2, dim3) in spectral space</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-waves"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>waves</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Local domain sized array storing the spectral equivalence constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ax"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>ax</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bx"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>bx</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ay"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>ay</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-by"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>by</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-az"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>az</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bz"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>bz</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kx"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>kx</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ky"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>ky</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kz"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>kz</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-exs"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>exs</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eys"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>eys</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ezs"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>ezs</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k2x"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>k2x</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k2y"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>k2y</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k2z"></span>
+              complex(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>k2z</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Wave numbers in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_x_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_x_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_x_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_x_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_y_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_y_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_y_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_y_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_z_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_z_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans_z_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>trans_z_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Staggered grid transformation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-periodic_x"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>periodic_x</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Periodicity in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-periodic_y"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>periodic_y</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Periodicity in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-periodic_z"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>periodic_z</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Periodicity in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stretched_y"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stretched_y</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>Periodicity in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stretched_y_sym"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stretched_y_sym</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Periodicity in x, y, and z</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bc_code~2"></span>
+              character(len=3),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bc_code</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Boundary condition case, see poisson_bc_code. The backend's init sets
+it first, ahead of base_init.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_odd_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_odd_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_odd_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_odd_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_even_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_even_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_even_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_even_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_re"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_re</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_im"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:, :, :, :)
+            </td>
+            <td>::</td>
+            <td><strong>a_im</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Stretching operator matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lowmem~4"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lowmem</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>lowmem option, only used in CUDA backend</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-fft_forward~4"></span>
+      <h3>
+          procedure(<a href='../interface/fft_forward.html'>fft_forward</a>), public, deferred ::
+  <strong>fft_forward</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+     subroutine fft_forward(self, f_in)  
+<small>Prototype</small></h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-fft_backward~4"></span>
+      <h3>
+          procedure(<a href='../interface/fft_backward.html'>fft_backward</a>), public, deferred ::
+  <strong>fft_backward</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+     subroutine fft_backward(self, f_out)  
+<small>Prototype</small></h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-fft_postprocess~5"></span>
+      <h3>
+          procedure(<a href='../interface/fft_postprocess.html'>fft_postprocess</a>), public, deferred ::
+  <strong>fft_postprocess</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+     subroutine fft_postprocess(self)  
+<small>Prototype</small></h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-enforce_periodicity~4"></span>
+      <h3>
+          procedure, public ::
+  <strong>enforce_periodicity</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/enforce_periodicity.html'>enforce_periodicity</a>(self, f_out, f_in)  
+</h3>
+    
+
+  <p>Reorder hook of solve_poisson, overridden by every case that has a
+non-periodic direction.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_out</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-undo_periodicity~4"></span>
+      <h3>
+          procedure, public ::
+  <strong>undo_periodicity</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/undo_periodicity.html'>undo_periodicity</a>(self, f_out, f_in)  
+</h3>
+    
+
+  <p>Inverse of enforce_periodicity.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_out</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-base_init"></span>
+      <h3>
+          procedure, public ::
+  <strong>base_init</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/base_init.html'>base_init</a>(self, mesh, xdirps, ydirps, zdirps, n_spec, n_sp_st)  
+</h3>
+    
+
+  <p>Sets up the state every case shares. The backend's init calls it
+once it has set bc_code, which the spectral extents it passes in
+already depend on. The supported BC codes are the cases of the
+backend factories, create_omp_poisson_fft and create_cuda_poisson_fft.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='mesh_t.html'>mesh_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>mesh</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ydirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>n_spec</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>n_sp_st</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-solve_poisson~2"></span>
+      <h3>
+          procedure, public ::
+  <strong>solve_poisson</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/solve_poisson.html'>solve_poisson</a>(self, f, temp)  
+</h3>
+    
+
+  <p>Gathers each non-periodic line into a periodic one, so that a plain
+FFT can stand in for the cosine transform, solves in spectral space,
+and scatters the result back. The 000 case has nothing to reorder and
+overrides this to transform f in place.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='field_t.html'>field_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>temp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-stretching_matrix"></span>
+      <h3>
+          procedure, public ::
+  <strong>stretching_matrix</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/stretching_matrix.html'>stretching_matrix</a>(self, geo, xdirps, ydirps, zdirps)  
+</h3>
+    
+
+  <p>Stretching necessitates a special operation in spectral space.
+The coefficients for the operation are stored in matrix form.</p><a href="../proc/stretching_matrix.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='geo_t.html'>geo_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>geo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ydirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-waves_set"></span>
+      <h3>
+          procedure, public ::
+  <strong>waves_set</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  subroutine <a href='../proc/waves_set.html'>waves_set</a>(self, geo, xdirps, ydirps, zdirps)  
+</h3>
+    
+
+  <p>Spectral equivalence constants</p><a href="../proc/waves_set.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='geo_t.html'>geo_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>geo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ydirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='dirps_t.html'>dirps_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zdirps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_km"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_km</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  function <a href='../proc/get_km.html'>get_km</a>(self, i, j, k) result(km)  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>complex(kind=dp)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_km_re"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_km_re</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  function <a href='../proc/get_km_re.html'>get_km_re</a>(self, i, j, k) result(re)  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_km_im"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_km_im</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public  function <a href='../proc/get_km_im.html'>get_km_im</a>(self, i, j, k) result(re)  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='poisson_fft_t.html'>poisson_fft_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
+
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

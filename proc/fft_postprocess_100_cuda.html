@@ -1,0 +1,763 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="x3d2 is the current codename for what is to become Xcompact3d version 2.0.">
+    <meta name="author" content="Xcompact3d Team" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>fft_postprocess_100_cuda &ndash; x3d2</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">x3d2 </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/namelists.html">Namelists</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>fft_postprocess_100_cuda
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">26 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/poisson_fft.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/poisson_fft.f90~3.html'>poisson_fft.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_cuda_poisson_fft.html'>m_cuda_poisson_fft</a></li>
+            <li class="breadcrumb-item active" aria-current="page">fft_postprocess_100_cuda</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine fft_postprocess_100_cuda(self)  
+</h2>
+    
+
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/cuda_poisson_100_t.html'>cuda_poisson_100_t</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~256"></span>
+              class(<a href='../type/cuda_poisson_100_t.html'>cuda_poisson_100_t</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~fft_postprocess_100_cuda~~CallsGraph Pages: 1 -->
+<svg id="procfft_postprocess_100_cudaCallsGraph" width="641pt" height="254pt"
+ viewBox="0.00 0.00 641.00 254.39" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph" class="graph" transform="scale(0.48 0.48) rotate(0) translate(4 527)">
+<title>proc~~fft_postprocess_100_cuda~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-527 1334,-527 1334,4 -4,4"/>
+<!-- proc~fft_postprocess_100_cuda -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node1" class="node">
+<title>proc~fft_postprocess_100_cuda</title>
+<polygon fill="none" stroke="black" points="377,-150 0,-150 0,-126 377,-126 377,-150"/>
+<text text-anchor="middle" x="188.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">m_cuda_poisson_fft::cuda_poisson_100_t%fft_postprocess_100_cuda</text>
+</g>
+<!-- dim3 -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node2" class="node">
+<title>dim3</title>
+<polygon fill="#777777" stroke="#777777" points="946,-482 892,-482 892,-458 946,-458 946,-482"/>
+<text text-anchor="middle" x="919" y="-467.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dim3</text>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;dim3 -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge1" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;dim3</title>
+<path fill="none" stroke="#ff0000" d="M198.93,-150.2C227.23,-185.94 315.51,-291.25 413,-345 573.02,-433.22 795.51,-460.07 881.8,-467.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="881.62,-470.95 891.87,-468.28 882.19,-463.97 881.62,-470.95"/>
+</g>
+<!-- proc~exchange_dim2_mirror -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node3" class="node">
+<title>proc~exchange_dim2_mirror</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node3"><a xlink:href="../proc/exchange_dim2_mirror.html" xlink:title="m_cuda_poisson_fft::cuda_poisson_fft_t%exchange_dim2_mirror">
+<polygon fill="#d9534f" stroke="#d9534f" points="767,-336 413,-336 413,-312 767,-312 767,-336"/>
+<text text-anchor="middle" x="590" y="-321.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_poisson_fft::cuda_poisson_fft_t%exchange_dim2_mirror</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;proc~exchange_dim2_mirror -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge2" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;proc~exchange_dim2_mirror</title>
+<path fill="none" stroke="#ff0000" d="M215.4,-150.06C284.71,-182.33 474.5,-270.69 553.63,-307.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="552.61,-310.92 563.15,-311.97 555.57,-304.57 552.61,-310.92"/>
+</g>
+<!-- proc~process_spectral_010 -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node4" class="node">
+<title>proc~process_spectral_010</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node4"><a xlink:href="../proc/process_spectral_010.html" xlink:title="m_cuda_spectral::process_spectral_010">
+<polygon fill="#d9534f" stroke="#d9534f" points="702,-129 478,-129 478,-105 702,-105 702,-129"/>
+<text text-anchor="middle" x="590" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::process_spectral_010</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_010 -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge3" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_010</title>
+<path fill="none" stroke="#ff0000" d="M377.26,-128.13C408.06,-126.51 439.25,-124.87 467.87,-123.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="468.08,-126.86 477.88,-122.84 467.71,-119.87 468.08,-126.86"/>
+</g>
+<!-- proc~process_spectral_100_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node5" class="node">
+<title>proc~process_spectral_100_fw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node5"><a xlink:href="../proc/process_spectral_100_fw.html" xlink:title="m_cuda_spectral::process_spectral_100_fw">
+<polygon fill="#d9534f" stroke="#d9534f" points="710.5,-45 469.5,-45 469.5,-21 710.5,-21 710.5,-45"/>
+<text text-anchor="middle" x="590" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::process_spectral_100_fw</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge4" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_fw</title>
+<path fill="none" stroke="#ff0000" d="M215.34,-125.94C256.31,-107.36 339.1,-72.02 413,-54 427.84,-50.38 443.54,-47.38 459.21,-44.89"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="460.13,-48.29 469.49,-43.32 459.08,-41.37 460.13,-48.29"/>
+</g>
+<!-- proc~process_spectral_100_pair_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node6" class="node">
+<title>proc~process_spectral_100_pair_bw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node6"><a xlink:href="../proc/process_spectral_100_pair_bw.html" xlink:title="m_cuda_spectral::process_spectral_100_pair_bw">
+<polygon fill="#d9534f" stroke="#d9534f" points="725.5,-171 454.5,-171 454.5,-147 725.5,-147 725.5,-171"/>
+<text text-anchor="middle" x="590" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::process_spectral_100_pair_bw</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_pair_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge5" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_pair_bw</title>
+<path fill="none" stroke="#ff0000" d="M377.26,-147.87C399.73,-149.05 422.4,-150.24 444.13,-151.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="444.22,-154.89 454.39,-151.92 444.58,-147.9 444.22,-154.89"/>
+</g>
+<!-- proc~process_spectral_100_pair_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node7" class="node">
+<title>proc~process_spectral_100_pair_fw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node7"><a xlink:href="../proc/process_spectral_100_pair_fw.html" xlink:title="m_cuda_spectral::process_spectral_100_pair_fw">
+<polygon fill="#d9534f" stroke="#d9534f" points="724,-87 456,-87 456,-63 724,-63 724,-87"/>
+<text text-anchor="middle" x="590" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::process_spectral_100_pair_fw</text>
+</a>
+</g>
+</g>
+<!-- proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_pair_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge6" class="edge">
+<title>proc~fft_postprocess_100_cuda&#45;&gt;proc~process_spectral_100_pair_fw</title>
+<path fill="none" stroke="#ff0000" d="M247.67,-125.96C292.67,-116.92 356.61,-104.65 413,-96 430.92,-93.25 449.91,-90.65 468.53,-88.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="469.04,-91.75 478.53,-87.03 468.17,-84.8 469.04,-91.75"/>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;dim3 -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge8" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;dim3</title>
+<path fill="none" stroke="#ffff00" d="M632.12,-336.12C669.87,-348.64 726,-370.89 767,-403 787.44,-419.01 780.78,-435.57 803,-449 826.75,-463.36 857.95,-468.37 881.85,-469.92"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="881.79,-473.42 891.94,-470.4 882.12,-466.43 881.79,-473.42"/>
+</g>
+<!-- cudastreamsynchronize -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node8" class="node">
+<title>cudastreamsynchronize</title>
+<polygon fill="#777777" stroke="#777777" points="988.5,-440 849.5,-440 849.5,-416 988.5,-416 988.5,-440"/>
+<text text-anchor="middle" x="919" y="-425.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cudastreamsynchronize</text>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;cudastreamsynchronize -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge7" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;cudastreamsynchronize</title>
+<path fill="none" stroke="#ffff00" d="M616.88,-336.01C656.27,-353.86 733.99,-387.39 803,-407 814.71,-410.33 827.24,-413.25 839.57,-415.77"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="838.91,-419.21 849.39,-417.71 840.26,-412.34 838.91,-419.21"/>
+</g>
+<!-- mpi_sendrecv -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node9" class="node">
+<title>mpi_sendrecv</title>
+<polygon fill="#777777" stroke="#777777" points="962,-398 876,-398 876,-374 962,-374 962,-398"/>
+<text text-anchor="middle" x="919" y="-383.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_sendrecv</text>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;mpi_sendrecv -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge9" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;mpi_sendrecv</title>
+<path fill="none" stroke="#ffff00" d="M652.2,-336.01C694.53,-344.27 752.16,-355.44 803,-365 823.55,-368.86 846.19,-373.02 865.91,-376.61"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="865.46,-380.08 875.92,-378.42 866.71,-373.19 865.46,-380.08"/>
+</g>
+<!-- proc~abort_run -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node10" class="node">
+<title>proc~abort_run</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node10"><a xlink:href="../proc/abort_run.html" xlink:title="m_logger::abort_run">
+<polygon fill="#d9534f" stroke="#d9534f" points="1193,-355 1071,-355 1071,-331 1193,-331 1193,-355"/>
+<text text-anchor="middle" x="1132" y="-340.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::abort_run</text>
+</a>
+</g>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;proc~abort_run -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge10" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#ffff00" d="M767.25,-315.13C848.91,-313.2 947.11,-313.94 1035,-323 1047.43,-324.28 1060.62,-326.47 1073.11,-328.94"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="1072.46,-332.38 1082.96,-330.97 1073.87,-325.53 1072.46,-332.38"/>
+</g>
+<!-- proc~check_cuda -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node11" class="node">
+<title>proc~check_cuda</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node11"><a xlink:href="../proc/check_cuda.html" xlink:title="m_cuda_errors::check_cuda">
+<polygon fill="#d9534f" stroke="#d9534f" points="1000,-356 838,-356 838,-332 1000,-332 1000,-356"/>
+<text text-anchor="middle" x="919" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_errors::check_cuda</text>
+</a>
+</g>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;proc~check_cuda -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge11" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;proc~check_cuda</title>
+<path fill="none" stroke="#ffff00" d="M767.42,-334.79C788.26,-336.06 808.82,-337.32 827.73,-338.48"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="827.56,-341.98 837.76,-339.09 827.99,-334.99 827.56,-341.98"/>
+</g>
+<!-- proc~check_mpi -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node12" class="node">
+<title>proc~check_mpi</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node12"><a xlink:href="../proc/check_mpi.html" xlink:title="m_logger::check_mpi">
+<polygon fill="#d9534f" stroke="#d9534f" points="982.5,-276 855.5,-276 855.5,-252 982.5,-252 982.5,-276"/>
+<text text-anchor="middle" x="919" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::check_mpi</text>
+</a>
+</g>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;proc~check_mpi -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge12" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;proc~check_mpi</title>
+<path fill="none" stroke="#ffff00" d="M656.78,-311.93C711.41,-301.91 789.03,-287.66 845.45,-277.31"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="846.17,-280.74 855.38,-275.49 844.91,-273.85 846.17,-280.74"/>
+</g>
+<!-- proc~pack_spectral_plane -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node13" class="node">
+<title>proc~pack_spectral_plane</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node13"><a xlink:href="../proc/pack_spectral_plane.html" xlink:title="m_cuda_spectral::pack_spectral_plane">
+<polygon fill="#d9534f" stroke="#d9534f" points="1028.5,-234 809.5,-234 809.5,-210 1028.5,-210 1028.5,-234"/>
+<text text-anchor="middle" x="919" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::pack_spectral_plane</text>
+</a>
+</g>
+</g>
+<!-- proc~exchange_dim2_mirror&#45;&gt;proc~pack_spectral_plane -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge13" class="edge">
+<title>proc~exchange_dim2_mirror&#45;&gt;proc~pack_spectral_plane</title>
+<path fill="none" stroke="#ffff00" d="M617.9,-311.87C657.64,-294.39 734.7,-262.11 803,-243 811.99,-240.48 821.47,-238.19 830.96,-236.13"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="831.78,-239.54 840.85,-234.06 830.34,-232.68 831.78,-239.54"/>
+</g>
+<!-- proc~pair_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node14" class="node">
+<title>proc~pair_bw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node14"><a xlink:href="../proc/pair_bw.html" xlink:title="m_cuda_spectral::pair_bw">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="994.5,-192 843.5,-192 843.5,-168 994.5,-168 994.5,-192"/>
+<text text-anchor="middle" x="919" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::pair_bw</text>
+</a>
+</g>
+</g>
+<!-- proc~process_spectral_010&#45;&gt;proc~pair_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge14" class="edge">
+<title>proc~process_spectral_010&#45;&gt;proc~pair_bw</title>
+<path fill="none" stroke="#00ff00" d="M702.37,-123.31C724.16,-126.48 746.58,-131.15 767,-138 784.56,-143.89 785.63,-152.57 803,-159 812.66,-162.58 823.02,-165.56 833.41,-168.04"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="832.84,-171.5 843.36,-170.28 834.37,-164.67 832.84,-171.5"/>
+</g>
+<!-- proc~pair_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node15" class="node">
+<title>proc~pair_fw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node15"><a xlink:href="../proc/pair_fw.html" xlink:title="m_cuda_spectral::pair_fw">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="993,-108 845,-108 845,-84 993,-84 993,-108"/>
+<text text-anchor="middle" x="919" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::pair_fw</text>
+</a>
+</g>
+</g>
+<!-- proc~process_spectral_010&#45;&gt;proc~pair_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge15" class="edge">
+<title>proc~process_spectral_010&#45;&gt;proc~pair_fw</title>
+<path fill="none" stroke="#00ff00" d="M702.16,-109.86C745.52,-107.08 794.36,-103.94 834.6,-101.36"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="834.89,-104.84 844.64,-100.71 834.44,-97.86 834.89,-104.84"/>
+</g>
+<!-- proc~poisson_divide -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node16" class="node">
+<title>proc~poisson_divide</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node16"><a xlink:href="../proc/poisson_divide.html" xlink:title="m_cuda_spectral::poisson_divide">
+<polygon fill="#d9534f" stroke="#d9534f" points="1013,-66 825,-66 825,-42 1013,-42 1013,-66"/>
+<text text-anchor="middle" x="919" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::poisson_divide</text>
+</a>
+</g>
+</g>
+<!-- proc~process_spectral_010&#45;&gt;proc~poisson_divide -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge16" class="edge">
+<title>proc~process_spectral_010&#45;&gt;proc~poisson_divide</title>
+<path fill="none" stroke="#00ff00" d="M702.37,-110.69C724.16,-107.52 746.58,-102.85 767,-96 784.56,-90.11 785.63,-81.43 803,-75 809.39,-72.63 816.09,-70.53 822.9,-68.65"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="824.12,-71.95 832.93,-66.07 822.38,-65.17 824.12,-71.95"/>
+</g>
+<!-- proc~postprocess_dim13_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node17" class="node">
+<title>proc~postprocess_dim13_bw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node17"><a xlink:href="../proc/postprocess_dim13_bw.html" xlink:title="m_cuda_spectral::postprocess_dim13_bw">
+<polygon fill="#d9534f" stroke="#d9534f" points="1035,-150 803,-150 803,-126 1035,-126 1035,-150"/>
+<text text-anchor="middle" x="919" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::postprocess_dim13_bw</text>
+</a>
+</g>
+</g>
+<!-- proc~process_spectral_010&#45;&gt;proc~postprocess_dim13_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge17" class="edge">
+<title>proc~process_spectral_010&#45;&gt;proc~postprocess_dim13_bw</title>
+<path fill="none" stroke="#00ff00" d="M702.16,-124.14C731.36,-126.01 763.04,-128.05 792.91,-129.97"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="792.76,-133.46 802.96,-130.61 793.21,-126.48 792.76,-133.46"/>
+</g>
+<!-- proc~postprocess_dim13_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node18" class="node">
+<title>proc~postprocess_dim13_fw</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node18"><a xlink:href="../proc/postprocess_dim13_fw.html" xlink:title="m_cuda_spectral::postprocess_dim13_fw">
+<polygon fill="#d9534f" stroke="#d9534f" points="1033.5,-24 804.5,-24 804.5,0 1033.5,0 1033.5,-24"/>
+<text text-anchor="middle" x="919" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_cuda_spectral::postprocess_dim13_fw</text>
+</a>
+</g>
+</g>
+<!-- proc~process_spectral_010&#45;&gt;proc~postprocess_dim13_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge18" class="edge">
+<title>proc~process_spectral_010&#45;&gt;proc~postprocess_dim13_fw</title>
+<path fill="none" stroke="#00ff00" d="M702.14,-119.4C725,-115.73 747.89,-108.66 767,-96 793.88,-78.19 776.68,-51.64 803,-33 805.14,-31.49 807.35,-30.07 809.63,-28.75"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="811.4,-31.78 818.7,-24.1 808.21,-25.55 811.4,-31.78"/>
+</g>
+<!-- proc~process_spectral_100_fw&#45;&gt;proc~postprocess_dim13_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge19" class="edge">
+<title>proc~process_spectral_100_fw&#45;&gt;proc~postprocess_dim13_fw</title>
+<path fill="none" stroke="#00ffff" d="M710.91,-25.3C738.1,-23.55 767.03,-21.7 794.37,-19.94"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="794.61,-23.43 804.36,-19.3 794.16,-16.45 794.61,-23.43"/>
+</g>
+<!-- proc~process_spectral_100_pair_bw&#45;&gt;proc~pair_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge20" class="edge">
+<title>proc~process_spectral_100_pair_bw&#45;&gt;proc~pair_bw</title>
+<path fill="none" stroke="#0000ff" d="M725.89,-167.66C762.09,-169.99 800.21,-172.44 832.87,-174.53"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="833.07,-178.05 843.27,-175.2 833.52,-171.07 833.07,-178.05"/>
+</g>
+<!-- proc~process_spectral_100_pair_bw&#45;&gt;proc~postprocess_dim13_bw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge21" class="edge">
+<title>proc~process_spectral_100_pair_bw&#45;&gt;proc~postprocess_dim13_bw</title>
+<path fill="none" stroke="#0000ff" d="M725.89,-150.34C748.09,-148.91 771.01,-147.44 792.96,-146.03"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="793.21,-149.52 802.97,-145.39 792.76,-142.54 793.21,-149.52"/>
+</g>
+<!-- proc~process_spectral_100_pair_fw&#45;&gt;proc~pair_fw -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge22" class="edge">
+<title>proc~process_spectral_100_pair_fw&#45;&gt;proc~pair_fw</title>
+<path fill="none" stroke="#ff00ff" d="M724,-83.54C761.34,-85.94 800.88,-88.48 834.45,-90.63"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="834.46,-94.14 844.67,-91.29 834.91,-87.16 834.46,-94.14"/>
+</g>
+<!-- proc~process_spectral_100_pair_fw&#45;&gt;proc~poisson_divide -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge23" class="edge">
+<title>proc~process_spectral_100_pair_fw&#45;&gt;proc~poisson_divide</title>
+<path fill="none" stroke="#ff00ff" d="M724,-66.46C754.21,-64.52 785.86,-62.49 814.63,-60.64"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="814.92,-64.13 824.68,-59.99 814.47,-57.14 814.92,-64.13"/>
+</g>
+<!-- interface~str -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node20" class="node">
+<title>interface~str</title>
+<g id="a_proc~~fft_postprocess_100_cuda~~CallsGraph_node20"><a xlink:href="../interface/str.html" xlink:title="m_logger::str">
+<polygon fill="#a7506f" stroke="#a7506f" points="1321.5,-271 1237.5,-271 1237.5,-247 1321.5,-247 1321.5,-271"/>
+<text text-anchor="middle" x="1279.5" y="-256.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">m_logger::str</text>
+</a>
+</g>
+</g>
+<!-- proc~abort_run&#45;&gt;interface~str -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge24" class="edge">
+<title>proc~abort_run&#45;&gt;interface~str</title>
+<path fill="none" stroke="#e7ff00" d="M1167.23,-330.9C1175.99,-327.08 1185.15,-322.42 1193,-317 1211.88,-303.97 1210.07,-292.96 1229,-280 1231.23,-278.47 1233.6,-277.02 1236.03,-275.65"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1237.75,-278.7 1245.05,-271.02 1234.56,-272.47 1237.75,-278.7"/>
+</g>
+<!-- mpi_abort -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node21" class="node">
+<title>mpi_abort</title>
+<polygon fill="#777777" stroke="#777777" points="1313,-481 1246,-481 1246,-457 1313,-457 1313,-481"/>
+<text text-anchor="middle" x="1279.5" y="-466.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_abort</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_abort -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge25" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_abort</title>
+<path fill="none" stroke="#e7ff00" d="M1180.1,-355.06C1184.79,-357.51 1189.21,-360.46 1193,-364 1222.68,-391.72 1200.23,-419.33 1229,-448 1231.38,-450.37 1234.07,-452.49 1236.94,-454.38"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1235.49,-457.58 1245.92,-459.4 1238.9,-451.47 1235.49,-457.58"/>
+</g>
+<!-- mpi_barrier -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node22" class="node">
+<title>mpi_barrier</title>
+<polygon fill="#777777" stroke="#777777" points="1317,-439 1242,-439 1242,-415 1317,-415 1317,-439"/>
+<text text-anchor="middle" x="1279.5" y="-424.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_barrier</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_barrier -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge26" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_barrier</title>
+<path fill="none" stroke="#e7ff00" d="M1176.3,-355.04C1182.16,-357.55 1187.9,-360.51 1193,-364 1213.3,-377.87 1209.16,-391.48 1229,-406 1231.04,-407.5 1233.21,-408.91 1235.45,-410.24"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1233.88,-413.37 1244.35,-414.99 1237.17,-407.19 1233.88,-413.37"/>
+</g>
+<!-- mpi_comm_rank -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node23" class="node">
+<title>mpi_comm_rank</title>
+<polygon fill="#777777" stroke="#777777" points="1330,-397 1229,-397 1229,-373 1330,-373 1330,-397"/>
+<text text-anchor="middle" x="1279.5" y="-382.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_rank</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_rank -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge27" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_rank</title>
+<path fill="none" stroke="#e7ff00" d="M1174.69,-355.04C1190.98,-359.74 1209.82,-365.18 1226.95,-370.12"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1226.22,-373.55 1236.8,-372.96 1228.16,-366.83 1226.22,-373.55"/>
+</g>
+<!-- mpi_comm_size -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node24" class="node">
+<title>mpi_comm_size</title>
+<polygon fill="#777777" stroke="#777777" points="1328,-355 1231,-355 1231,-331 1328,-331 1328,-355"/>
+<text text-anchor="middle" x="1279.5" y="-340.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comm_size</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_comm_size -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge28" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_comm_size</title>
+<path fill="none" stroke="#e7ff00" d="M1193.02,-343C1202.12,-343 1211.49,-343 1220.55,-343"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1220.61,-346.5 1230.61,-343 1220.61,-339.5 1220.61,-346.5"/>
+</g>
+<!-- mpi_finalized -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node26" class="node">
+<title>mpi_finalized</title>
+<polygon fill="#777777" stroke="#777777" points="1321,-313 1238,-313 1238,-289 1321,-289 1321,-313"/>
+<text text-anchor="middle" x="1279.5" y="-298.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_finalized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_finalized -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge29" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_finalized</title>
+<path fill="none" stroke="#e7ff00" d="M1174.69,-330.96C1191.26,-326.18 1210.47,-320.64 1227.83,-315.63"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1229.17,-318.88 1237.8,-312.75 1227.23,-312.16 1229.17,-318.88"/>
+</g>
+<!-- mpi_initialized -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node27" class="node">
+<title>mpi_initialized</title>
+<polygon fill="#777777" stroke="#777777" points="1324,-523 1235,-523 1235,-499 1324,-499 1324,-523"/>
+<text text-anchor="middle" x="1279.5" y="-508.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_initialized</text>
+</g>
+<!-- proc~abort_run&#45;&gt;mpi_initialized -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge30" class="edge">
+<title>proc~abort_run&#45;&gt;mpi_initialized</title>
+<path fill="none" stroke="#e7ff00" d="M1181.44,-355.08C1185.71,-357.53 1189.67,-360.47 1193,-364 1232.96,-406.37 1190.42,-446.37 1229,-490 1229.87,-490.98 1230.79,-491.92 1231.76,-492.82"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="1229.82,-495.73 1239.93,-498.88 1233.99,-490.11 1229.82,-495.73"/>
+</g>
+<!-- proc~check_cuda&#45;&gt;proc~abort_run -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge33" class="edge">
+<title>proc~check_cuda&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#5cff00" d="M1000.07,-343.62C1019.93,-343.53 1041.08,-343.43 1060.45,-343.33"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="1060.72,-346.83 1070.7,-343.29 1060.68,-339.83 1060.72,-346.83"/>
+</g>
+<!-- cudageterrorstring -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node19" class="node">
+<title>cudageterrorstring</title>
+<polygon fill="#777777" stroke="#777777" points="1188,-397 1076,-397 1076,-373 1188,-373 1188,-397"/>
+<text text-anchor="middle" x="1132" y="-382.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cudageterrorstring</text>
+</g>
+<!-- proc~check_cuda&#45;&gt;cudageterrorstring -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge31" class="edge">
+<title>proc~check_cuda&#45;&gt;cudageterrorstring</title>
+<path fill="none" stroke="#5cff00" d="M987.55,-356.05C1003.15,-358.91 1019.66,-362 1035,-365 1045.07,-366.97 1055.71,-369.12 1066.11,-371.25"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="1065.47,-374.69 1075.97,-373.29 1066.88,-367.84 1065.47,-374.69"/>
+</g>
+<!-- proc~check_cuda&#45;&gt;interface~str -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge32" class="edge">
+<title>proc~check_cuda&#45;&gt;interface~str</title>
+<path fill="none" stroke="#5cff00" d="M970.98,-331.91C1039.11,-315.76 1159.14,-287.3 1227.35,-271.13"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="1228.51,-274.45 1237.43,-268.74 1226.89,-267.64 1228.51,-274.45"/>
+</g>
+<!-- proc~check_mpi&#45;&gt;proc~abort_run -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge36" class="edge">
+<title>proc~check_mpi&#45;&gt;proc~abort_run</title>
+<path fill="none" stroke="#00ff2e" d="M982.72,-274.82C999.96,-278.7 1018.45,-283.71 1035,-290 1059.47,-299.3 1085.35,-313.9 1104.06,-325.43"/>
+<polygon fill="#00ff2e" stroke="#00ff2e" points="1102.3,-328.45 1112.64,-330.8 1106.02,-322.52 1102.3,-328.45"/>
+</g>
+<!-- proc~check_mpi&#45;&gt;interface~str -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge34" class="edge">
+<title>proc~check_mpi&#45;&gt;interface~str</title>
+<path fill="none" stroke="#00ff2e" d="M982.86,-263.12C1052.19,-262.16 1162.46,-260.62 1226.93,-259.72"/>
+<polygon fill="#00ff2e" stroke="#00ff2e" points="1227.3,-263.21 1237.25,-259.58 1227.2,-256.22 1227.3,-263.21"/>
+</g>
+<!-- mpi_error_string -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_node25" class="node">
+<title>mpi_error_string</title>
+<polygon fill="#777777" stroke="#777777" points="1182,-236 1082,-236 1082,-212 1182,-212 1182,-236"/>
+<text text-anchor="middle" x="1132" y="-221.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_error_string</text>
+</g>
+<!-- proc~check_mpi&#45;&gt;mpi_error_string -->
+<g id="proc~~fft_postprocess_100_cuda~~CallsGraph_edge35" class="edge">
+<title>proc~check_mpi&#45;&gt;mpi_error_string</title>
+<path fill="none" stroke="#00ff2e" d="M982.7,-252.72C999.68,-249.62 1018.05,-246.22 1035,-243 1046.87,-240.74 1059.55,-238.27 1071.67,-235.88"/>
+<polygon fill="#00ff2e" stroke="#00ff2e" points="1072.56,-239.28 1081.7,-233.9 1071.21,-232.41 1072.56,-239.28"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocfft_postprocess_100_cudaCallsGraph = svgPanZoom('#procfft_postprocess_100_cudaCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              x3d2
+ was developed by Xcompact3d Team<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
