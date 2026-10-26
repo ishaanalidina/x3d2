@@ -447,6 +447,8 @@ function(define_backend_tests backend)
   # BC combinations are not yet supported, or not yet accurate, on other counts.
   if(is_omp AND WITH_2DECOMPFFT)
     define_verification_test(verification/test_fft.f90 ${np} ${backend})
+    define_verification_test(verification/test_poisson_compact6_convergence_rate.f90 ${np} ${backend})
+    # define_verification_test(verification/test_poisson_compact10_penta_convergence_rate.f90 ${np} ${backend})
   elseif(${backend} STREQUAL cuda)
     define_verification_test(verification/test_fft.f90 1 ${backend})
   endif()

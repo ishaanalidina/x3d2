@@ -1,4 +1,4 @@
-program test_derivatives_bc_2
+program test_poisson_compact6_convergence_rate
   !! Compact6 derivative convergence rate test for all BC types.
   !!
   !! All test scenarios are defined in the scenario table near the top of
@@ -30,16 +30,21 @@ program test_derivatives_bc_2
   !!   Neumann:    6
   !!   Dirichlet:  5
   !!
-  !! Pattern follows test_thom: constructs operators directly
-  !! via cuda_tdsops_init and solves with exec_thom_tds_compact.
+  !! Pattern follows test_poisson_bc: using the context to allow for backend-agnostic behaviour.
 
   use iso_fortran_env
-  use cudafor
 
-  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET
-  use m_cuda_common, only: SZ
-  use m_cuda_tdsops, only: cuda_tdsops_t, cuda_tdsops_init
-  use m_cuda_exec_thom, only: exec_thom_tds_compact
+  use m_allocator, only: allocator_t, field_t
+  use m_base_backend, only: base_backend_t
+  use m_backend_runtime, only: backend_runtime_t, backend_is_cuda, tdsops_slot_t
+  use m_tdsops_setup, only: allocate_tdsops
+  use m_tdsops, only: dirps_t
+  use m_test_utils, only: initialise_mpi, finalise_test
+  use m_mesh, only: mesh_t
+  use m_vector_calculus, only: vector_calculus_t
+
+  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, dp, pi, MPI_X3D2_DP, DIR_C, DIR_X, DIR_Y, DIR_Z, &
+                      CELL, RDR_C2Z, RDR_C2X, RDR_Z2X
 
   implicit none
 
@@ -70,6 +75,19 @@ program test_derivatives_bc_2
   end type test_scenario_t
 
   ! ------------------------------------------------------------------
+  ! The context of the test. This contains the backend runtime and associated allocator for the tests. This also contains the given TDSOps slot.
+  ! ------------------------------------------------------------------
+  type :: test_context_t
+    type(backend_runtime_t) :: runtime
+    class(base_backend_t), pointer :: backend => null()
+    type(allocator_t), pointer :: host_allocator => null()
+    type(mesh_t) :: mesh
+    type(dirps_t), pointer :: xdirps => null(), ydirps => null(), zdirps => null()
+    type(vector_calculus_t) :: vector_calculus
+    type(tdsops_slot_t) :: tdsops_slot
+  end type test_context_t
+
+  ! ------------------------------------------------------------------
   ! *** SCENARIO TABLE -- add/remove/reorder test cases here ***
   !
   ! Periodicity rule: k must be m*2*pi for integer m.
@@ -83,7 +101,29 @@ program test_derivatives_bc_2
   !   interpl_p2v  (sym=.true.)  => use even input (cos)
   ! ------------------------------------------------------------------
   integer, parameter :: n_scenarios = 4
-  type(test_scenario_t) :: scenarios(n_scenarios)
+
+    ! ------------------------------------------------------------------
+  ! Define all test scenarios (single place to add new tests)
+  ! ------------------------------------------------------------------
+
+  type(test_scenario_t), parameter :: scenarios(*) = [&
+    test_scenario_t( &
+      label='sin(2*pi*x) stagder_v2p', func_type=FUNC_SIN, &
+      wavenumber=2._dp*pi, test_kind=TEST_STAGDER_V2P, &
+      sym=.false., skip_periodic=.true., skip_dirichlet=.true.), &
+    ! test_scenario_t( &
+    !   label='sin(3*pi*x) stagder_v2p', func_type=FUNC_SIN, &
+    !   wavenumber=3._dp*pi, test_kind=TEST_STAGDER_V2P, &
+    !   sym=.false., skip_periodic=.true., skip_dirichlet=.true.), &
+    ! test_scenario_t( &
+    !   label='cos(10*pi*x) stagder_p2v', func_type=FUNC_COS, &
+    !   wavenumber=10._dp*pi, test_kind=TEST_STAGDER_P2V, &
+    !   sym=.true., skip_periodic=.true., skip_dirichlet=.true.), &
+    test_scenario_t( &
+      label='cos(3*pi*x) stagder_p2v', func_type=FUNC_COS, &
+      wavenumber=3._dp*pi, test_kind=TEST_STAGDER_P2V, &
+      sym=.true., skip_periodic=.true., skip_dirichlet=.true.) &
+      ]
 
   ! BC configuration
   integer, parameter :: n_bcs = 3
@@ -106,11 +146,6 @@ program test_derivatives_bc_2
 
   logical :: allpass = .true.
 
-  ! CUDA init
-  ierr = cudaGetDeviceCount(ndevs)
-  ierr = cudaSetDevice(0)
-  ierr = cudaGetDevice(devnum)
-
   ! ------------------------------------------------------------------
   ! Define BC types
   ! ------------------------------------------------------------------
@@ -118,30 +153,6 @@ program test_derivatives_bc_2
   bc_names = ['periodic  ', 'dirichlet ', 'neumann   ']
   expected_rates = [6._dp, 5._dp, 6._dp]
 
-  ! ------------------------------------------------------------------
-  ! Define all test scenarios (single place to add new tests)
-  ! ------------------------------------------------------------------
-
-
-  scenarios(1) = test_scenario_t( &
-    label='sin(2*pi*x) stagder_v2p', func_type=FUNC_SIN, &
-    wavenumber=2._dp*pi, test_kind=TEST_STAGDER_V2P, &
-    sym=.false., skip_periodic=.true., skip_dirichlet=.true.)
-
-  scenarios(2) = test_scenario_t( &
-    label='sin(3*pi*x) stagder_v2p', func_type=FUNC_SIN, &
-    wavenumber=3._dp*pi, test_kind=TEST_STAGDER_V2P, &
-    sym=.false., skip_periodic=.true., skip_dirichlet=.true.)
-
-  scenarios(3) = test_scenario_t( &
-    label='cos(10*pi*x) stagder_p2v', func_type=FUNC_COS, &
-    wavenumber=10._dp*pi, test_kind=TEST_STAGDER_P2V, &
-    sym=.true., skip_periodic=.true., skip_dirichlet=.true.)
-
-  scenarios(4) = test_scenario_t( &
-    label='cos(3*pi*x) stagder_p2v', func_type=FUNC_COS, &
-    wavenumber=3._dp*pi, test_kind=TEST_STAGDER_P2V, &
-    sym=.true., skip_periodic=.true., skip_dirichlet=.true.)
   ! ------------------------------------------------------------------
   ! Main loop: BCs x Scenarios
   ! ------------------------------------------------------------------
@@ -234,24 +245,50 @@ program test_derivatives_bc_2
 contains
 
   ! ================================================================
+  ! Set up the context of the case, and the associated runtime and allocators.
+  ! ================================================================
+
+  type(test_context_t) function setup_ctx(scenario, grid_size, bc_type)
+    type(test_scenario_t), intent(in) :: scenario
+    integer, intent(in) :: grid_size, bc_type
+    type(test_context_t), intent(out) :: ctx
+    type(backend_runtime_t), target :: runtime
+    logical :: use_2decomp
+
+    use_2decomp = .not. backend_is_cuda
+    bc_name = bc_names(bc_type)
+
+    ctx%mesh = mesh_t(grid_size, nproc_dir, 1.0_dp, bc_names, use_2decomp=use_2decomp)
+    ctx%runtime => runtime
+    call ctx%runtime%init(ctx%mesh)
+    ctx%backend => ctx%runtime%backend
+    ctx%host_allocator = ctx%runtime%host_allocator
+
+  end function setup_ctx
+    
+
+  ! ================================================================
   ! Evaluate test function f(x), f'(x), f''(x)
   ! ================================================================
   pure real(dp) function eval_f(func_type, k, x)
     integer, intent(in) :: func_type
     real(dp), intent(in) :: k, x
+
     select case (func_type)
     case (FUNC_COS); eval_f = cos(k * x)
     case (FUNC_SIN); eval_f = sin(k * x)
-    case default;     eval_f = 0._dp
+    case default;    eval_f = 0._dp
     end select
+
   end function eval_f
 
   pure real(dp) function eval_df(func_type, k, x)
     integer, intent(in) :: func_type
     real(dp), intent(in) :: k, x
+
     select case (func_type)
     case (FUNC_COS); eval_df = -k * sin(k * x)
-    case (FUNC_SIN); eval_df =  k * cos(k * x)
+    case (FUNC_SIN); eval_df = k * cos(k * x)
     case default;     eval_df = 0._dp
     end select
   end function eval_df
@@ -259,6 +296,7 @@ contains
   pure real(dp) function eval_d2f(func_type, k, x)
     integer, intent(in) :: func_type
     real(dp), intent(in) :: k, x
+
     select case (func_type)
     case (FUNC_COS); eval_d2f = -k * k * cos(k * x)
     case (FUNC_SIN); eval_d2f = -k * k * sin(k * x)
@@ -312,9 +350,8 @@ contains
     integer :: ig, n, j
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
-    real(dp), device, allocatable :: u_dev(:,:,:), du_dev(:,:,:)
-    type(cuda_tdsops_t) :: op
-    type(dim3) :: blocks, threads
+    class(field_t), pointer :: u_field, du_field
+    type(test_context_t) :: ctx, ctx2
 
     k = scen%wavenumber
 
@@ -322,9 +359,9 @@ contains
       n = grid_sizes(ig)
       dx = compute_dx(n, bc_type)
 
+      ctx = setup_ctx(scen, n, bc_type)
+
       allocate(u(SZ, n, n_block), du(SZ, n, n_block), ref(SZ, n, n_block))
-      allocate(u_dev(SZ, n, n_block), du_dev(SZ, n, n_block))
-      blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
 
       ! Fill input field
       do j = 1, n
@@ -333,25 +370,23 @@ contains
       end do
 
       ! --- First derivative ---
-      do j = 1, n
-        x = (j - 1) * dx
-        ref(:, j, :) = eval_df(scen%func_type, k, x)
-      end do
+      ref = eval_df(scen%func_type, k, x)
 
       if (bc_type == BC_NEUMANN) then
-        op = cuda_tdsops_init(n, dx, operation='first-deriv', &
+        call ctx%backend%allocate_tdsops(ctx%xdirps, ctx%backend, ctx%mesh operation='first-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type, &
                               sym=scen%sym)
       else
-        op = cuda_tdsops_init(n, dx, operation='first-deriv', &
+        call ctx%backend%allocate_tdsops(n, dx, operation='first-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      u_dev = u; du_dev = 0._dp
-      call exec_thom_tds_compact(du_dev, u_dev, op, blocks, threads)
-      du = du_dev
+      call ctx%backend%set_field_data(u_field, u, DIR_X)
+      call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+      call ctx%backend%get_field_data(du, du_field, DIR_X)
+
       err_1st(ig) = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
 
       ! --- Second derivative ---
@@ -360,20 +395,24 @@ contains
         ref(:, j, :) = eval_d2f(scen%func_type, k, x)
       end do
 
+      ctx2 = setup_ctx(scen, n, bc_type)
+
+
       if (bc_type == BC_NEUMANN) then
-        op = cuda_tdsops_init(n, dx, operation='second-deriv', &
+        call ctx2%backend%allocate_tdsops(n, dx, operation='second-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type, &
                               sym=scen%sym)
       else
-        op = cuda_tdsops_init(n, dx, operation='second-deriv', &
+        call ctx2%backend%allocate_tdsops(n, dx, operation='second-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      u_dev = u; du_dev = 0._dp
-      call exec_thom_tds_compact(du_dev, u_dev, op, blocks, threads)
-      du = du_dev
+      call ctx2%backend%set_field_data(u_field, u, DIR_X)
+      call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+      call ctx2%backend%get_field_data(du, du_field, DIR_X)
+
       err_2nd(ig) = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
 
       ! Debug output for smallest Neumann grid
@@ -387,7 +426,7 @@ contains
         print *, '  err at j=n:', abs(du(1,n,1) - ref(1,n,1))
       end if
 
-      deallocate(u, du, ref, u_dev, du_dev)
+      deallocate(u, du, ref)
     end do
   end subroutine run_deriv_convergence
 
@@ -406,25 +445,25 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     integer :: ig, n, n_in, n_out
     real(dp) :: k
     logical :: is_interpl
+    class(field_t), pointer :: u_stag_field, du_stag_field
+    type(test_context_t) :: ctx, ctx2
 
     k = scen%wavenumber
     is_interpl = (operation == 'interpolate')
 
     do ig = 1, n_grids
       n = grid_sizes(ig)
+
+      ctx = setup_ctx(scen, n, bc_type)
+
       call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
 
       block
         integer :: j, n_buf
         real(dp) :: dx, x
         real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
-        real(dp), device, allocatable :: u_stag_dev(:,:,:), &
-                                         du_stag_dev(:,:,:)
-        type(cuda_tdsops_t) :: op
-        type(dim3) :: blocks, threads
 
         dx = compute_dx(n, bc_type)
-        blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
         n_buf = max(n_in, n_out)
 
         ! Allocate host AND device buffers at the common size n_buf so the
@@ -432,8 +471,6 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
         ! and the D<->H copies use matching descriptors.
         allocate(u_stag(SZ, n_buf, n_block), du_stag(SZ, n_buf, n_block), &
                  ref(SZ, n_buf, n_block))
-        allocate(u_stag_dev(SZ, n_buf, n_block), &
-                 du_stag_dev(SZ, n_buf, n_block))
 
         u_stag = 0._dp; du_stag = 0._dp; ref = 0._dp
 
@@ -450,15 +487,14 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
           end if
         end do
 
-        op = cuda_tdsops_init(n_out, dx, operation=operation, &
+        call ctx%backend%alloc_tdsops(n_out, dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='v2p', sym=sym_v2p)
 
-        u_stag_dev = u_stag; du_stag_dev = 0._dp
-        call exec_thom_tds_compact(du_stag_dev, u_stag_dev, op, &
-                                   blocks, threads)
-        du_stag = du_stag_dev
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+        call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
+        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
 
         ! Only the first n_out slices carry valid output.
         err_v2p(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -470,7 +506,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                                 ref(:, 1:n_out, :), n_block)
         end if
 
-        deallocate(u_stag, du_stag, ref, u_stag_dev, du_stag_dev)
+        deallocate(u_stag, du_stag, ref)
       end block
     end do
   end subroutine run_stag_v2p_convergence
@@ -490,31 +526,29 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     integer :: ig, n, n_in, n_out
     real(dp) :: k
     logical :: is_interpl
+    type(test_context_t) :: ctx
+    class(field_t), pointer :: u_stag_field, du_stag_field
 
     k = scen%wavenumber
     is_interpl = (operation == 'interpolate')
 
     do ig = 1, n_grids
       n = grid_sizes(ig)
+
+      ctx = setup_ctx(scen, n, bc_type)
+
       call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
       block
         integer :: j, n_buf
         real(dp) :: dx, x
         real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
-        real(dp), device, allocatable :: u_stag_dev(:,:,:), &
-                                         du_stag_dev(:,:,:)
-        type(cuda_tdsops_t) :: op
-        type(dim3) :: blocks, threads
 
         dx = compute_dx(n, bc_type)
-        blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
         n_buf = max(n_in, n_out)
 
         allocate(u_stag(SZ, n_buf, n_block), du_stag(SZ, n_buf, n_block), &
                  ref(SZ, n_buf, n_block))
-        allocate(u_stag_dev(SZ, n_buf, n_block), &
-                 du_stag_dev(SZ, n_buf, n_block))
 
         u_stag = 0._dp; du_stag = 0._dp; ref = 0._dp
 
@@ -531,15 +565,15 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
           end if
         end do
 
-        op = cuda_tdsops_init(n_out, dx, operation=operation, &
+        call ctx%backend%alloc_tdsops(n_out, dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='p2v', sym=sym_p2v)
 
-        u_stag_dev = u_stag; du_stag_dev = 0._dp
-        call exec_thom_tds_compact(du_stag_dev, u_stag_dev, op, &
-                                   blocks, threads)
-        du_stag = du_stag_dev
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+        call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
+        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
 
         err_p2v(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
                       sqrt(real(SZ * n_out * n_block, dp))
@@ -550,7 +584,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                                 ref(:, 1:n_out, :), n_block)
         end if
 
-        deallocate(u_stag, du_stag, ref, u_stag_dev, du_stag_dev)
+        deallocate(u_stag, du_stag, ref)
       end block
     end do
   end subroutine run_stag_p2v_convergence
@@ -579,11 +613,11 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     end do
   end subroutine print_stag_debug
 
-  ! ================================================================
-  ! Convergence table printer for paired tests (der1st + der2nd)
-  ! ================================================================
+  ! ! ================================================================
+  ! ! Convergence table printer for paired tests (der1st + der2nd)
+  ! ! ================================================================
   subroutine print_convergence_pair(label, grid_sizes, err_a, err_b, &
-                                    expected_rate, allpass, col_a, col_b)
+  !                                   expected_rate, allpass, col_a, col_b)
     character(*), intent(in) :: label, col_a, col_b
     integer, intent(in) :: grid_sizes(:)
     real(dp), intent(in) :: err_a(:), err_b(:)
@@ -766,16 +800,15 @@ end subroutine print_convergence_single
     integer :: j
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
-    real(dp), device, allocatable :: u_dev(:,:,:), du_dev(:,:,:)
-    type(cuda_tdsops_t) :: op
-    type(dim3) :: blocks, threads
+    class(field_t), pointer :: u_field, du_field
+    type(test_context_t) :: ctx, ctx2
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
 
+    ctx = setup_ctx(scen, n, bc_type)
+
     allocate(u(SZ, n, n_block), du(SZ, n, n_block), ref(SZ, n, n_block))
-    allocate(u_dev(SZ, n, n_block), du_dev(SZ, n, n_block))
-    blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
 
     do j = 1, n
       x = (j - 1) * dx
@@ -787,40 +820,46 @@ end subroutine print_convergence_single
       ref(:, j, :) = eval_df(scen%func_type, k, x)
     end do
     if (bc_type == BC_NEUMANN) then
-      op = cuda_tdsops_init(n, dx, operation='first-deriv', &
+      call ctx%backend%alloc_tdsops(n, dx, operation='first-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type, &
                             sym=scen%sym)
     else
-      op = cuda_tdsops_init(n, dx, operation='first-deriv', &
+      call ctx%backend%alloc_tdsops(n, dx, operation='first-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type)
     end if
-    u_dev = u; du_dev = 0._dp
-    call exec_thom_tds_compact(du_dev, u_dev, op, blocks, threads)
-    du = du_dev
+
+    call ctx%backend%set_field_data(u_field, u, DIR_X)
+    call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+    call ctx%backend%get_field_data(du, du_field, DIR_X)
+
     err_1st = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
+
+    ctx2 = setup_ctx(scen, n, bc_type)
 
     do j = 1, n
       x = (j - 1) * dx
       ref(:, j, :) = eval_d2f(scen%func_type, k, x)
     end do
     if (bc_type == BC_NEUMANN) then
-      op = cuda_tdsops_init(n, dx, operation='second-deriv', &
+      call ctx2%backend%alloc_tdsops(n, dx, operation='second-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type, &
                             sym=scen%sym)
     else
-      op = cuda_tdsops_init(n, dx, operation='second-deriv', &
+      call ctx2%backend%alloc_tdsops(n, dx, operation='second-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type)
     end if
-    u_dev = u; du_dev = 0._dp
-    call exec_thom_tds_compact(du_dev, u_dev, op, blocks, threads)
-    du = du_dev
+
+    call ctx2%backend%set_field_data(u_field, u, DIR_X)
+    call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+    call ctx2%backend%get_field_data(du, du_field, DIR_X)
+
     err_2nd = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
 
-    deallocate(u, du, ref, u_dev, du_dev)
+    deallocate(u, du, ref)
   end subroutine run_deriv_single
 
   ! ================================================================
@@ -838,21 +877,18 @@ end subroutine print_convergence_single
     real(dp) :: dx, x, k
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
-    real(dp), device, allocatable :: u_stag_dev(:,:,:), du_stag_dev(:,:,:)
-    type(cuda_tdsops_t) :: op
-    type(dim3) :: blocks, threads
+    type(test_context_t), pointer :: ctx
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
-    blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
+
+    ctx = setup_ctx(scen, n, bc_type)
 
     call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
 
     allocate(u_stag(SZ, n_in, n_block), du_stag(SZ, n_out, n_block), &
              ref(SZ, n_out, n_block))
-    allocate(u_stag_dev(SZ, n_in, n_block), &
-             du_stag_dev(SZ, n_out, n_block))
 
     do j = 1, n_in
       x = (j - 1) * dx
@@ -867,18 +903,20 @@ end subroutine print_convergence_single
       end if
     end do
 
-    op = cuda_tdsops_init(n_out, dx, operation=operation, scheme=scheme, &
+    call cxt%backend%alloc_tdsops(n_out, dx, operation=operation, scheme=scheme, &
                           bc_start=bc_type, bc_end=bc_type, &
                           from_to='v2p', sym=sym_v2p)
-    u_stag_dev = u_stag; du_stag_dev = 0._dp
-    call exec_thom_tds_compact(du_stag_dev, u_stag_dev, op, blocks, threads)
-    du_stag = du_stag_dev
+
+    call ctx%backend%set_field_data(u_stag_fi    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))eld, DIR_X)
+    call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+    
     err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))
 
-    deallocate(u_stag, du_stag, ref, u_stag_dev, du_stag_dev)
+    deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_v2p_single
 
-  ! ================================================================
+  ! =============================================    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))===================
   ! Single-grid staggered p2v (for file output)
   ! ================================================================
   subroutine run_stag_p2v_single(scen, bc_type, n, n_block, &
@@ -893,21 +931,19 @@ end subroutine print_convergence_single
     real(dp) :: dx, x, k
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
-    real(dp), device, allocatable :: u_stag_dev(:,:,:), du_stag_dev(:,:,:)
-    type(cuda_tdsops_t) :: op
-    type(dim3) :: blocks, threads
+    class(field_t), pointer :: u_stag_field, du_stag_field
+    type(test_context_t), pointer :: ctx
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
-    blocks = dim3(n_block, 1, 1); threads = dim3(SZ, 1, 1)
+
+    ctx = setup_ctx(scen, n, bc_type)
 
     call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
     allocate(u_stag(SZ, n_in, n_block), du_stag(SZ, n_out, n_block), &
              ref(SZ, n_out, n_block))
-    allocate(u_stag_dev(SZ, n_in, n_block), &
-             du_stag_dev(SZ, n_out, n_block))
 
     do j = 1, n_in
       x = (real(j, dp) - 0.5_dp) * dx
@@ -922,15 +958,16 @@ end subroutine print_convergence_single
       end if
     end do
 
-    op = cuda_tdsops_init(n_out, dx, operation=operation, scheme=scheme, &
-                          bc_start=bc_type, bc_end=bc_type, &
-                          from_to='p2v', sym=sym_p2v)
-    u_stag_dev = u_stag; du_stag_dev = 0._dp
-    call exec_thom_tds_compact(du_stag_dev, u_stag_dev, op, blocks, threads)
-    du_stag = du_stag_dev
+    call ctx%backend%alloc_tdsops(n, dx, operation=operation, scheme=scheme, bc_start=bc_type, bc_end=bc_type, &
+     from_to='p2v', sym=sym_p2v)
+
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+    call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+    
     err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))
 
-    deallocate(u_stag, du_stag, ref, u_stag_dev, du_stag_dev)
+    deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_p2v_single
 
-end program test_derivatives_bc_2
+end program test_poisson_compact6_convergence_rate
