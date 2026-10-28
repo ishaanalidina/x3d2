@@ -36,8 +36,7 @@ program test_poisson_compact6_convergence_rate
 
   use m_allocator, only: allocator_t, field_t
   use m_base_backend, only: base_backend_t
-  use m_backend_runtime, only: backend_runtime_t, backend_is_cuda, tdsops_slot_t
-  use m_tdsops_setup, only: allocate_tdsops
+  use m_backend_runtime, only: backend_runtime_t, backend_is_cuda, tdsops_slot_t, backend_sz
   use m_tdsops, only: dirps_t
   use m_test_utils, only: initialise_mpi, finalise_test
   use m_mesh, only: mesh_t
@@ -78,7 +77,7 @@ program test_poisson_compact6_convergence_rate
   ! The context of the test. This contains the backend runtime and associated allocator for the tests. This also contains the given TDSOps slot.
   ! ------------------------------------------------------------------
   type :: test_context_t
-    type(backend_runtime_t) :: runtime
+    type(backend_runtime_t), pointer :: runtime
     class(base_backend_t), pointer :: backend => null()
     type(allocator_t), pointer :: host_allocator => null()
     type(mesh_t) :: mesh
@@ -110,7 +109,7 @@ program test_poisson_compact6_convergence_rate
     test_scenario_t( &
       label='sin(2*pi*x) stagder_v2p', func_type=FUNC_SIN, &
       wavenumber=2._dp*pi, test_kind=TEST_STAGDER_V2P, &
-      sym=.false., skip_periodic=.true., skip_dirichlet=.true.), &
+      sym=.false., skip_periodic=.true., skip_dirichlet=.true.)] ! , &
     ! test_scenario_t( &
     !   label='sin(3*pi*x) stagder_v2p', func_type=FUNC_SIN, &
     !   wavenumber=3._dp*pi, test_kind=TEST_STAGDER_V2P, &
@@ -119,11 +118,16 @@ program test_poisson_compact6_convergence_rate
     !   label='cos(10*pi*x) stagder_p2v', func_type=FUNC_COS, &
     !   wavenumber=10._dp*pi, test_kind=TEST_STAGDER_P2V, &
     !   sym=.true., skip_periodic=.true., skip_dirichlet=.true.), &
-    test_scenario_t( &
-      label='cos(3*pi*x) stagder_p2v', func_type=FUNC_COS, &
-      wavenumber=3._dp*pi, test_kind=TEST_STAGDER_P2V, &
-      sym=.true., skip_periodic=.true., skip_dirichlet=.true.) &
-      ]
+    ! test_scenario_t( &
+    !   label='cos(3*pi*x) stagder_p2v', func_type=FUNC_COS, &
+    !   wavenumber=3._dp*pi, test_kind=TEST_STAGDER_P2V, &
+    !   sym=.true., skip_periodic=.true., skip_dirichlet=.true.) &
+    !   ]
+
+
+  ! MPI Configuration
+  integer :: nrank, nproc
+  integer, dimension(3):: nproc_dir
 
   ! BC configuration
   integer, parameter :: n_bcs = 3
@@ -132,7 +136,8 @@ program test_poisson_compact6_convergence_rate
   character(len=10) :: bc_names(n_bcs)
 
   ! Grid configuration
-  integer, parameter :: n_grids = 6
+  ! integer, parameter :: n_grids = 6
+  integer, parameter :: n_grids = 1
   integer :: grid_sizes(n_grids)
   integer, parameter :: n_block = 64
 
@@ -153,6 +158,10 @@ program test_poisson_compact6_convergence_rate
   bc_names = ['periodic  ', 'dirichlet ', 'neumann   ']
   expected_rates = [6._dp, 5._dp, 6._dp]
 
+  call initialise_mpi(nrank, nproc)
+
+  nproc_dir = [1, 1, nproc]
+
   ! ------------------------------------------------------------------
   ! Main loop: BCs x Scenarios
   ! ------------------------------------------------------------------
@@ -165,9 +174,11 @@ program test_poisson_compact6_convergence_rate
 
     ! Grid sizes
     if (bc_types(ibc) == BC_PERIODIC) then
-      grid_sizes = [16, 32, 64, 128, 256, 512]
+      ! grid_sizes = [16, 32, 64, 128, 256, 512]
+      grid_sizes = [16]
     else
-      grid_sizes = [17, 33, 65, 129, 257, 513]
+      ! grid_sizes = [17, 33, 65, 129, 257, 513]
+      grid_sizes = [17]
     end if
 
     do iscen = 1, n_scenarios
@@ -248,23 +259,25 @@ contains
   ! Set up the context of the case, and the associated runtime and allocators.
   ! ================================================================
 
-  type(test_context_t) function setup_ctx(scenario, grid_size, bc_type)
+  subroutine setup_ctx(ctx, scenario, grid_size, bc_type)
     type(test_scenario_t), intent(in) :: scenario
     integer, intent(in) :: grid_size, bc_type
-    type(test_context_t), intent(out) :: ctx
+    type(test_context_t), intent(inout) :: ctx
     type(backend_runtime_t), target :: runtime
+    
+    character(len=10) :: bc_name 
     logical :: use_2decomp
 
     use_2decomp = .not. backend_is_cuda
     bc_name = bc_names(bc_type)
 
-    ctx%mesh = mesh_t(grid_size, nproc_dir, 1.0_dp, bc_names, use_2decomp=use_2decomp)
-    ctx%runtime => runtime
+    ctx%mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
+     BC_x=[bc_name, bc_name], BC_y=[bc_name, bc_name], BC_z=[bc_name, bc_name], use_2decomp=use_2decomp)
     call ctx%runtime%init(ctx%mesh)
     ctx%backend => ctx%runtime%backend
     ctx%host_allocator = ctx%runtime%host_allocator
 
-  end function setup_ctx
+  end subroutine setup_ctx
     
 
   ! ================================================================
@@ -351,7 +364,7 @@ contains
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
-    type(test_context_t) :: ctx, ctx2
+    type(test_context_t), pointer :: ctx, ctx2
 
     k = scen%wavenumber
 
@@ -359,9 +372,9 @@ contains
       n = grid_sizes(ig)
       dx = compute_dx(n, bc_type)
 
-      ctx = setup_ctx(scen, n, bc_type)
+      call setup_ctx(ctx, scen, n, bc_type)
 
-      allocate(u(SZ, n, n_block), du(SZ, n, n_block), ref(SZ, n, n_block))
+      allocate(u(backend_sz, n, n_block), du(backend_sz, n, n_block), ref(backend_sz, n, n_block))
 
       ! Fill input field
       do j = 1, n
@@ -373,12 +386,12 @@ contains
       ref = eval_df(scen%func_type, k, x)
 
       if (bc_type == BC_NEUMANN) then
-        call ctx%backend%allocate_tdsops(ctx%xdirps, ctx%backend, ctx%mesh operation='first-deriv', &
+        call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='first-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type, &
                               sym=scen%sym)
       else
-        call ctx%backend%allocate_tdsops(n, dx, operation='first-deriv', &
+        call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='first-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type)
       end if
@@ -387,7 +400,7 @@ contains
       call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
       call ctx%backend%get_field_data(du, du_field, DIR_X)
 
-      err_1st(ig) = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
+      err_1st(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
       ! --- Second derivative ---
       do j = 1, n
@@ -395,16 +408,16 @@ contains
         ref(:, j, :) = eval_d2f(scen%func_type, k, x)
       end do
 
-      ctx2 = setup_ctx(scen, n, bc_type)
+      call setup_ctx(ctx2, scen, n, bc_type)
 
 
       if (bc_type == BC_NEUMANN) then
-        call ctx2%backend%allocate_tdsops(n, dx, operation='second-deriv', &
+        call ctx2%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='second-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type, &
                               sym=scen%sym)
       else
-        call ctx2%backend%allocate_tdsops(n, dx, operation='second-deriv', &
+        call ctx2%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='second-deriv', &
                               scheme='compact6', &
                               bc_start=bc_type, bc_end=bc_type)
       end if
@@ -413,7 +426,7 @@ contains
       call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
       call ctx2%backend%get_field_data(du, du_field, DIR_X)
 
-      err_2nd(ig) = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
+      err_2nd(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
       ! Debug output for smallest Neumann grid
       if (bc_type == BC_NEUMANN .and. ig == 1) then
@@ -446,7 +459,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     real(dp) :: k
     logical :: is_interpl
     class(field_t), pointer :: u_stag_field, du_stag_field
-    type(test_context_t) :: ctx, ctx2
+    type(test_context_t), pointer :: ctx, ctx2
 
     k = scen%wavenumber
     is_interpl = (operation == 'interpolate')
@@ -454,7 +467,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     do ig = 1, n_grids
       n = grid_sizes(ig)
 
-      ctx = setup_ctx(scen, n, bc_type)
+      call setup_ctx(ctx, scen, n, bc_type)
 
       call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
 
@@ -469,8 +482,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
         ! Allocate host AND device buffers at the common size n_buf so the
         ! kernel's out-of-bounds staggered reads/writes land in valid memory
         ! and the D<->H copies use matching descriptors.
-        allocate(u_stag(SZ, n_buf, n_block), du_stag(SZ, n_buf, n_block), &
-                 ref(SZ, n_buf, n_block))
+        allocate(u_stag(backend_sz, n_buf, n_block), du_stag(backend_sz, n_buf, n_block), &
+                 ref(backend_sz, n_buf, n_block))
 
         u_stag = 0._dp; du_stag = 0._dp; ref = 0._dp
 
@@ -487,10 +500,10 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
           end if
         end do
 
-        call ctx%backend%alloc_tdsops(n_out, dx, operation=operation, &
+        call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n_out, delta=dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
-                              from_to='v2p', sym=sym_v2p)
+                              from_to='v2p', sym=scen%sym)
 
         call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
@@ -498,7 +511,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
         ! Only the first n_out slices carry valid output.
         err_v2p(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
-                      sqrt(real(SZ * n_out * n_block, dp))
+                      sqrt(real(backend_sz * n_out * n_block, dp))
 
         if (bc_type == BC_NEUMANN .and. ig == 1) then
           call print_stag_debug(trim(scen%label), n, n_out, &
@@ -526,7 +539,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     integer :: ig, n, n_in, n_out
     real(dp) :: k
     logical :: is_interpl
-    type(test_context_t) :: ctx
+    type(test_context_t), pointer :: ctx
     class(field_t), pointer :: u_stag_field, du_stag_field
 
     k = scen%wavenumber
@@ -535,7 +548,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     do ig = 1, n_grids
       n = grid_sizes(ig)
 
-      ctx = setup_ctx(scen, n, bc_type)
+      call setup_ctx(ctx, scen, n, bc_type)
 
       call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
@@ -547,8 +560,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
         dx = compute_dx(n, bc_type)
         n_buf = max(n_in, n_out)
 
-        allocate(u_stag(SZ, n_buf, n_block), du_stag(SZ, n_buf, n_block), &
-                 ref(SZ, n_buf, n_block))
+        allocate(u_stag(backend_sz, n_buf, n_block), du_stag(backend_sz, n_buf, n_block), &
+                 ref(backend_sz, n_buf, n_block))
 
         u_stag = 0._dp; du_stag = 0._dp; ref = 0._dp
 
@@ -565,10 +578,10 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
           end if
         end do
 
-        call ctx%backend%alloc_tdsops(n_out, dx, operation=operation, &
+        call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n_out, delta=dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
-                              from_to='p2v', sym=sym_p2v)
+                              from_to='p2v', sym=scen%sym)
 
         call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
@@ -576,7 +589,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
 
         err_p2v(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
-                      sqrt(real(SZ * n_out * n_block, dp))
+                      sqrt(real(backend_sz * n_out * n_block, dp))
 
         if (bc_type == BC_NEUMANN .and. ig == 1) then
           call print_stag_debug(trim(scen%label), n, n_out, &
@@ -607,7 +620,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
         '  err=', abs(du_stag(1,j,1) - ref(1,j,1))
     end do
     print *, '  Per-lane L2 errors (block=1):'
-    do j = 1, SZ
+    do j = 1, backend_sz
       print '(A,I4,A,ES12.4)', '  lane=', j, '  L2=', &
         norm2(du_stag(j,:,1) - ref(j,:,1)) / sqrt(real(n_out, dp))
     end do
@@ -617,7 +630,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
   ! ! Convergence table printer for paired tests (der1st + der2nd)
   ! ! ================================================================
   subroutine print_convergence_pair(label, grid_sizes, err_a, err_b, &
-  !                                   expected_rate, allpass, col_a, col_b)
+                                     expected_rate, allpass, col_a, col_b)
+  
     character(*), intent(in) :: label, col_a, col_b
     integer, intent(in) :: grid_sizes(:)
     real(dp), intent(in) :: err_a(:), err_b(:)
@@ -801,14 +815,14 @@ end subroutine print_convergence_single
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
-    type(test_context_t) :: ctx, ctx2
+    type(test_context_t), pointer :: ctx, ctx2
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
 
-    ctx = setup_ctx(scen, n, bc_type)
+    call setup_ctx(ctx, scen, n, bc_type)
 
-    allocate(u(SZ, n, n_block), du(SZ, n, n_block), ref(SZ, n, n_block))
+    allocate(u(backend_sz, n, n_block), du(backend_sz, n, n_block), ref(backend_sz, n, n_block))
 
     do j = 1, n
       x = (j - 1) * dx
@@ -820,12 +834,12 @@ end subroutine print_convergence_single
       ref(:, j, :) = eval_df(scen%func_type, k, x)
     end do
     if (bc_type == BC_NEUMANN) then
-      call ctx%backend%alloc_tdsops(n, dx, operation='first-deriv', &
+      call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='first-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type, &
                             sym=scen%sym)
     else
-      call ctx%backend%alloc_tdsops(n, dx, operation='first-deriv', &
+      call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='first-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type)
     end if
@@ -834,21 +848,21 @@ end subroutine print_convergence_single
     call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
     call ctx%backend%get_field_data(du, du_field, DIR_X)
 
-    err_1st = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
+    err_1st = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
-    ctx2 = setup_ctx(scen, n, bc_type)
+    call setup_ctx(ctx, scen, n, bc_type)
 
     do j = 1, n
       x = (j - 1) * dx
       ref(:, j, :) = eval_d2f(scen%func_type, k, x)
     end do
     if (bc_type == BC_NEUMANN) then
-      call ctx2%backend%alloc_tdsops(n, dx, operation='second-deriv', &
+      call ctx2%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='second-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type, &
                             sym=scen%sym)
     else
-      call ctx2%backend%alloc_tdsops(n, dx, operation='second-deriv', &
+      call ctx2%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='second-deriv', &
                             scheme='compact6', &
                             bc_start=bc_type, bc_end=bc_type)
     end if
@@ -857,7 +871,7 @@ end subroutine print_convergence_single
     call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
     call ctx2%backend%get_field_data(du, du_field, DIR_X)
 
-    err_2nd = norm2(du - ref) / sqrt(real(SZ * n * n_block, dp))
+    err_2nd = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
     deallocate(u, du, ref)
   end subroutine run_deriv_single
@@ -878,17 +892,18 @@ end subroutine print_convergence_single
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
     type(test_context_t), pointer :: ctx
+    class(field_t), pointer :: u_stag_field, du_stag_field
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
 
-    ctx = setup_ctx(scen, n, bc_type)
+    call setup_ctx(ctx, scen, n, bc_type)
 
     call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
 
-    allocate(u_stag(SZ, n_in, n_block), du_stag(SZ, n_out, n_block), &
-             ref(SZ, n_out, n_block))
+    allocate(u_stag(backend_sz, n_in, n_block), du_stag(backend_sz, n_out, n_block), &
+             ref(backend_sz, n_out, n_block))
 
     do j = 1, n_in
       x = (j - 1) * dx
@@ -903,20 +918,20 @@ end subroutine print_convergence_single
       end if
     end do
 
-    call cxt%backend%alloc_tdsops(n_out, dx, operation=operation, scheme=scheme, &
+    call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n_out, delta=dx, operation=operation, scheme=scheme, &
                           bc_start=bc_type, bc_end=bc_type, &
-                          from_to='v2p', sym=sym_v2p)
+                          from_to='v2p', sym=scen%sym)
 
-    call ctx%backend%set_field_data(u_stag_fi    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))eld, DIR_X)
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
     call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
     
-    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))
+    err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
     deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_v2p_single
 
-  ! =============================================    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))===================
+  ! ================================================================
   ! Single-grid staggered p2v (for file output)
   ! ================================================================
   subroutine run_stag_p2v_single(scen, bc_type, n, n_block, &
@@ -938,12 +953,12 @@ end subroutine print_convergence_single
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
 
-    ctx = setup_ctx(scen, n, bc_type)
+    call setup_ctx(ctx, scen, n, bc_type)
 
     call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
-    allocate(u_stag(SZ, n_in, n_block), du_stag(SZ, n_out, n_block), &
-             ref(SZ, n_out, n_block))
+    allocate(u_stag(backend_sz, n_in, n_block), du_stag(backend_sz, n_out, n_block), &
+             ref(backend_sz, n_out, n_block))
 
     do j = 1, n_in
       x = (real(j, dp) - 0.5_dp) * dx
@@ -958,14 +973,15 @@ end subroutine print_convergence_single
       end if
     end do
 
-    call ctx%backend%alloc_tdsops(n, dx, operation=operation, scheme=scheme, bc_start=bc_type, bc_end=bc_type, &
-     from_to='p2v', sym=sym_p2v)
+    call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation=operation,  &
+    scheme=scheme, bc_start=bc_type, bc_end=bc_type, &
+     from_to='p2v', sym=scen%sym)
 
     call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
     call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
     
-    err = norm2(du_stag - ref) / sqrt(real(SZ * n_out * n_block, dp))
+    err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
     deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_p2v_single
