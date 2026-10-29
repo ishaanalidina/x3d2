@@ -504,18 +504,18 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
           end if
         end do
 
+        ! Allocate the fields.
+
+        u_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
+        du_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
+    
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
+
         call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n_out, delta=dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='v2p', sym=scen%sym)
 
-
-        ! Allocate the fields.
-
-        u_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
-        du_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
-
-        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
         call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
 
