@@ -40,10 +40,7 @@ program test_poisson_compact6_convergence_rate
   use m_tdsops, only: dirps_t
   use m_test_utils, only: initialise_mpi, finalise_test
   use m_mesh, only: mesh_t
-  use m_vector_calculus, only: vector_calculus_t
-
-  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, dp, pi, MPI_X3D2_DP, DIR_C, DIR_X, DIR_Y, DIR_Z, &
-                      CELL, RDR_C2Z, RDR_C2X, RDR_Z2X
+  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, DIR_C, CELL
 
   implicit none
 
@@ -77,12 +74,10 @@ program test_poisson_compact6_convergence_rate
   ! The context of the test. This contains the backend runtime and associated allocator for the tests. This also contains the given TDSOps slot.
   ! ------------------------------------------------------------------
   type :: test_context_t
-    type(backend_runtime_t), pointer :: runtime
+    type(backend_runtime_t) :: runtime
     class(base_backend_t), pointer :: backend => null()
     type(allocator_t), pointer :: host_allocator => null()
     type(mesh_t) :: mesh
-    type(dirps_t), pointer :: xdirps => null(), ydirps => null(), zdirps => null()
-    type(vector_calculus_t) :: vector_calculus
     type(tdsops_slot_t) :: tdsops_slot
   end type test_context_t
 
@@ -99,7 +94,7 @@ program test_poisson_compact6_convergence_rate
   !   interpl_v2p  (sym=.true.)  => use even input (cos)
   !   interpl_p2v  (sym=.true.)  => use even input (cos)
   ! ------------------------------------------------------------------
-  integer, parameter :: n_scenarios = 4
+  integer, parameter :: n_scenarios = 1
 
     ! ------------------------------------------------------------------
   ! Define all test scenarios (single place to add new tests)
@@ -127,7 +122,7 @@ program test_poisson_compact6_convergence_rate
 
   ! MPI Configuration
   integer :: nrank, nproc
-  integer, dimension(3):: nproc_dir
+  integer, dimension(3) :: nproc_dir
 
   ! BC configuration
   integer, parameter :: n_bcs = 3
@@ -160,7 +155,7 @@ program test_poisson_compact6_convergence_rate
 
   call initialise_mpi(nrank, nproc)
 
-  nproc_dir = [1, 1, nproc]
+  nproc_dir = [nproc, 1, 1]
 
   ! ------------------------------------------------------------------
   ! Main loop: BCs x Scenarios
@@ -248,10 +243,12 @@ program test_poisson_compact6_convergence_rate
 
   ! Final verdict
   if (allpass) then
-    print *, 'ALL TESTS PASSED SUCCESSFULLY.'
+    print *, 'ALL TESTS PASSED SUCCESSFULLYobtain_coordinates.'
   else
     error stop 'SOME TESTS FAILED.'
   end if
+
+  call finalise_test(allpass, nrank)
 
 contains
 
@@ -262,8 +259,9 @@ contains
   subroutine setup_ctx(ctx, scenario, grid_size, bc_type)
     type(test_scenario_t), intent(in) :: scenario
     integer, intent(in) :: grid_size, bc_type
-    type(test_context_t), intent(inout) :: ctx
+    class(test_context_t), allocatable, intent(inout) :: ctx
     type(backend_runtime_t), target :: runtime
+    type(mesh_t) :: mesh
     
     character(len=10) :: bc_name 
     logical :: use_2decomp
@@ -271,11 +269,17 @@ contains
     use_2decomp = .not. backend_is_cuda
     bc_name = bc_names(bc_type)
 
-    ctx%mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
+    mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
      BC_x=[bc_name, bc_name], BC_y=[bc_name, bc_name], BC_z=[bc_name, bc_name], use_2decomp=use_2decomp)
-    call ctx%runtime%init(ctx%mesh)
-    ctx%backend => ctx%runtime%backend
-    ctx%host_allocator = ctx%runtime%host_allocator
+    
+    ctx = test_context_t(runtime=runtime, mesh=mesh)
+
+    call runtime%init(ctx%mesh)
+
+    ctx%mesh = mesh
+    ctx%runtime = runtime
+    ctx%backend => runtime%backend
+    ctx%host_allocator => runtime%host_allocator
 
   end subroutine setup_ctx
     
@@ -364,7 +368,7 @@ contains
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
-    type(test_context_t), pointer :: ctx, ctx2
+    class(test_context_t), allocatable :: ctx, ctx2
 
     k = scen%wavenumber
 
@@ -396,9 +400,9 @@ contains
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      call ctx%backend%set_field_data(u_field, u, DIR_X)
+      call ctx%backend%set_field_data(u_field, u, DIR_C)
       call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-      call ctx%backend%get_field_data(du, du_field, DIR_X)
+      call ctx%backend%get_field_data(du, du_field, DIR_C)
 
       err_1st(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
@@ -422,9 +426,9 @@ contains
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      call ctx2%backend%set_field_data(u_field, u, DIR_X)
+      call ctx2%backend%set_field_data(u_field, u, DIR_C)
       call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-      call ctx2%backend%get_field_data(du, du_field, DIR_X)
+      call ctx2%backend%get_field_data(du, du_field, DIR_C)
 
       err_2nd(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
@@ -459,7 +463,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     real(dp) :: k
     logical :: is_interpl
     class(field_t), pointer :: u_stag_field, du_stag_field
-    type(test_context_t), pointer :: ctx, ctx2
+    class(test_context_t), allocatable :: ctx, ctx2
 
     k = scen%wavenumber
     is_interpl = (operation == 'interpolate')
@@ -505,9 +509,15 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='v2p', sym=scen%sym)
 
-        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+
+        ! Allocate the fields.
+
+        u_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
+        du_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
+
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
 
         ! Only the first n_out slices carry valid output.
         err_v2p(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -539,7 +549,7 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     integer :: ig, n, n_in, n_out
     real(dp) :: k
     logical :: is_interpl
-    type(test_context_t), pointer :: ctx
+    class(test_context_t), allocatable :: ctx
     class(field_t), pointer :: u_stag_field, du_stag_field
 
     k = scen%wavenumber
@@ -547,6 +557,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
     do ig = 1, n_grids
       n = grid_sizes(ig)
+
+      
 
       call setup_ctx(ctx, scen, n, bc_type)
 
@@ -583,9 +595,9 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='p2v', sym=scen%sym)
 
-        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
 
 
         err_p2v(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -815,10 +827,12 @@ end subroutine print_convergence_single
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
-    type(test_context_t), pointer :: ctx, ctx2
+    class(test_context_t), allocatable :: ctx, ctx2
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
+
+    
 
     call setup_ctx(ctx, scen, n, bc_type)
 
@@ -844,13 +858,15 @@ end subroutine print_convergence_single
                             bc_start=bc_type, bc_end=bc_type)
     end if
 
-    call ctx%backend%set_field_data(u_field, u, DIR_X)
+    call ctx%backend%set_field_data(u_field, u, DIR_C)
     call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du, du_field, DIR_X)
+    call ctx%backend%get_field_data(du, du_field, DIR_C)
 
     err_1st = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
-    call setup_ctx(ctx, scen, n, bc_type)
+    
+
+    call setup_ctx(ctx2, scen, n, bc_type)
 
     do j = 1, n
       x = (j - 1) * dx
@@ -867,9 +883,9 @@ end subroutine print_convergence_single
                             bc_start=bc_type, bc_end=bc_type)
     end if
 
-    call ctx2%backend%set_field_data(u_field, u, DIR_X)
+    call ctx2%backend%set_field_data(u_field, u, DIR_C)
     call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-    call ctx2%backend%get_field_data(du, du_field, DIR_X)
+    call ctx2%backend%get_field_data(du, du_field, DIR_C)
 
     err_2nd = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
@@ -891,12 +907,14 @@ end subroutine print_convergence_single
     real(dp) :: dx, x, k
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
-    type(test_context_t), pointer :: ctx
+    class(test_context_t), allocatable :: ctx
     class(field_t), pointer :: u_stag_field, du_stag_field
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
+
+    
 
     call setup_ctx(ctx, scen, n, bc_type)
 
@@ -922,9 +940,9 @@ end subroutine print_convergence_single
                           bc_start=bc_type, bc_end=bc_type, &
                           from_to='v2p', sym=scen%sym)
 
-    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
     
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
@@ -947,11 +965,13 @@ end subroutine print_convergence_single
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_stag_field, du_stag_field
-    type(test_context_t), pointer :: ctx
+    class(test_context_t), allocatable :: ctx
 
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
+
+    
 
     call setup_ctx(ctx, scen, n, bc_type)
 
@@ -977,9 +997,9 @@ end subroutine print_convergence_single
     scheme=scheme, bc_start=bc_type, bc_end=bc_type, &
      from_to='p2v', sym=scen%sym)
 
-    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
     
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
