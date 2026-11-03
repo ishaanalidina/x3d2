@@ -40,7 +40,7 @@ program test_poisson_compact6_convergence_rate
   use m_tdsops, only: dirps_t
   use m_test_utils, only: initialise_mpi, finalise_test
   use m_mesh, only: mesh_t
-  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, DIR_C, CELL
+  use m_common, only: dp, pi, BC_PERIODIC, BC_NEUMANN, BC_DIRICHLET, DIR_X, CELL
 
   implicit none
 
@@ -76,7 +76,6 @@ program test_poisson_compact6_convergence_rate
   type :: test_context_t
     type(backend_runtime_t) :: runtime
     class(base_backend_t), pointer :: backend => null()
-    type(allocator_t), pointer :: host_allocator => null()
     type(mesh_t) :: mesh
     type(tdsops_slot_t) :: tdsops_slot
   end type test_context_t
@@ -259,27 +258,24 @@ contains
   subroutine setup_ctx(ctx, scenario, grid_size, bc_type)
     type(test_scenario_t), intent(in) :: scenario
     integer, intent(in) :: grid_size, bc_type
-    class(test_context_t), allocatable, intent(inout) :: ctx
-    type(backend_runtime_t), target :: runtime
-    type(mesh_t) :: mesh
-    
-    character(len=10) :: bc_name 
+    class(test_context_t), allocatable, target, intent(inout) :: ctx
+
+    character(len=10) :: bc_name
     logical :: use_2decomp
 
     use_2decomp = .not. backend_is_cuda
-    bc_name = bc_names(bc_type)
+    ! bc_type is a BC_* constant, not an index into bc_names
+    bc_name = bc_names(findloc(bc_types, bc_type, dim=1))
 
-    mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
+    ! Allocate once and never reassign: the runtime's pointers alias ctx
+    if (.not. allocated(ctx)) allocate (ctx)
+
+    ctx%mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
      BC_x=[bc_name, bc_name], BC_y=[bc_name, bc_name], BC_z=[bc_name, bc_name], use_2decomp=use_2decomp)
-    
-    ctx = test_context_t(runtime=runtime, mesh=mesh)
 
-    call runtime%init(ctx%mesh)
-
-    ctx%mesh = mesh
-    ctx%runtime = runtime
-    ctx%backend => runtime%backend
-    ctx%host_allocator => runtime%host_allocator
+    ! Initialise in place so the backend and allocator pointers point into ctx
+    call ctx%runtime%init(ctx%mesh)
+    ctx%backend => ctx%runtime%backend
 
   end subroutine setup_ctx
     
@@ -400,9 +396,15 @@ contains
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      call ctx%backend%set_field_data(u_field, u, DIR_C)
+      u_field => ctx%backend%allocator%get_block(DIR_X)
+      du_field => ctx%backend%allocator%get_block(DIR_X)
+
+      call ctx%backend%set_field_data(u_field, u, DIR_X)
       call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-      call ctx%backend%get_field_data(du, du_field, DIR_C)
+      call ctx%backend%get_field_data(du, du_field, DIR_X)
+
+      call ctx%backend%allocator%release_block(u_field)
+      call ctx%backend%allocator%release_block(du_field)
 
       err_1st(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
@@ -426,9 +428,15 @@ contains
                               bc_start=bc_type, bc_end=bc_type)
       end if
 
-      call ctx2%backend%set_field_data(u_field, u, DIR_C)
+      u_field => ctx2%backend%allocator%get_block(DIR_X)
+      du_field => ctx2%backend%allocator%get_block(DIR_X)
+
+      call ctx2%backend%set_field_data(u_field, u, DIR_X)
       call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-      call ctx2%backend%get_field_data(du, du_field, DIR_C)
+      call ctx2%backend%get_field_data(du, du_field, DIR_X)
+
+      call ctx2%backend%allocator%release_block(u_field)
+      call ctx2%backend%allocator%release_block(du_field)
 
       err_2nd(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
@@ -506,18 +514,24 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
         ! Allocate the fields.
 
-        u_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
-        du_stag_field => ctx%backend%allocator%get_block(DIR_C, CELL)
+        u_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+        du_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
     
-        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
 
         call ctx%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n_out, delta=dx, operation=operation, &
                               scheme=scheme, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='v2p', sym=scen%sym)
 
-        call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
+        print*, "Starting tds_solve..."
+
+        call ctx%runtime%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
+        print*, "Finished tds_solve..."
+        call ctx%runtime%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
+        call ctx%backend%allocator%release_block(u_stag_field)
+        call ctx%backend%allocator%release_block(du_stag_field)
 
         ! Only the first n_out slices carry valid output.
         err_v2p(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -595,9 +609,15 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='p2v', sym=scen%sym)
 
-        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
+        u_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+        du_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+
+        call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
         call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
+        call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
+        call ctx%backend%allocator%release_block(u_stag_field)
+        call ctx%backend%allocator%release_block(du_stag_field)
 
 
         err_p2v(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -858,11 +878,17 @@ end subroutine print_convergence_single
                             bc_start=bc_type, bc_end=bc_type)
     end if
 
-    call ctx%backend%set_field_data(u_field, u, DIR_C)
-    call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du, du_field, DIR_C)
+    u_field => ctx%backend%allocator%get_block(DIR_X)
+    du_field => ctx%backend%allocator%get_block(DIR_X)
 
-    err_1st = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
+    call ctx%backend%set_field_data(u_field, u, DIR_X)
+    call ctx%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+    call ctx%backend%get_field_data(du, du_field, DIR_X)
+
+    call ctx%backend%allocator%release_block(u_field)
+    call ctx%backend%allocator%release_block(du_field)
+
+    err_1st =norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
     
 
@@ -883,11 +909,17 @@ end subroutine print_convergence_single
                             bc_start=bc_type, bc_end=bc_type)
     end if
 
-    call ctx2%backend%set_field_data(u_field, u, DIR_C)
-    call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
-    call ctx2%backend%get_field_data(du, du_field, DIR_C)
+    u_field => ctx2%backend%allocator%get_block(DIR_X)
+    du_field => ctx2%backend%allocator%get_block(DIR_X)
 
-    err_2nd = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
+    call ctx2%backend%set_field_data(u_field, u, DIR_X)
+    call ctx2%backend%tds_solve(du_field, u_field, ctx%tdsops_slot%op)
+    call ctx2%backend%get_field_data(du, du_field, DIR_X)
+
+    call ctx2%backend%allocator%release_block(u_field)
+    call ctx2%backend%allocator%release_block(du_field)
+
+    err_2nd =norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
     deallocate(u, du, ref)
   end subroutine run_deriv_single
@@ -940,10 +972,16 @@ end subroutine print_convergence_single
                           bc_start=bc_type, bc_end=bc_type, &
                           from_to='v2p', sym=scen%sym)
 
-    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
+    u_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+    du_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
-    
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
+    call ctx%backend%allocator%release_block(u_stag_field)
+    call ctx%backend%allocator%release_block(du_stag_field)
+
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
     deallocate(u_stag, du_stag, ref)
@@ -997,10 +1035,16 @@ end subroutine print_convergence_single
     scheme=scheme, bc_start=bc_type, bc_end=bc_type, &
      from_to='p2v', sym=scen%sym)
 
-    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_C)
+    u_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+    du_stag_field => ctx%backend%allocator%get_block(DIR_X, CELL)
+
+    call ctx%backend%set_field_data(u_stag_field, u_stag, DIR_X)
     call ctx%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_C)
-    
+    call ctx%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
+    call ctx%backend%allocator%release_block(u_stag_field)
+    call ctx%backend%allocator%release_block(du_stag_field)
+
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
     deallocate(u_stag, du_stag, ref)
