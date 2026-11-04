@@ -169,13 +169,14 @@ program test_poisson_compact6_convergence_rate
     ! Grid sizes
     if (bc_types(ibc) == BC_PERIODIC) then
       ! grid_sizes = [16, 32, 64, 128, 256, 512]
-      grid_sizes = [16]
+      grid_sizes = [64]
     else
       ! grid_sizes = [17, 33, 65, 129, 257, 513]
-      grid_sizes = [17]
+      grid_sizes = [65]
     end if
 
     do iscen = 1, n_scenarios
+      print*, "Scenario: ", iscen
       ! Skip scenarios incompatible with this BC type
       if (scenarios(iscen)%skip_periodic .and. &
           bc_types(ibc) == BC_PERIODIC) cycle
@@ -255,9 +256,10 @@ contains
   ! Set up the context of the case, and the associated runtime and allocators.
   ! ================================================================
 
-  subroutine setup_ctx(ctx, scenario, grid_size, bc_type)
+  subroutine setup_ctx(ctx, scenario, grid_sizes, bc_type)
     type(test_scenario_t), intent(in) :: scenario
-    integer, intent(in) :: grid_size, bc_type
+    integer, dimension(3) :: grid_sizes
+    integer, intent(in) :: bc_type
     class(test_context_t), allocatable, target, intent(inout) :: ctx
 
     character(len=10) :: bc_name
@@ -270,7 +272,8 @@ contains
     ! Allocate once and never reassign: the runtime's pointers alias ctx
     if (.not. allocated(ctx)) allocate (ctx)
 
-    ctx%mesh = mesh_t(dims_global=[grid_size, grid_size, grid_size], nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
+    ctx%mesh = mesh_t(dims_global=[grid_sizes(1), grid_sizes(2), grid_sizes(3)],  &
+     nproc_dir=nproc_dir, L_global=[1.0_dp, 1.0_dp, 1.0_dp], &
      BC_x=[bc_name, bc_name], BC_y=[bc_name, bc_name], BC_z=[bc_name, bc_name], use_2decomp=use_2decomp)
 
     ! Initialise in place so the backend and allocator pointers point into ctx
@@ -360,7 +363,7 @@ contains
     integer, intent(in) :: bc_type, grid_sizes(:), n_grids, n_block
     real(dp), intent(out) :: err_1st(:), err_2nd(:)
 
-    integer :: ig, n, j
+    integer :: ig, n, j, grid_sizes_dim(3)
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
@@ -372,7 +375,9 @@ contains
       n = grid_sizes(ig)
       dx = compute_dx(n, bc_type)
 
-      call setup_ctx(ctx, scen, n, bc_type)
+      grid_sizes_dim = [backend_sz, n, n_block]
+
+      call setup_ctx(ctx, scen, grid_sizes_dim, bc_type)
 
       allocate(u(backend_sz, n, n_block), du(backend_sz, n, n_block), ref(backend_sz, n, n_block))
 
@@ -414,7 +419,7 @@ contains
         ref(:, j, :) = eval_d2f(scen%func_type, k, x)
       end do
 
-      call setup_ctx(ctx2, scen, n, bc_type)
+      call setup_ctx(ctx2, scen, grid_sizes_dim, bc_type)
 
 
       if (bc_type == BC_NEUMANN) then
@@ -477,25 +482,34 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
     is_interpl = (operation == 'interpolate')
 
     do ig = 1, n_grids
+      print*, "Grid size: ", grid_sizes(ig)
       n = grid_sizes(ig)
-
-      call setup_ctx(ctx, scen, n, bc_type)
 
       call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
 
       block
-        integer :: j, n_buf
+        integer :: j, n_buf, grid_sizes_dim(3)
         real(dp) :: dx, x
         real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
 
         dx = compute_dx(n, bc_type)
         n_buf = max(n_in, n_out)
 
+        grid_sizes_dim = [backend_sz, n_buf, n_block]
+
         ! Allocate host AND device buffers at the common size n_buf so the
         ! kernel's out-of-bounds staggered reads/writes land in valid memory
         ! and the D<->H copies use matching descriptors.
         allocate(u_stag(backend_sz, n_buf, n_block), du_stag(backend_sz, n_buf, n_block), &
                  ref(backend_sz, n_buf, n_block))
+
+        call setup_ctx(ctx, scen, grid_sizes_dim, bc_type)
+
+        print*, "Dimensions of the arrays:"
+
+        print*, shape(u_stag)
+        print*, shape(du_stag)
+        print*, shape(ref)
 
         u_stag = 0._dp; du_stag = 0._dp; ref = 0._dp
 
@@ -524,14 +538,22 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                               bc_start=bc_type, bc_end=bc_type, &
                               from_to='v2p', sym=scen%sym)
 
-        print*, "Starting tds_solve..."
-
         call ctx%runtime%backend%tds_solve(du_stag_field, u_stag_field, ctx%tdsops_slot%op)
-        print*, "Finished tds_solve..."
         call ctx%runtime%backend%get_field_data(du_stag, du_stag_field, DIR_X)
+
+        print*, "Dimension of the fields: "
+
+        print*, u_stag_field%get_shape()
+        print*, du_stag_field%get_shape()
 
         call ctx%backend%allocator%release_block(u_stag_field)
         call ctx%backend%allocator%release_block(du_stag_field)
+
+        print*, "Dimension of the array after gathering the field data:"
+
+        print*, shape(u_stag)
+        print*, shape(du_stag)
+        print*, shape(ref)
 
         ! Only the first n_out slices carry valid output.
         err_v2p(ig) = norm2(du_stag(:, 1:n_out, :) - ref(:, 1:n_out, :)) / &
@@ -574,17 +596,19 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
       
 
-      call setup_ctx(ctx, scen, n, bc_type)
-
       call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
       block
-        integer :: j, n_buf
+        integer :: j, n_buf, grid_sizes_dim(3)
         real(dp) :: dx, x
         real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
 
         dx = compute_dx(n, bc_type)
         n_buf = max(n_in, n_out)
+
+        grid_sizes_dim = [backend_sz, n_buf, n_block]
+
+        call setup_ctx(ctx, scen, grid_sizes_dim, bc_type)
 
         allocate(u_stag(backend_sz, n_buf, n_block), du_stag(backend_sz, n_buf, n_block), &
                  ref(backend_sz, n_buf, n_block))
@@ -843,7 +867,7 @@ end subroutine print_convergence_single
     integer, intent(in) :: bc_type, n, n_block
     real(dp), intent(out) :: err_1st, err_2nd
 
-    integer :: j
+    integer :: j, grid_sizes_dim(3)
     real(dp) :: dx, x, k
     real(dp), allocatable :: u(:,:,:), du(:,:,:), ref(:,:,:)
     class(field_t), pointer :: u_field, du_field
@@ -852,9 +876,9 @@ end subroutine print_convergence_single
     k = scen%wavenumber
     dx = compute_dx(n, bc_type)
 
-    
+    grid_sizes_dim = [backend_sz, n, n_block]
 
-    call setup_ctx(ctx, scen, n, bc_type)
+    call setup_ctx(ctx, scen, grid_sizes_dim, bc_type)
 
     allocate(u(backend_sz, n, n_block), du(backend_sz, n, n_block), ref(backend_sz, n, n_block))
 
@@ -892,7 +916,7 @@ end subroutine print_convergence_single
 
     
 
-    call setup_ctx(ctx2, scen, n, bc_type)
+    call setup_ctx(ctx2, scen, grid_sizes_dim, bc_type)
 
     do j = 1, n
       x = (j - 1) * dx
@@ -935,7 +959,7 @@ end subroutine print_convergence_single
     logical, intent(in) :: sym_v2p
     real(dp), intent(out) :: err
 
-    integer :: j, n_in, n_out
+    integer :: j, n_in, n_out, grid_sizes_dim(3)
     real(dp) :: dx, x, k
     logical :: is_interpl
     real(dp), allocatable :: u_stag(:,:,:), du_stag(:,:,:), ref(:,:,:)
@@ -946,11 +970,12 @@ end subroutine print_convergence_single
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
 
-    
-
-    call setup_ctx(ctx, scen, n, bc_type)
-
     call get_stag_sizes(bc_type, n, 'v2p', n_in, n_out)
+
+    grid_sizes_dim = [backend_sz, n_out, n_block]
+
+
+    call setup_ctx(ctx, scen, grid_sizes_dim, bc_type)
 
     allocate(u_stag(backend_sz, n_in, n_block), du_stag(backend_sz, n_out, n_block), &
              ref(backend_sz, n_out, n_block))
@@ -1009,11 +1034,10 @@ end subroutine print_convergence_single
     dx = compute_dx(n, bc_type)
     is_interpl = (operation == 'interpolate')
 
-    
-
-    call setup_ctx(ctx, scen, n, bc_type)
-
     call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
+
+    call setup_ctx(ctx, scen, [backend_sz, n_out, n_block], bc_type)
+
 
     allocate(u_stag(backend_sz, n_in, n_block), du_stag(backend_sz, n_out, n_block), &
              ref(backend_sz, n_out, n_block))
