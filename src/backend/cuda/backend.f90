@@ -109,6 +109,7 @@ module m_cuda_backend
       supports_device_field_export_cuda
     procedure :: export_field_to_device => export_field_to_device_cuda
     procedure :: get_device_bw_info => get_device_bw_info_cuda
+    procedure :: finalise_fft => finalise_fft_cuda
     procedure :: transeq_cuda_dist
     procedure :: transeq_cuda_thom
     procedure :: tds_solve_dist
@@ -1974,5 +1975,12 @@ contains
     end select
 
   end subroutine resolve_field_t
+
+  subroutine finalise_fft_cuda(self)
+    implicit none
+
+    class(cuda_backend_t), intent(in) :: self
+
+  end subroutine finalise_fft_cuda
 
 end module m_cuda_backend

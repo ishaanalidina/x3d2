@@ -83,6 +83,7 @@ module m_base_backend
     procedure :: init_poisson_fft => init_poisson_fft_base
     procedure :: sync => sync_base
     procedure :: get_device_bw_info => get_device_bw_info_base
+    procedure :: finalise_fft => finalise_fft_base
     procedure :: base_init
     procedure :: get_field_data
     procedure :: set_field_data
@@ -814,5 +815,16 @@ contains
     call not_implemented('init_poisson_fft')
 
   end subroutine init_poisson_fft_base
+
+  subroutine finalise_fft_base(self)
+    ! Finalises the FFT solvers in the 2DDECOMP&FFT Library.
+    
+    implicit none
+
+    class(base_backend_t), intent(in) :: self
+
+    call not_implemented('finalise_run')
+
+  end subroutine finalise_fft_base
 
 end module m_base_backend

@@ -122,6 +122,7 @@ module m_omptgt_backend
     procedure :: get_device_bw_info => get_device_bw_info_omptgt
     procedure :: transeq_omptgt_dist
     procedure :: tds_solve_dist
+    procedure :: finalise_fft => finalise_fft_omptgt
   end type omptgt_backend_t
 
   interface omptgt_backend_t
@@ -1617,5 +1618,13 @@ contains
     call c_f_pointer(ptr, u_dev, u%get_shape())
 
   end subroutine resolve_field_t
+
+  subroutine finalise_fft_omptgt(self)
+    implicit none
+
+    class(omptgt_backend_t), intent(in) :: self
+
+  end subroutine finalise_fft_omptgt
+    
 
 end module m_omptgt_backend

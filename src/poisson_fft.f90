@@ -51,6 +51,7 @@ module m_poisson_fft
     procedure(fft_forward), deferred :: fft_forward
     procedure(fft_backward), deferred :: fft_backward
     procedure(fft_postprocess), deferred :: fft_postprocess
+    procedure :: finalise => finalise_base
     procedure :: enforce_periodicity
     procedure :: undo_periodicity
     procedure :: base_init
@@ -155,6 +156,13 @@ contains
       dirs = [1, 2, 3]
     end select
   end function spectral_dirs
+
+  subroutine finalise_base(self)
+
+    implicit none
+    class(poisson_fft_t), intent(in) :: self
+
+  end subroutine finalise_base
 
   subroutine base_init(self, mesh, xdirps, ydirps, zdirps, n_spec, n_sp_st)
     !! Sets up the state every case shares. The backend's init calls it

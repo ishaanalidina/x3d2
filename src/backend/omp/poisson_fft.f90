@@ -3,9 +3,11 @@ module m_omp_poisson_fft
   use decomp_2d_constants, only: PHYSICAL_IN_X
   use decomp_2d, only: decomp_info, decomp_info_init, get_decomp_dims, &
                        transpose_x_to_y, transpose_y_to_x, &
-                       transpose_z_to_y, transpose_y_to_z
+                       transpose_z_to_y, transpose_y_to_z, &
+                       decomp_2d_finalize
   use decomp_2d_fft, only: decomp_2d_fft_init, decomp_2d_fft_3d, &
-                           decomp_2d_fft_get_ph, decomp_2d_fft_get_sp
+                           decomp_2d_fft_get_ph, decomp_2d_fft_get_sp, &
+                           decomp_2d_fft_finalize
 
   use m_common, only: dp, CELL
   use m_field, only: field_t
@@ -51,6 +53,7 @@ module m_omp_poisson_fft
     procedure :: init_pair_buffers
     procedure :: fft_forward => fft_forward_omp
     procedure :: fft_backward => fft_backward_omp
+    procedure :: finalise => finalise_omp
   end type omp_poisson_fft_t
 
   type, extends(omp_poisson_fft_t) :: omp_poisson_000_t
@@ -159,6 +162,20 @@ contains
     end select
 
   end subroutine create_omp_poisson_fft
+
+  subroutine finalise_omp(self)
+    implicit none
+    
+    class(omp_poisson_fft_t), intent(in) :: self
+
+    print*, "Print from inside the finalise omp function..."
+
+    call decomp_2d_fft_finalize()
+    call decomp_2d_finalize()
+
+  end subroutine finalise_omp
+
+    
 
   subroutine init_omp(self, mesh, xdirps, ydirps, zdirps, lowmem)
     implicit none

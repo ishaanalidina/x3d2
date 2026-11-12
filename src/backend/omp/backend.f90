@@ -73,6 +73,7 @@ module m_omp_backend
     procedure :: sync => sync_omp
     procedure :: get_device_bw_info => get_device_bw_info_omp
     procedure :: transeq_omp_dist
+    procedure :: finalise_fft => finalise_fft_omp
   end type omp_backend_t
 
   interface omp_backend_t
@@ -1775,11 +1776,28 @@ contains
 #ifdef WITH_2DECOMPFFT
     call create_omp_poisson_fft(self%poisson_fft, mesh, xdirps, ydirps, &
                                 zdirps, lowmem)
+    print*, "OpenMP Poisson FFT instance created..."
 #else
     call abort_run('This build does not support FFT based Poisson solver on &
                    &the OpenMP backend!')
 #endif
 
   end subroutine init_omp_poisson_fft
+
+  subroutine finalise_fft_omp(self)
+
+    implicit none
+
+    class(omp_backend_t), intent(in) :: self
+
+#ifdef WITH_2DECOMPFFT
+    print*, "Calling the Poisson_fft Finalise function..."
+    call self%poisson_fft%finalise()
+#else
+    call abort_run('This build does not support FFT based Poisson solver on &
+                   &the OpenMP backend!')
+#endif
+
+  end subroutine finalise_fft_omp
 
 end module m_omp_backend

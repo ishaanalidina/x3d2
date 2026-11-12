@@ -1,4 +1,4 @@
-program test_poisson_compact6_convergence_rate
+program test_compact6_convergence_rate
   !! Compact6 derivative convergence rate test for all BC types.
   !!
   !! All test scenarios are defined in the scenario table near the top of
@@ -243,7 +243,7 @@ program test_poisson_compact6_convergence_rate
 
   ! Final verdict
   if (allpass) then
-    print *, 'ALL TESTS PASSED SUCCESSFULLYobtain_coordinates.'
+    print *, 'ALL TESTS PASSED SUCCESSFULLY.'
   else
     error stop 'SOME TESTS FAILED.'
   end if
@@ -413,6 +413,8 @@ contains
 
       err_1st(ig) = norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
+      call ctx%backend%finalise_fft()
+
       ! --- Second derivative ---
       do j = 1, n
         x = (j - 1) * dx
@@ -420,7 +422,6 @@ contains
       end do
 
       call setup_ctx(ctx2, scen, grid_sizes_dim, bc_type)
-
 
       if (bc_type == BC_NEUMANN) then
         call ctx2%backend%alloc_tdsops(tdsops=ctx%tdsops_slot%op, n_tds=n, delta=dx, operation='second-deriv', &
@@ -455,6 +456,8 @@ contains
         print *, '  err at j=1:', abs(du(1,1,1) - ref(1,1,1))
         print *, '  err at j=n:', abs(du(1,n,1) - ref(1,n,1))
       end if
+
+      call ctx2%backend%finalise_fft()
 
       deallocate(u, du, ref)
     end do
@@ -565,6 +568,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                                 ref(:, 1:n_out, :), n_block)
         end if
 
+        call ctx%backend%finalise_fft()
+
         deallocate(u_stag, du_stag, ref)
       end block
     end do
@@ -593,8 +598,6 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
 
     do ig = 1, n_grids
       n = grid_sizes(ig)
-
-      
 
       call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
@@ -652,6 +655,8 @@ subroutine run_stag_v2p_convergence(scen, bc_type, grid_sizes, &
                                 du_stag(:, 1:n_out, :), &
                                 ref(:, 1:n_out, :), n_block)
         end if
+
+        call ctx%backend%finalise_fft()
 
         deallocate(u_stag, du_stag, ref)
       end block
@@ -914,7 +919,7 @@ end subroutine print_convergence_single
 
     err_1st =norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
 
-    
+    call ctx%backend%finalise_fft()
 
     call setup_ctx(ctx2, scen, grid_sizes_dim, bc_type)
 
@@ -944,6 +949,8 @@ end subroutine print_convergence_single
     call ctx2%backend%allocator%release_block(du_field)
 
     err_2nd =norm2(du - ref) / sqrt(real(backend_sz * n * n_block, dp))
+
+    call ctx2%backend%finalise_fft()
 
     deallocate(u, du, ref)
   end subroutine run_deriv_single
@@ -1009,6 +1016,8 @@ end subroutine print_convergence_single
 
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
+    call ctx%backend%finalise_fft()
+
     deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_v2p_single
 
@@ -1037,7 +1046,6 @@ end subroutine print_convergence_single
     call get_stag_sizes(bc_type, n, 'p2v', n_in, n_out)
 
     call setup_ctx(ctx, scen, [backend_sz, n_out, n_block], bc_type)
-
 
     allocate(u_stag(backend_sz, n_in, n_block), du_stag(backend_sz, n_out, n_block), &
              ref(backend_sz, n_out, n_block))
@@ -1071,7 +1079,9 @@ end subroutine print_convergence_single
 
     err = norm2(du_stag - ref) / sqrt(real(backend_sz * n_out * n_block, dp))
 
+    call ctx%backend%finalise_fft()
+
     deallocate(u_stag, du_stag, ref)
   end subroutine run_stag_p2v_single
 
-end program test_poisson_compact6_convergence_rate
+end program test_compact6_convergence_rate
